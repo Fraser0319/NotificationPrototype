@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingChangeEmotion = PendingIntent.getBroadcast(this, 0, changeEmotion, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent changeAuthen = new Intent("changeAuthen");
-        changeEmotion.putIntegerArrayListExtra("authenImgList", (ArrayList<Integer>) authenList);
+        changeAuthen.putIntegerArrayListExtra("authenImgList", (ArrayList<Integer>) authenList);
         PendingIntent pendingChangeAuthen = PendingIntent.getBroadcast(this, 0, changeAuthen, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent changeDevice = new Intent("changeDevice");
-        changeEmotion.putIntegerArrayListExtra("devImgList", (ArrayList<Integer>) devList);
+        changeDevice.putIntegerArrayListExtra("devImgList", (ArrayList<Integer>) devList);
         PendingIntent pendingChangeDevice  = PendingIntent.getBroadcast(this, 0, changeDevice , PendingIntent.FLAG_UPDATE_CURRENT);
 
         // build the notification
