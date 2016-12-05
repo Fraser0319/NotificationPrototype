@@ -15,7 +15,6 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static NotificationManager manager;
     private static RemoteViews contentView;
     private static int emotionCounter = 0;
-    private static int authennCounter = 0;
+    private static int authenCounter = 0;
     private static int deviceCounter = 0;
 
     @Override
@@ -56,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
 
         List<Integer> devList = new ArrayList<Integer>();
-        Collections.addAll(devList , R.drawable.car,R.drawable.metro,R.drawable.smartphone);
-
+        Collections.addAll(devList, R.drawable.car, R.drawable.metro, R.drawable.smartphone);
 
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent changeDevice = new Intent("changeDevice");
         changeDevice.putIntegerArrayListExtra("devImgList", (ArrayList<Integer>) devList);
-        PendingIntent pendingChangeDevice  = PendingIntent.getBroadcast(this, 0, changeDevice , PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingChangeDevice = PendingIntent.getBroadcast(this, 0, changeDevice, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // build the notification
         notification = new NotificationCompat.Builder(this)
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         // add onclickpending intent listeners for each button
         contentView.setOnClickPendingIntent(R.id.emotionButton, pendingChangeEmotion);
         contentView.setOnClickPendingIntent(R.id.authenticatorButton, pendingChangeAuthen);
-        contentView.setOnClickPendingIntent(R.id.deviceButton, pendingChangeDevice );
+        contentView.setOnClickPendingIntent(R.id.deviceButton, pendingChangeDevice);
         setupButtons();
         Log.e("here", "here");
         notification.contentView = contentView;
@@ -102,30 +100,27 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("getAction",intent.getAction());
+
             switch (intent.getAction()) {
                 case "changeEmotion":
                     ArrayList<Integer> sentList = intent.getIntegerArrayListExtra("emoImgList");
-                    if (emotionCounter < sentList.size()) {
-                        updateButton(sentList, emotionCounter,R.id.emotionButton);
+                    if (updateButton(sentList, emotionCounter, R.id.emotionButton)) {
                         emotionCounter++;
                     } else {
                         emotionCounter = 0;
                     }
                     break;
                 case "changeAuthentication":
-                    ArrayList<Integer> authenImgList= intent.getIntegerArrayListExtra("authenImgList");
-                    if (authennCounter < authenImgList.size()) {
-                        updateButton(authenImgList, authennCounter,R.id.authenticatorButton);
-                        authennCounter++;
+                    ArrayList<Integer> authenImgList = intent.getIntegerArrayListExtra("authenImgList");
+                    if (updateButton(authenImgList, authenCounter, R.id.authenticatorButton)) {
+                        authenCounter++;
                     } else {
-                        authennCounter = 0;
+                        authenCounter = 0;
                     }
                     break;
                 case "changeDevice":
                     ArrayList<Integer> devImgList = intent.getIntegerArrayListExtra("devImgList");
-                    if (deviceCounter < devImgList.size()) {
-                        updateButton(devImgList, deviceCounter,R.id.deviceButton);
+                    if (updateButton(devImgList, deviceCounter, R.id.deviceButton)) {
                         deviceCounter++;
                     } else {
                         deviceCounter = 0;
@@ -135,10 +130,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @SuppressWarnings("deprecation")
-        public void updateButton(ArrayList<Integer> imageList, int counter,int buttonID) {
-            contentView.setImageViewResource(buttonID, imageList.get(counter));
-            notification.contentView = contentView;
-            manager.notify(1, notification);
+        public boolean updateButton(ArrayList<Integer> imageList, int counter, int buttonID) {
+            if (counter < imageList.size()) {
+                contentView.setImageViewResource(buttonID, imageList.get(counter));
+                notification.contentView = contentView;
+                manager.notify(1, notification);
+                return true;
+            }
+            return false;
         }
     }
 }
