@@ -18,6 +18,8 @@
         <receiver android:name=".MainActivity$ChangeEmotionRecevicer" android:exported="false">
             <intent-filter>
                 <action android:name="changeEmotion" />
+                <action android:name="changeAuthen" />
+                <action android:name="changeDevice" />
             </intent-filter>
         </receiver>
     </application>
