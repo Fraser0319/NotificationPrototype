@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginRight="25dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/happy" />
+            android:background="@android:color/transparent" />
 
         <Button
             android:id="@+id/confirmBtn"
