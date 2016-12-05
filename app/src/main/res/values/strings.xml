@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Authentication Diary</string>
+    <string name="EndNotification">End Notification</string>
+    <string name="StartNotification">Start Notification</string>
+    <string name="Summary">Summary</string>
+    <string name="confirm">Confirm</string>
+</resources>
