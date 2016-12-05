@@ -4,37 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/deviceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/smartphone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp">
 
-    <ImageButton
-        android:id="@+id/authenticatorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/fingerprintscan"/>
+        <ImageButton
+            android:id="@+id/deviceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/smartphone"/>
 
-    <ImageButton
-        android:id="@+id/emotionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/happy" />
+        <ImageButton
+            android:id="@+id/authenticatorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/fingerprintscan"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2"/>
+        <ImageButton
+            android:id="@+id/emotionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/happy" />
 
-    <Button
-        android:id="@+id/confirmBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm" />
+        <Button
+            android:id="@+id/confirmBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/confirm"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

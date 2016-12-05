@@ -12,7 +12,8 @@
         android:text="@string/StartNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/startButton" />
+        android:id="@+id/startButton"
+        android:onClick="sendNotification"/>
 
     <Button
         android:text="@string/EndNotification"
