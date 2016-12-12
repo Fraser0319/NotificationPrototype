@@ -50,15 +50,14 @@ public class MainActivity extends AppCompatActivity {
     public void setupButtons() {
         Collections.addAll(emotionList,R.drawable.happy, R.drawable.sad, R.drawable.confused );
 
-        contentView.setImageViewResource(R.id.emotionButton, emotionList.get(0));
+        ChangeEmotionRecevicer cm = new ChangeEmotionRecevicer();
+        cm.updateButton(emotionList,0,R.id.emotionButton);
 //        contentView.setImageViewResource(R.id.authenticatorButton, R.drawable.fingerprintscan);
 //        contentView.setImageViewResource(R.id.deviceButton, R.drawable.smartphone);
     }
 
     @SuppressWarnings("deprecation")
     public void sendNotification() {
-
-
 
         List<Integer> authenList = new ArrayList<Integer>();
         Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
@@ -89,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
         Intent confirmSelection = new Intent("confirm");
         PendingIntent pendingConfirmSelection = PendingIntent.getBroadcast(this, 0, confirmSelection, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
-
         // build the notification
         notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.diary)
@@ -104,11 +101,12 @@ public class MainActivity extends AppCompatActivity {
         contentView.setOnClickPendingIntent(R.id.authenticatorButton, pendingChangeAuthen);
         contentView.setOnClickPendingIntent(R.id.deviceButton, pendingChangeDevice);
         contentView.setOnClickPendingIntent(R.id.confirmBtn, pendingConfirmSelection);
-        setupButtons();
+
         Log.e("here", "here");
         notification.contentView = contentView;
         manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1, notification);
+        setupButtons();
     }
 
     public static class ChangeEmotionRecevicer extends BroadcastReceiver {
@@ -116,16 +114,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
            // Log.e("size",sentList.size()+"");
+
             Log.e("intent",intent.getAction());
             switch (intent.getAction()) {
                 case "changeEmotion":
-
-                   // Log.e("size",sentList.size()+"");
-                    if (updateButton(emotionList, emotionCounter, R.id.emotionButton)) {
-                        emotionCounter++;
-                    } else {
+                    Log.e("sizeoflist",emotionList.size()+"");
+                    if (emotionCounter == 2) {
                         emotionCounter = 0;
+                        updateButton(emotionList, emotionCounter, R.id.emotionButton);
+                    }else{
+                        emotionCounter++;
+                        if (updateButton(emotionList, emotionCounter, R.id.emotionButton)) {
+                            Log.e("emotionCounter", emotionCounter + "");
+
+                        }
                     }
+
                     break;
                 case "changeAuthentication":
                     ArrayList<Integer> authenImgList = intent.getIntegerArrayListExtra("authenImgList");
@@ -154,9 +158,10 @@ public class MainActivity extends AppCompatActivity {
         @SuppressWarnings("deprecation")
         public boolean updateButton(ArrayList<Integer> imageList, int counter, int buttonID) {
             if (counter < imageList.size()) {
-                contentView.setImageViewResource(buttonID, imageList.get(counter));
+                contentView.setImageViewResource(buttonID, imageList.get(emotionCounter));
                 notification.contentView = contentView;
                 manager.notify(1, notification);
+                Log.e("counter",counter+"");
                 return true;
             }
             return false;
