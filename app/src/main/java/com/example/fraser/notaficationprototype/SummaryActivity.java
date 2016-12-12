@@ -4,7 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+
+
 
 public class SummaryActivity extends AppCompatActivity {
 
@@ -19,8 +20,15 @@ public class SummaryActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             int emotionButton = (int) extras.get("emotionButton");
-            TextView result = (TextView) findViewById(R.id.result);
-            result.setText(emotionButton);
+            int authenButton = (int) extras.get("authenButton");
+            int deviceButton = (int) extras.get("devButton");
+            TextView emo = (TextView) findViewById(R.id.emotion);
+            TextView authen = (TextView) findViewById(R.id.authen);
+            TextView device = (TextView) findViewById(R.id.device);
+
+            emo.setText(emotionButton);
+            authen.setText(authenButton);
+            device.setText(deviceButton);
         }
     }
 }

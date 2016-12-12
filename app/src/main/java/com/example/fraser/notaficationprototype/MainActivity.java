@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private static int deviceCounter = 0;
     //private static ArrayList<Integer> sentList = new ArrayList<Integer>();
     private static ArrayList<Integer> emotionList = new ArrayList<Integer>();
+    private static ArrayList<Integer> authenList = new ArrayList<Integer>();
+    private static ArrayList<Integer> devList = new ArrayList<Integer>();
+
 
 
     @Override
@@ -49,22 +52,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupButtons() {
         Collections.addAll(emotionList,R.drawable.happy, R.drawable.sad, R.drawable.confused );
+        Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
+        Collections.addAll(devList, R.drawable.car, R.drawable.metro, R.drawable.smartphone);
 
         ChangeEmotionRecevicer cm = new ChangeEmotionRecevicer();
         cm.updateButton(emotionList,0,R.id.emotionButton);
+        cm.updateButton(authenList,0,R.id.authenticatorButton);
+        cm.updateButton(devList,0,R.id.deviceButton);
 //        contentView.setImageViewResource(R.id.authenticatorButton, R.drawable.fingerprintscan);
 //        contentView.setImageViewResource(R.id.deviceButton, R.drawable.smartphone);
     }
 
     @SuppressWarnings("deprecation")
     public void sendNotification() {
-
-        List<Integer> authenList = new ArrayList<Integer>();
-        Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
-
-        List<Integer> devList = new ArrayList<Integer>();
-        Collections.addAll(devList, R.drawable.car, R.drawable.metro, R.drawable.smartphone);
-
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingChangeEmotion = PendingIntent.getBroadcast(this, 0, changeEmotion, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent changeAuthen = new Intent("changeAuthen");
-        changeAuthen.putIntegerArrayListExtra("authenImgList", (ArrayList<Integer>) authenList);
+        //changeAuthen.putIntegerArrayListExtra("authenImgList", (ArrayList<Integer>) authenList);
         PendingIntent pendingChangeAuthen = PendingIntent.getBroadcast(this, 0, changeAuthen, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent changeDevice = new Intent("changeDevice");
-        changeDevice.putIntegerArrayListExtra("devImgList", (ArrayList<Integer>) devList);
+        //changeDevice.putIntegerArrayListExtra("devImgList", (ArrayList<Integer>) devList);
         PendingIntent pendingChangeDevice = PendingIntent.getBroadcast(this, 0, changeDevice, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent confirmSelection = new Intent("confirm");
@@ -113,38 +113,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-           // Log.e("size",sentList.size()+"");
-
             Log.e("intent",intent.getAction());
             switch (intent.getAction()) {
                 case "changeEmotion":
-                    Log.e("sizeoflist",emotionList.size()+"");
-                    if (emotionCounter == 2) {
+                    if (emotionCounter == emotionList.size()-1) {
                         emotionCounter = 0;
                         updateButton(emotionList, emotionCounter, R.id.emotionButton);
-                    }else{
+                    }else {
                         emotionCounter++;
-                        if (updateButton(emotionList, emotionCounter, R.id.emotionButton)) {
-                            Log.e("emotionCounter", emotionCounter + "");
-
-                        }
+                        updateButton(emotionList, emotionCounter, R.id.emotionButton);
                     }
-
                     break;
-                case "changeAuthentication":
-                    ArrayList<Integer> authenImgList = intent.getIntegerArrayListExtra("authenImgList");
-                    if (updateButton(authenImgList, authenCounter, R.id.authenticatorButton)) {
-                        authenCounter++;
-                    } else {
+                case "changeAuthen":
+                    if (authenCounter == authenList.size()-1) {
                         authenCounter = 0;
+                        updateButton(authenList, authenCounter, R.id.authenticatorButton);
+                    }else {
+                        authenCounter++;
+                        updateButton(authenList, authenCounter, R.id.authenticatorButton);
                     }
                     break;
                 case "changeDevice":
-                    ArrayList<Integer> devImgList = intent.getIntegerArrayListExtra("devImgList");
-                    if (updateButton(devImgList, deviceCounter, R.id.deviceButton)) {
-                        deviceCounter++;
-                    } else {
+                    if (deviceCounter == devList.size()-1) {
                         deviceCounter = 0;
+                        updateButton(devList, deviceCounter, R.id.deviceButton);
+                    }else {
+                        deviceCounter++;
+                        updateButton(devList, deviceCounter, R.id.deviceButton);
                     }
                     break;
                 case "confirm":
@@ -158,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressWarnings("deprecation")
         public boolean updateButton(ArrayList<Integer> imageList, int counter, int buttonID) {
             if (counter < imageList.size()) {
-                contentView.setImageViewResource(buttonID, imageList.get(emotionCounter));
+                contentView.setImageViewResource(buttonID, imageList.get(counter));
                 notification.contentView = contentView;
                 manager.notify(1, notification);
                 Log.e("counter",counter+"");
@@ -171,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(context,SummaryActivity.class);
             intent.putExtra("emotionButton",getCurrentButton(emotionList,emotionCounter));
-//            intent.putExtra("authenButton",getCurrentButton(sentList,authenCounter));
-//            intent.putExtra("devButton",getCurrentButton(sentList,deviceCounter));
+            intent.putExtra("authenButton",getCurrentButton(authenList,authenCounter));
+            intent.putExtra("devButton",getCurrentButton(devList,deviceCounter));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
