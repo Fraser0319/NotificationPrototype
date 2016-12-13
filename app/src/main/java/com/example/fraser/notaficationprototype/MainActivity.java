@@ -11,17 +11,11 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import static android.media.CamcorderProfile.get;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,12 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private static int emotionCounter = 0;
     private static int authenCounter = 0;
     private static int deviceCounter = 0;
-    //private static ArrayList<Integer> sentList = new ArrayList<Integer>();
     private static ArrayList<Integer> emotionList = new ArrayList<Integer>();
     private static ArrayList<Integer> authenList = new ArrayList<Integer>();
     private static ArrayList<Integer> devList = new ArrayList<Integer>();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
         Collections.addAll(devList, R.drawable.car, R.drawable.metro, R.drawable.smartphone);
 
-        ChangeEmotionRecevicer cm = new ChangeEmotionRecevicer();
-        cm.updateButton(emotionList,0,R.id.emotionButton);
-        cm.updateButton(authenList,0,R.id.authenticatorButton);
-        cm.updateButton(devList,0,R.id.deviceButton);
+        ButtonChangeReceiver bcr = new ButtonChangeReceiver();
+        bcr.updateButton(emotionList,0,R.id.emotionButton);
+        bcr.updateButton(authenList,0,R.id.authenticatorButton);
+        bcr.updateButton(devList,0,R.id.deviceButton);
     }
 
     @SuppressWarnings("deprecation")
@@ -102,16 +93,16 @@ public class MainActivity extends AppCompatActivity {
         setupButtons();
     }
 
-    public static class ChangeEmotionRecevicer extends BroadcastReceiver {
+    public static class ButtonChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case "changeEmotion":
-                    if (emotionCounter == emotionList.size()-1) {
+                    if (emotionCounter == emotionList.size() - 1) {
                         emotionCounter = 0;
                         updateButton(emotionList, emotionCounter, R.id.emotionButton);
-                    }else {
+                    } else {
                         emotionCounter++;
                         updateButton(emotionList, emotionCounter, R.id.emotionButton);
                     }

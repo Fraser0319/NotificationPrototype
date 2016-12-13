@@ -17,7 +17,7 @@
         </activity>
 
         <receiver
-            android:name=".MainActivity$ChangeEmotionRecevicer"
+            android:name=".MainActivity$ButtonChangeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="changeEmotion" />
