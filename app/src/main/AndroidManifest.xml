@@ -15,7 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"
+            android:targetPackage="com.example.fraser.notaficationprototype"
+            android:label="Tests for com.example.fraser.notaficationprototype"/>
         <receiver
             android:name=".MainActivity$ButtonChangeReceiver"
             android:exported="false">
