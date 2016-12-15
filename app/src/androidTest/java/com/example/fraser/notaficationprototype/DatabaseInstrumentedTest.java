@@ -7,16 +7,14 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static android.R.attr.id;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 
 /**
@@ -27,19 +25,30 @@ public class DatabaseInstrumentedTest {
 
     private DatabaseHelper mHelper;
     private SQLiteDatabase mWritableDatabase;
-    private SQLiteDatabase mReadableDatabase;
+    private ContentValues authenticationValues;
 
     @Before
     public void setUp() throws Exception {
         mHelper = new DatabaseHelper(InstrumentationRegistry.getTargetContext());
-        mReadableDatabase = mHelper.getReadableDatabase();
         mWritableDatabase = mHelper.getWritableDatabase();
+        authenticationValues = new ContentValues();
+        authenticationValues.put(mHelper.DEVICE, R.drawable.smartphone);
+        authenticationValues.put(mHelper.AUTHEN, R.drawable.fingerprintscan);
+        authenticationValues.put(mHelper.EMOTION, R.drawable.confused);
+        authenticationValues.put(mHelper.COMMENTS, "took ages");
+        authenticationValues.put(mHelper.LOCATION, "Home");
+        Long id = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
+        assertFalse(id == -1);
+        Log.i("2ndid", id + "");
     }
 
-//    @After
-//    public void finish() {
-//
-//    }
+    @After
+    public void tearDown() {
+
+        mWritableDatabase.delete(mHelper.TABLE_NAME, null, null);
+        mHelper.close();
+        mWritableDatabase.close();
+    }
 
     @Test
     public void testPreConditions() {
@@ -48,63 +57,71 @@ public class DatabaseInstrumentedTest {
 
     @Test
     public void testInsertAuthentication() {
-        // mHelper.insertAuthentication(mWritableDatabase, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-
-        ContentValues authenticationValues = new ContentValues();
-        authenticationValues.put(mHelper.DEVICE, R.drawable.smartphone);
-        authenticationValues.put(mHelper.AUTHEN, R.drawable.fingerprintscan);
-        authenticationValues.put(mHelper.EMOTION, R.drawable.confused);
-        //authenticationValues.put(mHelper.ADDED_ON, System.currentTimeMillis());
-        authenticationValues.put(mHelper.COMMENTS, "took ages");
-        authenticationValues.put(mHelper.LOCATION, "Home");
-        mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
-
-        ContentValues authenticationValues2 = new ContentValues();
-        authenticationValues2.put(mHelper.DEVICE, R.drawable.car);
-        authenticationValues2.put(mHelper.AUTHEN, R.drawable.fingerprintscan);
-        authenticationValues2.put(mHelper.EMOTION, R.drawable.sad);
-        //authenticationValues.put(mHelper.ADDED_ON, System.currentTimeMillis());
-        authenticationValues2.put(mHelper.COMMENTS, "fine");
-        authenticationValues2.put(mHelper.LOCATION, "work");
-        mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues2);
-
-        // returns -1 if database fails on inserting data otherwise, it will return the row number.
-        assertFalse(id == -1);
 
         String getAllDataQuery = "SELECT * FROM " + mHelper.TABLE_NAME;
-
         Log.i("getAllDataQuery", getAllDataQuery);
-
-        Cursor cursor = mReadableDatabase.rawQuery(getAllDataQuery, null);
+        Cursor cursor = mWritableDatabase.rawQuery(getAllDataQuery, null);
+        assertNotNull(cursor);
         if (cursor != null) {
             cursor.moveToFirst();
             int deviceId = cursor.getInt(1);
             Log.i("id", "deviceID: " + deviceId);
-            //assertEquals(deviceId, R.drawable.smartphone);
-            Date c = new Date(cursor.getLong(5));
-            SimpleDateFormat ft = new SimpleDateFormat("E dd.MM.yyyy 'at' hh:mm:ss zz");
-            Log.i("time", ft.format(c));
-
+            assertFalse(deviceId == R.drawable.sad);
+            assertTrue(deviceId == R.drawable.smartphone);
         }
         cursor.close();
-//        mHelper.close();
-//        mReadableDatabase.close();
-//        mWritableDatabase.close();
     }
 
     @Test
-    public void getAllRecords() {
-        String getAllRows = "SELECT COUNT(*) FROM" + mHelper.TABLE_NAME;
+    public void testGetAllRecords() {
 
-        Cursor cursor = mReadableDatabase.rawQuery(getAllRows, null);
+        String getAllRows = "SELECT COUNT(*) FROM" + mHelper.TABLE_NAME;
+        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+        assertNotNull(cursor);
         if (cursor != null) {
             cursor.moveToFirst();
             int count = cursor.getInt(0);
+            assertTrue(count > 0);
             Log.i("count:", count + "");
             cursor.close();
-//            mHelper.close();
-//            mReadableDatabase.close();
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testGetTimeandDate() {
+        String getTimeStamp = "SELECT " + mHelper.ADDED_ON + " FROM " + mHelper.TABLE_NAME;
+        Cursor cursor = mWritableDatabase.rawQuery(getTimeStamp, null);
+        Log.i("query", getTimeStamp);
+        assertNotNull(cursor);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            String time = cursor.getString(0);
+            Log.i("time", time + "");
+        }
+    }
+
+    @Test
+    public void testDelete() {
+
+        // checking data exists in the table by checking the row count > 0
+        String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
+        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+        assertNotNull(cursor);
+        int count = cursor.getCount();
+        assertTrue(count > 0);
+        Log.i("count:", count + "");
+        cursor.close();
+
+        // deleting row and proving row count == 0
+        mWritableDatabase.delete(mHelper.TABLE_NAME,null,null);
+        Cursor cursor2 = mWritableDatabase.rawQuery(getAllRows, null);
+        assertNotNull(cursor2);
+        int count2 = cursor2.getCount();
+        Log.i("count2:", count2 + "");
+        assertTrue(count2 == 0);
+        cursor2.close();
+        
     }
 }
 

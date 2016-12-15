@@ -36,9 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        updateDatabase(db,oldVersion,newVersion);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        updateDatabase(db,oldVersion,newVersion);
     }
 
     public void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -49,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + AUTHEN + " INTEGER, "
                     + EMOTION + " INTEGER, "
                     + COMMENTS + " TEXT, "
-                    + ADDED_ON+ "TIMESTAMP NOT NULL DEFAULT current_timestamp, "
+                    + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
                     + LOCATION + " TEXT);");
             //insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
         }else{
