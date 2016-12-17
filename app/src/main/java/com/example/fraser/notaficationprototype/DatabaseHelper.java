@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public for unit testing
 
     public static final String DB_NAME = "AuthenticationDiary";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 1;
     public static final String TABLE_NAME = "AUTHENTICATION";
     public static final String DEVICE = "DEVICE_RESOURCE_ID";
     public static final String AUTHEN = "AUTHENTICATOR_RESOURCE_ID";
@@ -49,28 +49,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COMMENTS + " TEXT, "
                     + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
                     + LOCATION + " TEXT);");
+            //insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
+        }else if(oldVersion < 2) {
 
-        }else {
-            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
-            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
-            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
-            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
-            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
         }
     }
 
-    public static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
+    protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
 
         ContentValues authenticationValues = new ContentValues();
         authenticationValues.put(DEVICE, deviceID);

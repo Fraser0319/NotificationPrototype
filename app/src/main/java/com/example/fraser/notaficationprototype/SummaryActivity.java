@@ -14,30 +14,28 @@ public class SummaryActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private Cursor cursor;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+        insertSelectionToDB();
         generateList();
-        //reciveSelection();
     }
 
-//    public void reciveSelection() {
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            int emotionButton = (int) extras.get("emotionButton");
-//            int authenButton = (int) extras.get("authenButton");
-//            int deviceButton = (int) extras.get("devButton");
-//            TextView emo = (TextView) findViewById(R.id.emotion);
-//            TextView authen = (TextView) findViewById(R.id.authen);
-//            TextView device = (TextView) findViewById(R.id.device);
-//
-//            emo.setText(emotionButton);
-//            authen.setText(authenButton);
-//            device.setText(deviceButton);
-//        }
-//    }
+    public void insertSelectionToDB() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int emotionButton = (int) extras.get("emotionButton");
+            int authenButton = (int) extras.get("authenButton");
+            int deviceButton = (int) extras.get("devButton");
+
+            SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
+            db = authenticationDatabase.getReadableDatabase();
+            dbHelper.insertAuthentication(db,deviceButton,authenButton,emotionButton,null,null);
+        }
+    }
 
     public void generateList() {
 
