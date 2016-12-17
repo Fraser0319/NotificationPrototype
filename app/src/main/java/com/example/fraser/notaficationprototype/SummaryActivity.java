@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,6 +35,13 @@ public class SummaryActivity extends AppCompatActivity {
             int deviceButton = (int) extras.get("devButton");
             dbHelper.insertAuthentication(db, deviceButton, authenButton, emotionButton, null, null);
         }
+    }
+
+    public void showAddCommentDialog(View v) {
+
+        AddCommentDialog addComment = new AddCommentDialog();
+        addComment.show(getFragmentManager(),"addCommentDialog");
+
     }
 
     public void generateList() {

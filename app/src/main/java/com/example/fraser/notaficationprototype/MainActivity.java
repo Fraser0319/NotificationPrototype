@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,30 +44,30 @@ public class MainActivity extends AppCompatActivity {
         t.show();
     }
 
-    public void endNotification(View v){
+    public void endNotification(View v) {
         manager.cancel(1);
     }
 
-    public void showSummary(){
+    public void showSummary() {
         Button summarybtn = (Button) findViewById(R.id.summaryButton);
         summarybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewSummary = new Intent(v.getContext(),SummaryActivity.class);
+                Intent viewSummary = new Intent(v.getContext(), SummaryActivity.class);
                 startActivity(viewSummary);
             }
         });
     }
 
     public void setupButtons() {
-        Collections.addAll(emotionList,R.drawable.happy, R.drawable.sad, R.drawable.confused);
-        Collections.addAll(authenList,R.drawable.password, R.drawable.fingerprintscan,R.drawable.cursor,R.drawable.hand_gesture,R.drawable.id_card,R.drawable.key,R.drawable.contract,R.drawable.locked,R.drawable.ticket);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone,R.drawable.mobile_phone,R.drawable.laptop,R.drawable.tramway,R.drawable.point_of_service,R.drawable.buses,R.drawable.atm,R.drawable.browser,R.drawable.locker,R.drawable.cycle);
+        Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, R.drawable.cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.tramway, R.drawable.point_of_service, R.drawable.buses, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.cycle);
 
         ButtonChangeReceiver bcr = new ButtonChangeReceiver();
-        bcr.updateButton(emotionList,0,R.id.emotionButton);
-        bcr.updateButton(authenList,0,R.id.authenticatorButton);
-        bcr.updateButton(devList,0,R.id.deviceButton);
+        bcr.updateButton(emotionList, 0, R.id.emotionButton);
+        bcr.updateButton(authenList, 0, R.id.authenticatorButton);
+        bcr.updateButton(devList, 0, R.id.deviceButton);
     }
 
     @SuppressWarnings("deprecation")
@@ -124,25 +125,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case "changeAuthen":
-                    if (authenCounter == authenList.size()-1) {
+                    if (authenCounter == authenList.size() - 1) {
                         authenCounter = 0;
                         updateButton(authenList, authenCounter, R.id.authenticatorButton);
-                    }else {
+                    } else {
                         authenCounter++;
                         updateButton(authenList, authenCounter, R.id.authenticatorButton);
                     }
                     break;
                 case "changeDevice":
-                    if (deviceCounter == devList.size()-1) {
+                    if (deviceCounter == devList.size() - 1) {
                         deviceCounter = 0;
                         updateButton(devList, deviceCounter, R.id.deviceButton);
-                    }else {
+                    } else {
                         deviceCounter++;
                         updateButton(devList, deviceCounter, R.id.deviceButton);
                     }
                     break;
                 case "confirm":
-                    Log.e("here","confirm");
+                    Log.e("here", "confirm");
                     sendIntent(context);
                     break;
 
@@ -160,17 +161,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        public void sendIntent(Context context){
+        public void sendIntent(Context context) {
 
-            Intent intent = new Intent(context,SummaryActivity.class);
-            intent.putExtra("emotionButton",getCurrentButton(emotionList,emotionCounter));
-            intent.putExtra("authenButton",getCurrentButton(authenList,authenCounter));
-            intent.putExtra("devButton",getCurrentButton(devList,deviceCounter));
+            Intent intent = new Intent(context, SummaryActivity.class);
+            intent.putExtra("emotionButton", getCurrentButton(emotionList, emotionCounter));
+            intent.putExtra("authenButton", getCurrentButton(authenList, authenCounter));
+            intent.putExtra("devButton", getCurrentButton(devList, deviceCounter));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
 
-        public int getCurrentButton(ArrayList<Integer> imageList, int counter){
+        public int getCurrentButton(ArrayList<Integer> imageList, int counter) {
             return imageList.get(counter);
         }
 
