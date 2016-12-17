@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -33,12 +34,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        showSummary();
     }
 
     public void helloToast(View v) {
         sendNotification();
         Toast t = Toast.makeText(v.getContext(), "yay button click", Toast.LENGTH_LONG);
         t.show();
+    }
+
+    public void endNotification(View v){
+        manager.cancel(1);
+    }
+
+    public void showSummary(){
+        Button summarybtn = (Button) findViewById(R.id.summaryButton);
+        summarybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewSummary = new Intent(v.getContext(),SummaryActivity.class);
+                startActivity(viewSummary);
+            }
+        });
     }
 
     public void setupButtons() {

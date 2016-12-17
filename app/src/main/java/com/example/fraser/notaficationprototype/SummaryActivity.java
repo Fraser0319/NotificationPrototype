@@ -20,6 +20,8 @@ public class SummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+        SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
+        db = authenticationDatabase.getReadableDatabase();
         insertSelectionToDB();
         generateList();
     }
@@ -30,9 +32,6 @@ public class SummaryActivity extends AppCompatActivity {
             int emotionButton = (int) extras.get("emotionButton");
             int authenButton = (int) extras.get("authenButton");
             int deviceButton = (int) extras.get("devButton");
-
-            SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
-            db = authenticationDatabase.getReadableDatabase();
             dbHelper.insertAuthentication(db, deviceButton, authenButton, emotionButton, null, null);
         }
     }
@@ -41,9 +40,6 @@ public class SummaryActivity extends AppCompatActivity {
 
         ListView authenList = (ListView) findViewById(R.id.authenList);
         try {
-
-            SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
-            db = authenticationDatabase.getReadableDatabase();
             String getAllAuthentications = "SELECT * FROM AUTHENTICATION";
             cursor = db.rawQuery(getAllAuthentications, null);
             CustomCursorAdaptor listAdapter = new CustomCursorAdaptor(this, cursor);
