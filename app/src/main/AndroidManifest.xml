@@ -9,11 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"
             android:targetPackage="com.example.fraser.notaficationprototype"
@@ -29,7 +25,13 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SummaryActivity"></activity>
+        <activity android:name=".SummaryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

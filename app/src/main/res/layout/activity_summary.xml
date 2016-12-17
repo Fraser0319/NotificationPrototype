@@ -10,32 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.fraser.notaficationprototype.SummaryActivity">
 
-    <TextView
-
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ListView
+        android:id="@+id/authenList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="93dp"
-        android:id="@+id/emotion" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emotion"
-        android:layout_alignStart="@+id/emotion"
-        android:layout_marginTop="38dp"
-        android:id="@+id/authen" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/authen"
-        android:layout_alignStart="@+id/authen"
-        android:layout_marginTop="49dp"
-        android:id="@+id/device" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -15,10 +15,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public for unit testing
 
     public static final String DB_NAME = "AuthenticationDiary";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String TABLE_NAME = "AUTHENTICATION";
     public static final String DEVICE = "DEVICE_RESOURCE_ID";
-    public static final String AUTHEN = "_AUTHENTICATOR_RESOURCE_ID";
+    public static final String AUTHEN = "AUTHENTICATOR_RESOURCE_ID";
     public static final String LOCATION = "LOCATION";
     public static final String COMMENTS = "COMMENTS";
     public static final String EMOTION = "EMOTION_RESOURCE_ID";
@@ -42,27 +42,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("version",oldVersion+"");
         if (oldVersion < 1) {
-            db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            db.execSQL("CREATE TABLE " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + DEVICE + " INTEGER, "
                     + AUTHEN + " INTEGER, "
                     + EMOTION + " INTEGER, "
                     + COMMENTS + " TEXT, "
                     + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
                     + LOCATION + " TEXT);");
-            //insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
-        }else{
-            Log.d("other","version");
+
+        }else {
+            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
+            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
+            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
+            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.happy, "took ages", "Home");
+            insertAuthentication(db, R.drawable.metro, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
+            insertAuthentication(db, R.drawable.smartphone, R.drawable.fingerprintscan, R.drawable.confused, "took ages", "Home");
         }
     }
 
     public static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
 
         ContentValues authenticationValues = new ContentValues();
-        authenticationValues.put("DEVICE_RESOURCE_ID", deviceID);
-        authenticationValues.put("AUTHENTICATION_RESOURCE_ID", authenID);
-        authenticationValues.put("EMOTION_RESOURCE_ID", emotionID);
-        authenticationValues.put("COMMENTS", comments);
-        authenticationValues.put("LOCATION", location);
+        authenticationValues.put(DEVICE, deviceID);
+        authenticationValues.put(AUTHEN, authenID);
+        authenticationValues.put(EMOTION, emotionID);
+        authenticationValues.put(COMMENTS, comments);
+        authenticationValues.put(LOCATION, location);
         db.insert(TABLE_NAME, null, authenticationValues);
     }
 
