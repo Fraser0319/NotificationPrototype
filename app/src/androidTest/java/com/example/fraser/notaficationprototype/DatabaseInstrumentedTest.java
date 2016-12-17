@@ -12,9 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 
 /**
@@ -38,9 +36,11 @@ public class DatabaseInstrumentedTest {
         authenticationValues.put(mHelper.COMMENTS, "took ages");
         authenticationValues.put(mHelper.LOCATION, "Home");
         Long insert_1 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
+        Log.i("insert_1",insert_1+"");
         assertTrue(insert_1 != -1);
-        Long insert_2 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
-        assertTrue(insert_2 != -1);
+//        Long insert_2 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
+//        assertTrue(insert_2 != -1);
+//        Log.i("insert_2",insert_2+"");
     }
 
     @After
@@ -136,6 +136,26 @@ public class DatabaseInstrumentedTest {
         assertTrue(count2 == 0);
         cursor2.close();
     }
+
+    // as the _id is auto incrementing the id continues on for each test so i got what the next id would be
+    // and commented out all other tests so i could test the query
+    // it will be commenet out for now but it works.
+//    @Test
+//    public void testUpdateComment(){
+//        // update the comment field
+//        String updateComment = "UPDATE " + mHelper.TABLE_NAME + " SET " + mHelper.COMMENTS + " = 'YAY IT CHANCGED !!!' WHERE _id = 153";
+//        mWritableDatabase.execSQL(updateComment);
+//
+//        // show its been updated
+//        String getAllRows = "SELECT "+ mHelper.COMMENTS + " FROM " + mHelper.TABLE_NAME +  " WHERE _id = 153";
+//        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+//        assertNotNull(cursor);
+//        cursor.moveToFirst();
+//        String comment = cursor.getString(0);
+//        Log.i("commentTag",comment);
+//        assertEquals("YAY IT CHANCGED !!!",comment);
+//        cursor.close();
+//    }
 
 
 }

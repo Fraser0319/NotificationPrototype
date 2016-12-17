@@ -3,6 +3,8 @@ package com.example.fraser.notaficationprototype;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
  */
 
 public class AddCommentDialog extends DialogFragment {
+
+    private SQLiteDatabase db;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -24,6 +28,8 @@ public class AddCommentDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // update row with comment in db will need to use the id in the table to
                         // map it correctly.
+                        SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(getActivity());
+                        db = authenticationDatabase.getReadableDatabase();
 
 
                     }
