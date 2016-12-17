@@ -33,25 +33,24 @@ public class SummaryActivity extends AppCompatActivity {
 
             SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
             db = authenticationDatabase.getReadableDatabase();
-            dbHelper.insertAuthentication(db,deviceButton,authenButton,emotionButton,null,null);
+            dbHelper.insertAuthentication(db, deviceButton, authenButton, emotionButton, null, null);
         }
     }
 
     public void generateList() {
 
         ListView authenList = (ListView) findViewById(R.id.authenList);
-
         try {
 
             SQLiteOpenHelper authenticationDatabase = new DatabaseHelper(this);
             db = authenticationDatabase.getReadableDatabase();
             String getAllAuthentications = "SELECT * FROM AUTHENTICATION";
             cursor = db.rawQuery(getAllAuthentications, null);
-            CustomCursorAdaptor listAdapter = new CustomCursorAdaptor(this,cursor);
+            CustomCursorAdaptor listAdapter = new CustomCursorAdaptor(this, cursor);
             authenList.setAdapter(listAdapter);
 
         } catch (SQLiteException e) {
-            Toast.makeText(this,"Database Unavailable",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Database Unavailable", Toast.LENGTH_SHORT).show();
         }
     }
 

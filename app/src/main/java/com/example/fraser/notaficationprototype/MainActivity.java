@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupButtons() {
-        Collections.addAll(emotionList,R.drawable.happy, R.drawable.sad, R.drawable.confused );
-        Collections.addAll(authenList, R.drawable.sad, R.drawable.confused, R.drawable.happy);
-        Collections.addAll(devList, R.drawable.car, R.drawable.metro, R.drawable.smartphone);
+        Collections.addAll(emotionList,R.drawable.happy, R.drawable.sad, R.drawable.confused);
+        Collections.addAll(authenList,R.drawable.password, R.drawable.fingerprintscan,R.drawable.cursor,R.drawable.hand_gesture,R.drawable.id_card,R.drawable.key,R.drawable.contract,R.drawable.locked,R.drawable.ticket);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone,R.drawable.mobile_phone,R.drawable.laptop,R.drawable.tramway,R.drawable.point_of_service,R.drawable.buses,R.drawable.atm,R.drawable.browser,R.drawable.locker,R.drawable.cycle);
 
         ButtonChangeReceiver bcr = new ButtonChangeReceiver();
         bcr.updateButton(emotionList,0,R.id.emotionButton);
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.diary)
                 .setContent(contentView)
-                .setAutoCancel(true)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
                 .setContentTitle("custom View").build();
