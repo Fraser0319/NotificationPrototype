@@ -9,6 +9,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -37,7 +39,9 @@ public class StartFragment extends Fragment {
     private static ArrayList<Integer> emotionList = new ArrayList<Integer>();
     private static ArrayList<Integer> authenList = new ArrayList<Integer>();
     private static ArrayList<Integer> devList = new ArrayList<Integer>();
-    private static FragmentTransaction fragmentManager;
+    private static SQLiteOpenHelper authenticationDatabase;
+    private static SQLiteDatabase db;
+    private static DatabaseHelper dbHelper;
 
 
     public StartFragment() {
@@ -54,8 +58,6 @@ public class StartFragment extends Fragment {
         endNotification(viewInflator);
         startNotification(viewInflator);
         showSummary(viewInflator);
-        fragmentManager = getActivity().getFragmentManager().beginTransaction();
-
 
         return viewInflator;
     }
@@ -112,6 +114,9 @@ public class StartFragment extends Fragment {
 
     @SuppressWarnings("deprecation")
     public void sendNotification() {
+
+        authenticationDatabase = new DatabaseHelper(getActivity());
+        db = authenticationDatabase.getReadableDatabase();
 
         Intent notificationIntent = new Intent(getActivity(), MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0, notificationIntent, 0);
@@ -185,7 +190,7 @@ public class StartFragment extends Fragment {
                     break;
                 case "confirm":
                     Log.e("here", "confirm");
-                    sendIntent();
+                    sendIntent(context);
                     break;
 
             }
@@ -202,20 +207,28 @@ public class StartFragment extends Fragment {
             return false;
         }
 
-        public void sendIntent() {
-
+        public void sendIntent(Context context) {
             Bundle bundle = new Bundle();
             bundle.putInt("emotionButton", getCurrentButton(emotionList, emotionCounter));
             bundle.putInt("authenButton", getCurrentButton(authenList, authenCounter));
             bundle.putInt("devButton", getCurrentButton(devList, deviceCounter));
 
-            Fragment summaryFragment = new SummaryFragment();
-            summaryFragment.setArguments(bundle);
-            FragmentTransaction ft = fragmentManager;
-            ft.replace(R.id.activity_main, summaryFragment);
-            ft.addToBackStack(null);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
+//            Fragment summaryFragment = new SummaryFragment();
+//            summaryFragment.setArguments(bundle);
+//            FragmentTransaction ft =
+//            ft.replace(R.id.activity_main, summaryFragment);
+//            ft.addToBackStack(null);
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            ft.commitAllowingStateLoss();
+
+            dbHelper.insertAuthentication(db,getCurrentButton(devList, deviceCounter),getCurrentButton(authenList, authenCounter), getCurrentButton(emotionList, emotionCounter),null,null);
+            Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
+            context.sendBroadcast(intent);
+
+            Toast.makeText(context,"Authentication Added !!",Toast.LENGTH_LONG).show();
+
+
+            // maybe just insert straight into db ?
         }
 
         public int getCurrentButton(ArrayList<Integer> imageList, int counter) {
