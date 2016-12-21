@@ -19,7 +19,7 @@
             android:targetPackage="com.example.fraser.notaficationprototype"
             android:label="Tests for com.example.fraser.notaficationprototype"/>
         <receiver
-            android:name=".MainActivity$ButtonChangeReceiver"
+            android:name=".StartFragment$ButtonChangeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="changeEmotion" />

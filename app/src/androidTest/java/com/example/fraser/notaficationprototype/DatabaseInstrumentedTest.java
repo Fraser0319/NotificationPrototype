@@ -33,7 +33,7 @@ public class DatabaseInstrumentedTest {
         authenticationValues.put(mHelper.DEVICE, R.drawable.smartphone);
         authenticationValues.put(mHelper.AUTHEN, R.drawable.fingerprintscan);
         authenticationValues.put(mHelper.EMOTION, R.drawable.confused);
-        authenticationValues.put(mHelper.COMMENTS, "took ages");
+        authenticationValues.put(mHelper.COMMENTS, "");
         authenticationValues.put(mHelper.LOCATION, "Home");
         Long insert_1 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
         Log.i("insert_1",insert_1+"");
@@ -135,6 +135,21 @@ public class DatabaseInstrumentedTest {
         Log.i("count2:", count2 + "");
         assertTrue(count2 == 0);
         cursor2.close();
+    }
+
+
+    // checks if there no comment in a row.
+    @Test
+    public void checkNullComment(){
+
+        String checkNullComment = "SELECT * FROM " + mHelper.TABLE_NAME + " WHERE " + mHelper.COMMENTS + " is ''";
+        Cursor cursor = mWritableDatabase.rawQuery(checkNullComment,null);
+        assertNotNull(cursor);
+        cursor.moveToFirst();
+        String comment = cursor.getString(4);
+        Log.i("commentValue",comment);
+        assertTrue(comment.isEmpty());
+        cursor.close();
     }
 
     // as the _id is auto incrementing the id continues on for each test so i got what the next id would be

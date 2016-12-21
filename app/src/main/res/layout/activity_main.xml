@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
-    android:orientation="vertical"
+    class="com.example.fraser.notaficationprototype.StartFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.fraser.notaficationprototype.MainActivity">
+    android:layout_height="match_parent" />
 
-
-    <Button
-        android:text="@string/StartNotification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/startButton"
-        android:onClick="helloToast"/>
-
-    <Button
-        android:onClick="endNotification"
-        android:text="@string/EndNotification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/endButton" />
-
-    <Button
-        android:onClick="showSummary"
-        android:text="@string/Summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/summaryButton" />
-</LinearLayout>

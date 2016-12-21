@@ -7,17 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by Fraser on 17/12/2016.
  */
 
-public class CustomCursorAdaptor extends CursorAdapter {
+public class CustomCursorAdaptor extends CursorAdapter{
 
 
     public CustomCursorAdaptor(Context context, Cursor c) {
         super(context, c, 0);
     }
+
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -39,7 +41,9 @@ public class CustomCursorAdaptor extends CursorAdapter {
         authenticationImage.setImageResource(authentication);
         emotionImage.setImageResource(emotion);
 
+        TextView dbID = (TextView) view.findViewById(R.id.dbID);
+        String id = cursor.getString(cursor.getColumnIndex("_id"));
+        dbID.setText(id);
+
     }
-
-
 }

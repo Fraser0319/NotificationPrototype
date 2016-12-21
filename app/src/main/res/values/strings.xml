@@ -9,4 +9,13 @@
     <string name="addCommentHint">Enter Your Comment</string>
     <string name="addComment">Add Comment</string>
     <string name="cancel">Cancel</string>
+
+    <!--setting a string to each image for detailed view-->
+    <string name="R.drawable.atm">ATM</string>
+    <string name="R.drawable.fingerprintscan">Fingerprint Scanner</string>
+    <string name="R.drawable.confused">Confused</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
