@@ -28,10 +28,6 @@
                 <action android:name="confirm" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".SummaryActivity">
-
-        </activity>
     </application>
 
 </manifest>

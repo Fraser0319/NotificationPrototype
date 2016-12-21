@@ -2,6 +2,7 @@ package com.example.fraser.notaficationprototype;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -36,6 +37,7 @@ public class StartFragment extends Fragment {
     private static ArrayList<Integer> emotionList = new ArrayList<Integer>();
     private static ArrayList<Integer> authenList = new ArrayList<Integer>();
     private static ArrayList<Integer> devList = new ArrayList<Integer>();
+    private static FragmentTransaction fragmentManager;
 
 
     public StartFragment() {
@@ -51,6 +53,10 @@ public class StartFragment extends Fragment {
         View viewInflator = inflater.inflate(R.layout.fragment_start, container, false);
         endNotification(viewInflator);
         startNotification(viewInflator);
+        showSummary(viewInflator);
+        fragmentManager = getActivity().getFragmentManager().beginTransaction();
+
+
         return viewInflator;
     }
 
@@ -77,16 +83,21 @@ public class StartFragment extends Fragment {
         });
     }
 
-//    public void showSummary() {
-//        Button summarybtn = (Button) findViewById(R.id.summaryButton);
-//        summarybtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent viewSummary = new Intent(v.getContext(), SummaryActivity.class);
-//                startActivity(viewSummary);
-//            }
-//        });
-//    }
+    public void showSummary(View v) {
+        Button summarybtn = (Button) v.findViewById(R.id.summaryButton);
+        summarybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment summaryFragment = new SummaryFragment();
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.activity_main, summaryFragment);
+                ft.addToBackStack(null);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+            }
+        });
+    }
 
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused);
@@ -174,7 +185,7 @@ public class StartFragment extends Fragment {
                     break;
                 case "confirm":
                     Log.e("here", "confirm");
-                    sendIntent(context);
+                    sendIntent();
                     break;
 
             }
@@ -191,14 +202,20 @@ public class StartFragment extends Fragment {
             return false;
         }
 
-        public void sendIntent(Context context) {
+        public void sendIntent() {
 
-            Intent intent = new Intent(context, SummaryActivity.class);
-            intent.putExtra("emotionButton", getCurrentButton(emotionList, emotionCounter));
-            intent.putExtra("authenButton", getCurrentButton(authenList, authenCounter));
-            intent.putExtra("devButton", getCurrentButton(devList, deviceCounter));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            Bundle bundle = new Bundle();
+            bundle.putInt("emotionButton", getCurrentButton(emotionList, emotionCounter));
+            bundle.putInt("authenButton", getCurrentButton(authenList, authenCounter));
+            bundle.putInt("devButton", getCurrentButton(devList, deviceCounter));
+
+            Fragment summaryFragment = new SummaryFragment();
+            summaryFragment.setArguments(bundle);
+            FragmentTransaction ft = fragmentManager;
+            ft.replace(R.id.activity_main, summaryFragment);
+            ft.addToBackStack(null);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
         }
 
         public int getCurrentButton(ArrayList<Integer> imageList, int counter) {

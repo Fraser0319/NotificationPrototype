@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.fraser.notaficationprototype.StartFragment">
@@ -10,14 +11,12 @@
         android:layout_height="match_parent">
 
         <Button
-            android:onClick="showSummary"
             android:text="@string/Summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/summaryButton" />
 
         <Button
-            android:onClick="endNotification"
             android:text="@string/EndNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,8 +26,7 @@
             android:text="@string/StartNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/startButton"
-            android:onClick="helloToast"/>
+            android:id="@+id/startButton" />
     </LinearLayout>
 
 </FrameLayout>
