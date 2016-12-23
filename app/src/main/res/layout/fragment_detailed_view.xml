@@ -26,6 +26,7 @@
                 android:textSize="30sp" />
 
             <ImageView
+                android:id="@+id/deviceDetailedImage"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
             <TextView
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:id="@+id/authentication"
+                android:id="@+id/authenticationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
@@ -48,6 +49,7 @@
                 android:textSize="30sp" />
 
             <ImageView
+                android:id="@+id/authDetailedImage"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,19 +63,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/emotion"
+                android:id="@+id/emotionType"
                 android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25sp"
-
                 android:textSize="30sp" />
 
             <ImageView
+                android:id="@+id/emotionDetailedImage"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/confused" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <EditText

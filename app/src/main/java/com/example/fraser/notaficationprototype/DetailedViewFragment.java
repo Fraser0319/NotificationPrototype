@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,16 +44,41 @@ public class DetailedViewFragment extends Fragment{
         db = authenticationDatabase.getReadableDatabase();
 
         int device = getArguments().getInt("device");
+        int authen = getArguments().getInt("auhen");
+        int emotion = getArguments().getInt("emotion");
+
         TextView deviceName = (TextView) v.findViewById(R.id.deviceName);
+        TextView authenName = (TextView) v.findViewById(R.id.authenticationName);
+        TextView emotionName = (TextView) v.findViewById(R.id.emotionType);
 
-        String getImageName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + device;
-        Cursor cursor = db.rawQuery(getImageName,null);
+        String getDeviceName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + device;
+        String getAuthenName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + authen;
+        String getEmotionName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + emotion;
 
-        if(cursor.moveToFirst()){
-            String name = cursor.getString(cursor.getColumnIndex("NAME"));
-            deviceName.setText(name);
+        ImageView deviceImage = (ImageView) v.findViewById(R.id.deviceDetailedImage);
+        ImageView authenImage = (ImageView) v.findViewById(R.id.authDetailedImage);
+        ImageView emoImage = (ImageView) v.findViewById(R.id.emotionDetailedImage);
+
+        Cursor devCursor = db.rawQuery(getDeviceName,null);
+        Cursor authenCursor = db.rawQuery(getAuthenName,null);
+        Cursor emoCursor = db.rawQuery(getEmotionName,null);
+
+
+        if(devCursor.moveToFirst() && authenCursor.moveToFirst() && emoCursor.moveToFirst()){
+            String devName = devCursor.getString(devCursor.getColumnIndex("NAME"));
+            String authName = authenCursor.getString(devCursor.getColumnIndex("NAME"));
+            String emoName = emoCursor.getString(devCursor.getColumnIndex("NAME"));
+            deviceName.setText(devName);
+            authenName.setText(authName);
+            emotionName.setText(emoName);
+            deviceImage.setImageResource(device);
+            authenImage.setImageResource(authen);
+            emoImage.setImageResource(emotion);
+
         }else {
             deviceName.setText("Image Unavailable");
+            authenName.setText("Image Unavailable");
+            emotionName.setText("Image Unavailable");
             Toast.makeText(getActivity(),"DATABASE UNAVAILABLE",Toast.LENGTH_LONG).show();
         }
     }
