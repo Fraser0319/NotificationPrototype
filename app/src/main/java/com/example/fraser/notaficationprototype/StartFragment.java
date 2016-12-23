@@ -227,8 +227,6 @@ public class StartFragment extends Fragment {
 
             Toast.makeText(context,"Authentication Added !!",Toast.LENGTH_LONG).show();
 
-
-            // maybe just insert straight into db ?
         }
 
         public int getCurrentButton(ArrayList<Integer> imageList, int counter) {
