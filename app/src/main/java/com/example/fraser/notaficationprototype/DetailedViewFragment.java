@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +36,23 @@ public class DetailedViewFragment extends Fragment{
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.fragment_detailed_view, container, false);
         getSelectedItemDetails(myInflatedView);
+        updateFields(myInflatedView);
         return myInflatedView;
+    }
+
+    public void updateFields(View v){
+        Button updateButton  = (Button) v.findViewById(R.id.updateButton);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Long id = getArguments().getLong("id");
+                EditText location = (EditText) getView().findViewById(R.id.locInput);
+                EditText comment = (EditText) getView().findViewById(R.id.commInput);
+
+                String updateLocAndComm = "UPDATE AUTHENTICATION SET LOCATION = '" + location.getText().toString() + "', COMMENTS = '" + comment.getText().toString() + "' WHERE _id = " + id;
+                db.execSQL(updateLocAndComm);
+            }
+        });
     }
 
 
@@ -77,8 +94,8 @@ public class DetailedViewFragment extends Fragment{
             deviceName.setText(devName);
             authenName.setText(authName);
             emotionName.setText(emoName);
-            location.setText("Home");
-            comments.setText("this is great");
+            location.setText(loc);
+            comments.setText(comms);
 
             deviceImage.setImageResource(device);
             authenImage.setImageResource(authen);

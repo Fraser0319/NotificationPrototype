@@ -71,6 +71,7 @@ public class SummaryFragment extends Fragment {
                         String comments = itemClickCursor.getString(itemClickCursor.getColumnIndex("COMMENTS"));
 
                         Bundle bundle = new Bundle();
+                        bundle.putLong("id",id);
                         bundle.putInt("device", device);
                         bundle.putInt("auhen", authenticator);
                         bundle.putInt("emotion", emotion);
