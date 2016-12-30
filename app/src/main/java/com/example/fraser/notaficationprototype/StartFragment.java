@@ -62,6 +62,8 @@ public class StartFragment extends Fragment {
         return viewInflator;
     }
 
+
+
     public void startNotification(View v) {
         Button startNotification = (Button) v.findViewById(R.id.startButton);
         startNotification.setOnClickListener(new View.OnClickListener() {
@@ -114,9 +116,8 @@ public class StartFragment extends Fragment {
 
     @SuppressWarnings("deprecation")
     public void sendNotification() {
-
         authenticationDatabase = new DatabaseHelper(getActivity());
-        db = authenticationDatabase.getReadableDatabase();
+        db = authenticationDatabase.getWritableDatabase();
 
         Intent notificationIntent = new Intent(getActivity(), MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0, notificationIntent, 0);
@@ -155,11 +156,18 @@ public class StartFragment extends Fragment {
         setupButtons();
     }
 
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        db.close();
+//    }
+
 
     public static class ButtonChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+           //context.deleteDatabase("AuthenticationDiary");
             switch (intent.getAction()) {
                 case "changeEmotion":
                     if (emotionCounter == emotionList.size() - 1) {

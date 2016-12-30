@@ -98,7 +98,6 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        cursor.close();
         db.close();
     }
 }

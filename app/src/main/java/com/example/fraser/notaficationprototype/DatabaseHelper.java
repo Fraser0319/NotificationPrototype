@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public for unit testing
 
     public static final String DB_NAME = "AuthenticationDiary";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 1;
     public static final String TABLE_NAME = "AUTHENTICATION";
     public static final String DEVICE = "DEVICE_RESOURCE_ID";
     public static final String AUTHEN = "AUTHENTICATOR_RESOURCE_ID";
@@ -31,6 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        db.delete(TABLE_NAME,null,null);
+//        db.delete("IMAGE_NAMES",null,null);
         updateDatabase(db, 0, DB_VERSION);
     }
 
@@ -40,10 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i("version", oldVersion + "");
-        switch (oldVersion) {
-            case 0:
-                db.execSQL("CREATE TABLE " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        Log.i("TableVersion", oldVersion + "");
+//        switch (oldVersion) {
+//            case 0:
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + DEVICE + " INTEGER, "
                         + AUTHEN + " INTEGER, "
                         + EMOTION + " INTEGER, "
@@ -51,8 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
                         + LOCATION + " TEXT);");
                 //insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-
-                db.execSQL("CREATE TABLE IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "IMAGE_ID INTEGER," +
                         "NAME TEXT);");
                 insertImageNames(db, R.drawable.atm, "ATM");
@@ -80,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 insertImageNames(db, R.drawable.tramway, "Tram");
                 insertImageNames(db, R.drawable.sad, "Sad");
 
-        }
+//        }
     }
 
     protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {

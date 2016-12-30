@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,6 @@ public class DetailedViewFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View myInflatedView = inflater.inflate(R.layout.fragment_detailed_view, container, false);
         getSelectedItemDetails(myInflatedView);
         return myInflatedView;
@@ -41,15 +41,20 @@ public class DetailedViewFragment extends Fragment{
 
     public void getSelectedItemDetails(View v){
         authenticationDatabase = new DatabaseHelper(getActivity());
-        db = authenticationDatabase.getReadableDatabase();
+        db = authenticationDatabase.getWritableDatabase();
 
         int device = getArguments().getInt("device");
         int authen = getArguments().getInt("auhen");
         int emotion = getArguments().getInt("emotion");
+        String loc = getArguments().getString("location");
+        String comms = getArguments().getString("comment");
 
         TextView deviceName = (TextView) v.findViewById(R.id.deviceName);
         TextView authenName = (TextView) v.findViewById(R.id.authenticationName);
         TextView emotionName = (TextView) v.findViewById(R.id.emotionType);
+        EditText location = (EditText) v.findViewById(R.id.locInput);
+        EditText comments = (EditText) v.findViewById(R.id.commInput);
+
 
         String getDeviceName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + device;
         String getAuthenName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + authen;
@@ -68,9 +73,13 @@ public class DetailedViewFragment extends Fragment{
             String devName = devCursor.getString(devCursor.getColumnIndex("NAME"));
             String authName = authenCursor.getString(devCursor.getColumnIndex("NAME"));
             String emoName = emoCursor.getString(devCursor.getColumnIndex("NAME"));
+
             deviceName.setText(devName);
             authenName.setText(authName);
             emotionName.setText(emoName);
+            location.setText("Home");
+            comments.setText("this is great");
+
             deviceImage.setImageResource(device);
             authenImage.setImageResource(authen);
             emoImage.setImageResource(emotion);
@@ -83,7 +92,8 @@ public class DetailedViewFragment extends Fragment{
         }
     }
 
-    public void onDestroyView(){
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         db.close();
     }
