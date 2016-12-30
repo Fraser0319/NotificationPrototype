@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.activity_main,new StartFragment());
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
         ft.commit();
         //showSummary();
     }
