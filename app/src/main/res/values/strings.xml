@@ -9,6 +9,7 @@
     <string name="addCommentHint">Enter Your Comment</string>
     <string name="addComment">Add Comment</string>
     <string name="cancel">Cancel</string>
+    <string name="sendData">Send CSV</string>
 
     <!--place holder hints for location and comments in detailed view fragment-->
     <string name="locationHint">Enter the location where you logged the authentication</string>
