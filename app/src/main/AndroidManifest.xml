@@ -18,16 +18,10 @@
         <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"
             android:targetPackage="com.example.fraser.notaficationprototype"
             android:label="Tests for com.example.fraser.notaficationprototype"/>
-        <receiver
-            android:name=".StartFragment$ButtonChangeReceiver"
+        <service
+            android:name=".StartFragment$ForegroundSerivice"
             android:exported="false">
-            <intent-filter>
-                <action android:name="changeEmotion" />
-                <action android:name="changeAuthen" />
-                <action android:name="changeDevice" />
-                <action android:name="confirm" />
-            </intent-filter>
-        </receiver>
+        </service>
     </application>
 
 </manifest>
