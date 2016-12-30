@@ -102,11 +102,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 
-    public void getAllAuthentications() {
-
+    protected void updateLocationAndComments(SQLiteDatabase db, String loc, String comm, long id){
+        ContentValues values = new ContentValues();
+        values.put(COMMENTS,comm);
+        values.put(LOCATION,loc);
+        String where = "_id=?";
+        String[] whereArgs = new String[] {String.valueOf(id)};
+        db.update(TABLE_NAME,values,where,whereArgs);
     }
 
-    public void getAuthenticationsWithComments() {
 
-    }
 }

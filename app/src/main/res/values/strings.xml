@@ -10,12 +10,9 @@
     <string name="addComment">Add Comment</string>
     <string name="cancel">Cancel</string>
 
-    <!--setting a string to each image for detailed view-->
-    <string name="R.drawable.atm">ATM</string>
-    <string name="R.drawable.fingerprintscan">Fingerprint Scanner</string>
-    <string name="R.drawable.confused">Confused</string>
+    <!--place holder hints for location and comments in detailed view fragment-->
+    <string name="locationHint">Enter the location where you logged the authentication</string>
+    <string name="commentHint">Enter any comments you have about authentcation</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -42,15 +42,14 @@ public class DetailedViewFragment extends Fragment{
 
     public void updateFields(View v){
         Button updateButton  = (Button) v.findViewById(R.id.updateButton);
+        dbHelper = new DatabaseHelper(getActivity());
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Long id = getArguments().getLong("id");
                 EditText location = (EditText) getView().findViewById(R.id.locInput);
                 EditText comment = (EditText) getView().findViewById(R.id.commInput);
-
-                String updateLocAndComm = "UPDATE AUTHENTICATION SET LOCATION = '" + location.getText().toString() + "', COMMENTS = '" + comment.getText().toString() + "' WHERE _id = " + id;
-                db.execSQL(updateLocAndComm);
+                dbHelper.updateLocationAndComments(db,location.getText().toString(),comment.getText().toString(),id);
             }
         });
     }
