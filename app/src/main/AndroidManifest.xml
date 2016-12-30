@@ -19,7 +19,7 @@
             android:targetPackage="com.example.fraser.notaficationprototype"
             android:label="Tests for com.example.fraser.notaficationprototype"/>
         <service
-            android:name=".StartFragment$ForegroundSerivice"
+            android:name="NotificationForgroundService"
             android:exported="false">
         </service>
     </application>
