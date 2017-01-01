@@ -41,8 +41,8 @@ public class StartFragment extends Fragment {
         startNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast t = Toast.makeText(v.getContext(), "yay button click", Toast.LENGTH_LONG);
-                t.show();
+//                Toast t = Toast.makeText(v.getContext(), "yay button click", Toast.LENGTH_LONG);
+//                t.show();
                 Intent service = new Intent(getActivity(), NotificationForgroundService.class);
                 service.setAction("startForeground");
                 getActivity().startService(service);
