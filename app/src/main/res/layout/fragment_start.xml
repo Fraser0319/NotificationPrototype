@@ -5,34 +5,55 @@
     android:layout_height="match_parent"
     tools:context="com.example.fraser.notaficationprototype.StartFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:text="@string/Summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/summaryButton" />
+        <TableRow>
 
-        <Button
-            android:text="@string/EndNotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/endButton" />
+            <Button
+                android:id="@+id/startButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:text="@string/StartNotification" />
 
-        <Button
-            android:text="@string/StartNotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/startButton" />
-        
-        <Button
-            android:text="@string/sendData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sendButton" />
-    </LinearLayout>
+
+            <Button
+                android:id="@+id/endButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:text="@string/EndNotification" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/sendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:text="@string/sendData" />
+
+            <Button
+                android:id="@+id/summaryButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:text="@string/Summary" />
+
+        </TableRow>
+
+
+    </TableLayout>
 
 </FrameLayout>
