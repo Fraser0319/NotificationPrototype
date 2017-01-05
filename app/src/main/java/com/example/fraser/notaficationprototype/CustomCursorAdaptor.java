@@ -9,11 +9,15 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Fraser on 17/12/2016.
  */
 
-public class CustomCursorAdaptor extends CursorAdapter{
+public class CustomCursorAdaptor extends CursorAdapter {
 
 
     public CustomCursorAdaptor(Context context, Cursor c) {
@@ -41,9 +45,23 @@ public class CustomCursorAdaptor extends CursorAdapter{
         authenticationImage.setImageResource(authentication);
         emotionImage.setImageResource(emotion);
 
-        TextView dbID = (TextView) view.findViewById(R.id.dbID);
-        String id = cursor.getString(cursor.getColumnIndex("_id"));
-        dbID.setText(id);
+//        TextView dbID = (TextView) view.findViewById(R.id.dbID);
+//        String id = cursor.getString(cursor.getColumnIndex("_id"));
+//        dbID.setText(id);
+
+        TextView timeStamp = (TextView) view.findViewById(R.id.timeStamp);
+        String dateTime = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = sdf.parse(dateTime);
+
+            SimpleDateFormat sd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            String newDateTime = sd.format(d);
+            timeStamp.setText(newDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 }
