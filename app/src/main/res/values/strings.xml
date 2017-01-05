@@ -15,5 +15,7 @@
     <string name="locationHint">Enter the location where you logged the authentication</string>
     <string name="commentHint">Enter any comments you have about authentcation</string>
 
+    <string name="send">Send</string>
+
 
 </resources>
