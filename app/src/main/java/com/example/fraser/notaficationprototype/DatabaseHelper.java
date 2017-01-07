@@ -112,4 +112,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    protected void exportDB(){
+
+
+
+    }
+
 }

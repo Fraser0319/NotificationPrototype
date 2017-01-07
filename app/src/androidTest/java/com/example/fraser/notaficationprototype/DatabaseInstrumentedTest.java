@@ -7,12 +7,20 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.opencsv.CSVWriter;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 
 /**
@@ -33,10 +41,10 @@ public class DatabaseInstrumentedTest {
         authenticationValues.put(mHelper.DEVICE, R.drawable.smartphone);
         authenticationValues.put(mHelper.AUTHEN, R.drawable.fingerprintscan);
         authenticationValues.put(mHelper.EMOTION, R.drawable.confused);
-        authenticationValues.put(mHelper.COMMENTS, "");
+        authenticationValues.put(mHelper.COMMENTS, "took ages");
         authenticationValues.put(mHelper.LOCATION, "Home");
         Long insert_1 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
-        Log.i("insert_1",insert_1+"");
+        Log.i("insert_1", insert_1 + "");
         assertTrue(insert_1 != -1);
 //        Long insert_2 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
 //        assertTrue(insert_2 != -1);
@@ -101,15 +109,15 @@ public class DatabaseInstrumentedTest {
     }
 
     @Test
-    public void testGetAuthenticationsWithComments(){
+    public void testGetAuthenticationsWithComments() {
 
         String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME + " WHERE " + mHelper.COMMENTS + " IS NOT NULL";
-        Cursor cursor = mWritableDatabase.rawQuery(getAllRows,null);
+        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
         assertNotNull(cursor);
         cursor.moveToFirst();
         String comment = cursor.getString(4);
         assertNotNull(comment);
-        Log.i("Comment",comment);
+        Log.i("Comment", comment);
         assertNotNull(comment);
         assertTrue(comment.equals("took ages"));
         cursor.close();
@@ -140,17 +148,47 @@ public class DatabaseInstrumentedTest {
 
     // checks if there no comment in a row.
     @Test
-    public void checkNullComment(){
+    public void checkNullComment() {
 
         String checkNullComment = "SELECT * FROM " + mHelper.TABLE_NAME + " WHERE " + mHelper.COMMENTS + " is ''";
-        Cursor cursor = mWritableDatabase.rawQuery(checkNullComment,null);
+        Cursor cursor = mWritableDatabase.rawQuery(checkNullComment, null);
         assertNotNull(cursor);
         cursor.moveToFirst();
         String comment = cursor.getString(4);
-        Log.i("commentValue",comment);
+        Log.i("commentValue", comment);
         assertTrue(comment.isEmpty());
         cursor.close();
     }
+
+    @Test
+    public void exportDBToCSV() {
+
+        try {
+            File file = new File("/sdcard/dbCSV.csv");
+            file.createNewFile();
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+            String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
+            Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+            assertNotNull(cursor);
+            cursor.moveToFirst();
+
+            String device = String.valueOf(cursor.getInt(cursor .getColumnIndex("DEVICE_RESOURCE_ID")));
+            String authenticator = String.valueOf(cursor .getInt(cursor .getColumnIndex("AUTHENTICATOR_RESOURCE_ID")));
+            String emotion = String.valueOf(cursor .getInt(cursor .getColumnIndex("EMOTION_RESOURCE_ID")));
+            String timeStsmp = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
+            String location = cursor .getString(cursor .getColumnIndex("LOCATION"));
+            String comments = cursor .getString(cursor .getColumnIndex("COMMENTS"));
+
+            String[] entries = {device,authenticator,emotion,timeStsmp,location,comments};
+
+            writer.writeNext(cursor.getColumnNames());
+            writer.writeNext(entries);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // as the _id is auto incrementing the id continues on for each test so i got what the next id would be
     // and commented out all other tests so i could test the query
