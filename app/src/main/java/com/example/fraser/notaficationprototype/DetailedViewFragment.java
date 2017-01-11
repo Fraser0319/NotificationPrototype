@@ -50,6 +50,7 @@ public class DetailedViewFragment extends Fragment{
                 EditText location = (EditText) getView().findViewById(R.id.locInput);
                 EditText comment = (EditText) getView().findViewById(R.id.commInput);
                 dbHelper.updateLocationAndComments(db,location.getText().toString(),comment.getText().toString(),id);
+                Toast.makeText(getActivity(),"Record Updated",Toast.LENGTH_SHORT).show();
             }
         });
     }

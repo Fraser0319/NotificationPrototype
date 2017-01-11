@@ -14,7 +14,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingTop="15sp"
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/deviceName"
@@ -22,24 +24,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
-
                 android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/deviceDetailedImage"
-                android:layout_gravity="center"
+                android:paddingBottom="10sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_marginRight="20dp"
-                android:gravity="center"
                 android:id="@+id/authenticationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,58 +49,68 @@
 
             <ImageView
                 android:id="@+id/authDetailedImage"
-                android:layout_gravity="center"
+                android:paddingBottom="10sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/emotionType"
-                android:gravity="center"
                 android:layout_marginRight="20dp"
+                android:id="@+id/emotionType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25sp"
+                android:layout_marginBottom="10sp"
                 android:textSize="30sp" />
 
             <ImageView
+                android:paddingBottom="10sp"
                 android:id="@+id/emotionDetailedImage"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
+            android:paddingLeft="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Location"
             android:textSize="20sp" />
 
         <EditText
+            android:maxLength="18"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:layout_marginBottom="15sp"
+            android:inputType="text"
+            android:background="@android:color/transparent"
             android:id="@+id/locInput"
-            android:text="Location"
             android:hint="@string/locationHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:paddingLeft="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comments"
             android:textSize="20sp" />
 
         <EditText
+            android:inputType="textMultiLine"
             android:id="@+id/commInput"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
             android:gravity="top"
+            android:background="@android:color/transparent"
             android:hint="@string/commentHint"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
             android:textSize="24sp"
             android:layout_weight="0.87" />
 

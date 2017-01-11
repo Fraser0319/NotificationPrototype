@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
-            android:id="@+id/enterEmailAddress" />
+            android:id="@+id/inputEmailAddress" />
 
         <Button
             android:id="@+id/sendData"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send"
-            android:layout_below="@+id/enterEmailAddress"
+            android:layout_below="@+id/inputEmailAddress"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp" />
 
