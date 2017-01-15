@@ -1,10 +1,9 @@
 package com.example.fraser.notaficationprototype;
 
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +29,8 @@ public class StartFragment extends Fragment {
         View viewInflator = inflater.inflate(R.layout.fragment_start, container, false);
         endNotification(viewInflator);
         startNotification(viewInflator);
-        showSummary(viewInflator);
-        sendCSVFile(viewInflator);
+//        showSummary(viewInflator);
+//        sendCSVFile(viewInflator);
         return viewInflator;
     }
 
@@ -49,25 +48,24 @@ public class StartFragment extends Fragment {
                 //sendNotification();
             }
         });
-
     }
-
-    public void sendCSVFile(View v){
-        Button sendData = (Button) v.findViewById(R.id.sendButton);
-        sendData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment sendDataFragment = new SendDataFragment();
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.activity_main, sendDataFragment);
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
-            }
-        });
-    }
-
+//
+//    public void sendCSVFile(View v){
+//        Button sendData = (Button) v.findViewById(R.id.sendButton);
+//        sendData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Fragment sendDataFragment = new SendDataFragment();
+//
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.activity_main, sendDataFragment);
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                ft.commit();
+//            }
+//        });
+//    }
+//
     public void endNotification(View v) {
         Button endNotification = (Button) v.findViewById(R.id.endButton);
         endNotification.setOnClickListener(new View.OnClickListener() {
@@ -79,21 +77,21 @@ public class StartFragment extends Fragment {
             }
         });
     }
-
-    public void showSummary(View v) {
-        Button summarybtn = (Button) v.findViewById(R.id.summaryButton);
-        summarybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment summaryFragment = new SummaryFragment();
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.activity_main, summaryFragment);
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.commit();
-            }
-        });
-    }
+//
+//    public void showSummary(View v) {
+//        Button summarybtn = (Button) v.findViewById(R.id.summaryButton);
+//        summarybtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Fragment summaryFragment = new SummaryFragment();
+//
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.activity_main, summaryFragment);
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                ft.commit();
+//            }
+//        });
+//    }
 }
 

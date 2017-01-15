@@ -19,6 +19,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.example.fraser.notaficationprototype.R.drawable.cursor;
+
 /**
  * Created by Fraser on 30/12/2016.
  */
@@ -85,6 +87,7 @@ public class NotificationForgroundService extends Service {
     }
 
     public void sendIntent() {
+
         Bundle bundle = new Bundle();
         bundle.putInt("emotionButton", getCurrentButton(emotionList, emotionCounter));
         bundle.putInt("authenButton", getCurrentButton(authenList, authenCounter));
@@ -93,13 +96,20 @@ public class NotificationForgroundService extends Service {
         dbHelper.insertAuthentication(db, getCurrentButton(devList, deviceCounter), getCurrentButton(authenList, authenCounter), getCurrentButton(emotionList, emotionCounter), null, null);
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
         this.sendBroadcast(intent);
-        Toast.makeText(this, "Authentication Added !!", Toast.LENGTH_LONG).show();
 
+
+        Intent sendIntent = new Intent("updateList");
+        sendIntent.setAction("updateListView");
+        sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.sendBroadcast(sendIntent);
+
+
+        Toast.makeText(this, "Authentication Added !!", Toast.LENGTH_LONG).show();
     }
 
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused);
-        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, R.drawable.cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket);
         Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.tramway, R.drawable.point_of_service, R.drawable.buses, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.cycle);
 
         updateButton(emotionList, 0, R.id.emotionButton);

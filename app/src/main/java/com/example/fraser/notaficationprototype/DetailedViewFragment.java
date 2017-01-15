@@ -1,7 +1,7 @@
 package com.example.fraser.notaficationprototype;
 
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
