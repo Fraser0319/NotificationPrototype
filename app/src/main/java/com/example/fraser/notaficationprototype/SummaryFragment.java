@@ -26,10 +26,10 @@ public class SummaryFragment extends Fragment {
     private SQLiteDatabase db;
     private Cursor cursor;
     private DatabaseHelper dbHelper;
-    static ListView authenList;
-    public static CustomCursorAdaptor listAdapter;
-    View viewInflator;
-    SQLiteOpenHelper authenticationDatabase;
+    private static ListView authenList;
+    private static CustomCursorAdaptor listAdapter;
+    private View viewInflator;
+    private SQLiteOpenHelper authenticationDatabase;
 
     public SummaryFragment() {
         // Required empty public constructor
@@ -40,7 +40,6 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewInflator = inflater.inflate(R.layout.fragment_summary, container, false);
-        //insertSelectionToDB();
         setUpDB();
         generateList(viewInflator);
         Log.e("onCreateCalled", "here");
@@ -56,23 +55,9 @@ public class SummaryFragment extends Fragment {
         authenList = (ListView) viewInflator.findViewById(R.id.authenList);
         authenList.setAdapter(listAdapter);
     }
-
-    public void insertSelectionToDB() {
-        if (getArguments() != null) {
-            int emotionButton = getArguments().getInt("emotionButton");
-            int authenButton = getArguments().getInt("authenButton");
-            int deviceButton = getArguments().getInt("devButton");
-            dbHelper.insertAuthentication(db, deviceButton, authenButton, emotionButton, null, null);
-        }
-    }
-
     public void generateList(View v) {
 
-//        authenList = (ListView) v.findViewById(R.id.authenList);
         try {
-//            String getAllAuthentications = "SELECT * FROM AUTHENTICATION";
-//            cursor = db.rawQuery(getAllAuthentications, null);
-//            listAdapter = new CustomCursorAdaptor(getActivity(), cursor);
             authenList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,8 +93,6 @@ public class SummaryFragment extends Fragment {
                     itemClickCursor.close();
                 }
             });
-//            listAdapter.notifyDataSetChanged();
-//            authenList.setAdapter(listAdapter);
         } catch (SQLiteException e) {
             Toast.makeText(getActivity(), "Database Unavailable", Toast.LENGTH_SHORT).show();
         }
@@ -137,10 +120,6 @@ public class SummaryFragment extends Fragment {
     public static class myReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("context", context.toString());
-
-            Toast.makeText(context, "it works", Toast.LENGTH_SHORT).show();
-            Log.e("onRecive", "here");
             SQLiteOpenHelper authenticationDatabase2 = new DatabaseHelper(context);
             SQLiteDatabase db2 = authenticationDatabase2.getReadableDatabase();
             String getAllAuthentications = "SELECT * FROM AUTHENTICATION";

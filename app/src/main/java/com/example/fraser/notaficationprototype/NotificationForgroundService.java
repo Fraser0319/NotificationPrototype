@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
@@ -88,22 +87,13 @@ public class NotificationForgroundService extends Service {
 
     public void sendIntent() {
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("emotionButton", getCurrentButton(emotionList, emotionCounter));
-        bundle.putInt("authenButton", getCurrentButton(authenList, authenCounter));
-        bundle.putInt("devButton", getCurrentButton(devList, deviceCounter));
-
         dbHelper.insertAuthentication(db, getCurrentButton(devList, deviceCounter), getCurrentButton(authenList, authenCounter), getCurrentButton(emotionList, emotionCounter), null, null);
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
         this.sendBroadcast(intent);
-
-
         Intent sendIntent = new Intent("updateList");
         sendIntent.setAction("updateListView");
         sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.sendBroadcast(sendIntent);
-
-
         Toast.makeText(this, "Authentication Added !!", Toast.LENGTH_LONG).show();
     }
 
