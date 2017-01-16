@@ -2,6 +2,7 @@ package com.example.fraser.notaficationprototype;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,7 +10,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -27,21 +30,37 @@ public class MainActivity extends AppCompatActivity  {
     private ViewPager viewPager;
     private CustomPagerAdapter cpa;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getApplicationContext().deleteDatabase("AuthenticationDiary");
         verifyStoragePermissions(this);
-        //FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //ft.replace(R.id.activity_main,new StartFragment());
-        //ft.addToBackStack(null);
-        //ft.commit();
-        //showSummary();
         setUpTabs();
+        setUpStartEndListeners();
     }
+
+    private void setUpStartEndListeners(){
+        ImageButton startNotification = (ImageButton) findViewById(R.id.start_notification);
+        startNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
+                service.setAction("startForeground");
+                startService(service);
+            }
+        });
+
+        ImageButton endNotification = (ImageButton) findViewById(R.id.end_notification);
+        endNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
+                stopService(intent);
+                Toast.makeText(getApplicationContext(), "service stoped", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     private void setUpTabs(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,7 +77,6 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setUpPager(ViewPager viewPager){
         CustomPagerAdapter cpa = new CustomPagerAdapter(getSupportFragmentManager());
-        cpa.addFragment(new StartFragment(), "Start");
         cpa.addFragment(new SummaryFragment(), "Summary");
         cpa.addFragment(new SendDataFragment(), "Send Data");
         cpa.addFragment(new ListIconsFragment(), "Icons");

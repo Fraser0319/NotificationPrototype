@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -38,7 +37,7 @@ public class DetailedViewActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goBackIntnet = new Intent(getApplicationContext(),MainActivity.class);
+                Intent goBackIntnet = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(goBackIntnet);
             }
         });
@@ -49,7 +48,7 @@ public class DetailedViewActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         Intent intent = getIntent();
         Bundle extras = intent.getBundleExtra("bundle");
-        if(extras != null){
+        if (extras != null) {
             Long id = extras.getLong("id");
             EditText location = (EditText) findViewById(R.id.locInput);
             EditText comment = (EditText) findViewById(R.id.commInput);
@@ -73,13 +72,9 @@ public class DetailedViewActivity extends AppCompatActivity {
             String loc = extras.getString("location");
             String comms = extras.getString("comment");
 
-
-
             String getDeviceName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + device;
             String getAuthenName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + authen;
             String getEmotionName = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + emotion;
-
-
 
             Cursor devCursor = db.rawQuery(getDeviceName, null);
             Cursor authenCursor = db.rawQuery(getAuthenName, null);

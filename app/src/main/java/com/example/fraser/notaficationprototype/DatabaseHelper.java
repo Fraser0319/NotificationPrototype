@@ -31,8 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.delete(TABLE_NAME,null,null);
-//        db.delete("IMAGE_NAMES",null,null);
         updateDatabase(db, 0, DB_VERSION);
     }
 
@@ -43,45 +41,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("TableVersion", oldVersion + "");
-//        switch (oldVersion) {
-//            case 0:
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                        + DEVICE + " INTEGER, "
-                        + AUTHEN + " INTEGER, "
-                        + EMOTION + " INTEGER, "
-                        + COMMENTS + " TEXT, "
-                        + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
-                        + LOCATION + " TEXT);");
-                //insertAuthentication(db, R.drawable.car, R.drawable.fingerprintscan, R.drawable.sad, "took ages", "Home");
-                db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "IMAGE_ID INTEGER," +
-                        "NAME TEXT);");
-                insertImageNames(db, R.drawable.atm, "ATM");
-                insertImageNames(db, R.drawable.browser, "Web Browser");
-                insertImageNames(db, R.drawable.buses, "Bus");
-                insertImageNames(db, R.drawable.suv, "Car");
-                insertImageNames(db, R.drawable.confused, "Confused");
-                insertImageNames(db, R.drawable.contract, "Signature");
-                insertImageNames(db, R.drawable.cursor, "Arrow Click");
-                insertImageNames(db, R.drawable.cycle, "Bike");
-                insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint Scan");
-                insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture");
-                insertImageNames(db, R.drawable.happy, "Happy");
-                insertImageNames(db, R.drawable.id_card, "ID Card");
-                insertImageNames(db, R.drawable.key, "Key");
-                insertImageNames(db, R.drawable.laptop, "Laptop");
-                insertImageNames(db, R.drawable.locked, "Lock");
-                insertImageNames(db, R.drawable.locker, "Locker");
-                insertImageNames(db, R.drawable.metro, "Train");
-                insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment");
-                insertImageNames(db, R.drawable.password, "Password");
-                insertImageNames(db, R.drawable.point_of_service, "Chip and Pin");
-                insertImageNames(db, R.drawable.smartphone, "Smartphone");
-                insertImageNames(db, R.drawable.ticket, "Ticket");
-                insertImageNames(db, R.drawable.tramway, "Tram");
-                insertImageNames(db, R.drawable.sad, "Sad");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + DEVICE + " INTEGER, "
+                + AUTHEN + " INTEGER, "
+                + EMOTION + " INTEGER, "
+                + COMMENTS + " TEXT, "
+                + ADDED_ON + " TIMESTAMP NOT NULL DEFAULT current_timestamp, "
+                + LOCATION + " TEXT);");
 
-//        }
+        db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "IMAGE_ID INTEGER," +
+                "NAME TEXT);");
+        insertImageNames(db, R.drawable.happy, "Happy");
+        insertImageNames(db, R.drawable.sad, "Sad");
+        insertImageNames(db, R.drawable.confused, "Confused");
+        insertImageNames(db, R.drawable.play, "Start Notification");
+        insertImageNames(db, R.drawable.stop, "End Notification");
+        insertImageNames(db, R.drawable.atm, "ATM");
+        insertImageNames(db, R.drawable.browser, "Web Browser");
+        insertImageNames(db, R.drawable.buses, "Bus");
+        insertImageNames(db, R.drawable.suv, "Car");
+        insertImageNames(db, R.drawable.contract, "Signature");
+        insertImageNames(db, R.drawable.cursor, "Arrow Click");
+        insertImageNames(db, R.drawable.cycle, "Bike");
+        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint Scan");
+        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture");
+        insertImageNames(db, R.drawable.id_card, "ID Card");
+        insertImageNames(db, R.drawable.key, "Key");
+        insertImageNames(db, R.drawable.laptop, "Laptop");
+        insertImageNames(db, R.drawable.locked, "Lock");
+        insertImageNames(db, R.drawable.locker, "Locker");
+        insertImageNames(db, R.drawable.metro, "Train");
+        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment");
+        insertImageNames(db, R.drawable.password, "Password");
+        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin");
+        insertImageNames(db, R.drawable.smartphone, "Smartphone");
+        insertImageNames(db, R.drawable.ticket, "Ticket");
+        insertImageNames(db, R.drawable.tramway, "Tram");
+
     }
 
     protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
@@ -102,20 +99,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 
-    protected void updateLocationAndComments(SQLiteDatabase db, String loc, String comm, long id){
+    protected void updateLocationAndComments(SQLiteDatabase db, String loc, String comm, long id) {
         ContentValues values = new ContentValues();
-        values.put(COMMENTS,comm);
-        values.put(LOCATION,loc);
+        values.put(COMMENTS, comm);
+        values.put(LOCATION, loc);
         String where = "_id=?";
-        String[] whereArgs = new String[] {String.valueOf(id)};
-        db.update(TABLE_NAME,values,where,whereArgs);
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        db.update(TABLE_NAME, values, where, whereArgs);
     }
-
-
-    protected void exportDB(){
-
-
-
-    }
-
 }
