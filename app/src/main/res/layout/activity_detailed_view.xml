@@ -1,8 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailed_view_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.fraser.notaficationprototype.DetailedViewFragment">
+    tools:context="com.example.fraser.notaficationprototype.DetailedViewActivity">
+
 
 
     <LinearLayout
@@ -11,114 +14,130 @@
         android:orientation="vertical"
         android:weightSum="1">
 
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/detailedViewToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.AppBarLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15sp"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:paddingTop="15sp">
 
             <TextView
                 android:id="@+id/deviceName"
-                android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
+                android:layout_marginRight="20dp"
                 android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/deviceDetailedImage"
-                android:paddingBottom="10sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginRight="20dp"
                 android:id="@+id/authenticationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
+                android:layout_marginRight="20dp"
                 android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/authDetailedImage"
-                android:paddingBottom="10sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginRight="20dp"
                 android:id="@+id/emotionType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
+                android:layout_marginRight="20dp"
                 android:textSize="30sp" />
 
             <ImageView
-                android:paddingBottom="10sp"
                 android:id="@+id/emotionDetailedImage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp" />
         </LinearLayout>
 
         <TextView
-            android:paddingLeft="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
             android:text="Location"
             android:textSize="20sp" />
 
         <EditText
-            android:maxLength="18"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp"
-            android:layout_marginBottom="15sp"
-            android:inputType="text"
-            android:background="@android:color/transparent"
             android:id="@+id/locInput"
-            android:hint="@string/locationHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15sp"
+            android:background="@android:color/transparent"
+            android:hint="@string/locationHint"
+            android:inputType="text"
+            android:maxLength="18"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
             android:text="Comments"
             android:textSize="20sp" />
 
         <EditText
-            android:inputType="textMultiLine"
             android:id="@+id/commInput"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp"
-            android:gravity="top"
-            android:background="@android:color/transparent"
-            android:hint="@string/commentHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:layout_weight="0.87" />
+            android:layout_weight="0.87"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:hint="@string/commentHint"
+            android:inputType="textMultiLine"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/updateButton"
-            android:text="Update"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:onClick="updateFields"
+            android:text="Update" />
     </LinearLayout>
 
 </FrameLayout>

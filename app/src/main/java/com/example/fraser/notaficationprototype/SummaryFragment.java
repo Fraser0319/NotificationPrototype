@@ -80,11 +80,15 @@ public class SummaryFragment extends Fragment {
                         bundle.putInt("emotion", emotion);
                         bundle.putString("location", location);
                         bundle.putString("comment", comments);
-                        Fragment detailedViewFragment = new DetailedViewFragment();
-                        detailedViewFragment.setArguments(bundle);
-//
+
+                        Intent detailedViewIntent = new Intent(getContext(),DetailedViewActivity.class);
+                        detailedViewIntent.putExtra("bundle",bundle);
+                        startActivity(detailedViewIntent);
+//                        Fragment detailedViewFragment = new DetailedViewActivity();
+//                        detailedViewFragment.setArguments(bundle);
+
 //                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                        ft.replace(R.id.activity_main, detailedViewFragment);
+//                        ft.replace(R.id.actvity_main, detailedViewFragment);
 //                        ft.addToBackStack(null);
 //                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 //                        ft.commit();
