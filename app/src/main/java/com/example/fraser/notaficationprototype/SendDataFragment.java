@@ -3,6 +3,8 @@ package com.example.fraser.notaficationprototype;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,13 +24,14 @@ import java.util.ArrayList;
  */
 public class SendDataFragment extends Fragment {
 
-    ExportCSV eCSV;
-
+    private ExportCSV eCSV;
+    private SQLiteDatabase db;
+    private DatabaseHelper dbHelper;
+    private SQLiteOpenHelper authenticationDatabase;
 
     public SendDataFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +39,20 @@ public class SendDataFragment extends Fragment {
         // Inflate the layout for this fragment
         View viewInflator = inflater.inflate(R.layout.fragment_send_data, container, false);
         setupSendButtonListener(viewInflator);
+        setUpDB();
         return viewInflator;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        db.close();
+    }
+
+    public void setUpDB(){
+        authenticationDatabase = new DatabaseHelper(getActivity());
+        db = authenticationDatabase.getReadableDatabase();
+        dbHelper = new DatabaseHelper(getActivity());
     }
 
     public void setupSendButtonListener(View v) {
@@ -69,7 +85,7 @@ public class SendDataFragment extends Fragment {
 
                         // send as email attachment
                         ArrayList<Uri> uris = new ArrayList<Uri>();
-                        eCSV = new ExportCSV();
+                        eCSV = new ExportCSV(dbHelper.getAllAuthentications(db));
                         uris.add(Uri.fromFile(eCSV.generateCSV(getActivity())));
                         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
                         startActivityForResult(Intent.createChooser(emailIntent, "Sending multiple attachment"), 123);

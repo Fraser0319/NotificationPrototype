@@ -2,9 +2,12 @@ package com.example.fraser.notaficationprototype;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Fraser on 13/12/2016.
@@ -106,5 +109,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String where = "_id=?";
         String[] whereArgs = new String[]{String.valueOf(id)};
         db.update(TABLE_NAME, values, where, whereArgs);
+    }
+
+    protected ArrayList<Authentication> getAllAuthentications(SQLiteDatabase db){
+        String getALlQuery = "SELECT * FROM " + TABLE_NAME + ";";
+        Cursor c = db.rawQuery(getALlQuery,null);
+        Authentication authen = new Authentication();
+        while(c.moveToNext()){
+            Long id = c.getLong(c.getColumnIndex("_id"));
+            int deviceID = c.getInt(c.getColumnIndex("DEVICE_RESOURCE_ID"));
+            int authenticator = c.getInt(c.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
+            int emotion = c.getInt(c.getColumnIndex("EMOTION_RESOURCE_ID"));
+            String location = c.getString(c.getColumnIndex("LOCATION"));
+            String comments = c.getString(c.getColumnIndex("COMMENTS"));
+            Authentication a = new Authentication(id,deviceID,authenticator,emotion,location,comments);
+            authen.getAuthenList().add(a);
+        }
+        c.close();
+        return authen.getAuthenList();
     }
 }

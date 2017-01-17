@@ -10,6 +10,7 @@
 
 
         <EditText
+            android:text="fraser0319@gmail.com"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
