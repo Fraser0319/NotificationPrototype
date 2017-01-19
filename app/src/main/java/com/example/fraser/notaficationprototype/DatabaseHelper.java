@@ -120,12 +120,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int deviceID = c.getInt(c.getColumnIndex("DEVICE_RESOURCE_ID"));
             int authenticator = c.getInt(c.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
             int emotion = c.getInt(c.getColumnIndex("EMOTION_RESOURCE_ID"));
+            String timeStamp = c.getString(c.getColumnIndex("ADDED_ON"));
             String location = c.getString(c.getColumnIndex("LOCATION"));
             String comments = c.getString(c.getColumnIndex("COMMENTS"));
-            Authentication a = new Authentication(id,deviceID,authenticator,emotion,location,comments);
+//            String name = getImageName(db,deviceID);
+//            Log.e("deviceName",name);
+            Authentication a = new Authentication(id,getImageName(db,deviceID),getImageName(db,authenticator),getImageName(db,emotion),timeStamp,location,comments);
             authen.getAuthenList().add(a);
         }
         c.close();
         return authen.getAuthenList();
+    }
+
+    protected String getImageName(SQLiteDatabase db,int resourceID){
+        String name = "";
+        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID+ " = IMAGE_NAMES.IMAGE_ID;";
+        Cursor c = db.rawQuery(getImageNameQuery,null);
+        if(c.moveToFirst()){
+            name =  c.getString(c.getColumnIndex("NAME"));
+        }
+        return name;
     }
 }

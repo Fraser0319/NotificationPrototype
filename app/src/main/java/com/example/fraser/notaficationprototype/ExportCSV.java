@@ -42,7 +42,7 @@ public class ExportCSV {
     }
 
     public String[] createCSVLine(Authentication s) {
-        return new String[]{Long.toString(s.id), Integer.toString(s.deviceID), Integer.toString(s.authenticatorID), Integer.toString(s.emotionID), s.location, s.comments};
+        return new String[]{Long.toString(s.id), s.deviceID, s.authenticatorID, s.emotionID, s.timeStamp, s.location, s.comments};
     }
 }
 

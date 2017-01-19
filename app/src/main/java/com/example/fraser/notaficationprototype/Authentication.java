@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class Authentication {
 
     protected Long id;
-    protected int deviceID;
-    protected int authenticatorID;
-    protected int emotionID;
+    protected String deviceID;
+    protected String authenticatorID;
+    protected String emotionID;
+    protected String timeStamp;
     protected String location;
     protected String comments;
     protected ArrayList<Authentication> authenList;
@@ -24,11 +25,12 @@ public class Authentication {
         authenList = new ArrayList<>();
     }
 
-    public Authentication(Long id, int devID, int authenID, int emoID, String loc, String comms) {
+    public Authentication(Long id, String devID, String authenID, String emoID, String timeStamp , String loc, String comms) {
         this.id = id;
         this.deviceID = devID;
         this.authenticatorID = authenID;
         this.emotionID = emoID;
+        this.timeStamp = timeStamp;
         this.location = loc;
         this.comments = comms;
     }
