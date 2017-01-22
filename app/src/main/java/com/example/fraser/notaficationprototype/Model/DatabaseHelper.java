@@ -115,11 +115,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, where, whereArgs);
     }
 
-    public ArrayList<Authentication> getAllAuthentications(SQLiteDatabase db){
+    public ArrayList<Authentication> getAllAuthentications(SQLiteDatabase db) {
         String getALlQuery = "SELECT * FROM " + TABLE_NAME + ";";
-        Cursor c = db.rawQuery(getALlQuery,null);
+        Cursor c = db.rawQuery(getALlQuery, null);
         Authentication authen = new Authentication();
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             Long id = c.getLong(c.getColumnIndex("_id"));
             int deviceID = c.getInt(c.getColumnIndex("DEVICE_RESOURCE_ID"));
             int authenticator = c.getInt(c.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
@@ -127,33 +127,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String timeStamp = c.getString(c.getColumnIndex("ADDED_ON"));
             String location = c.getString(c.getColumnIndex("LOCATION"));
             String comments = c.getString(c.getColumnIndex("COMMENTS"));
-            Authentication a = new Authentication(id,getImageName(db,deviceID),getImageName(db,authenticator),getImageName(db,emotion),timeStamp,location,comments);
+            Authentication a = new Authentication(id, getImageName(db, deviceID), getImageName(db, authenticator), getImageName(db, emotion), timeStamp, location, comments);
             authen.getAuthenList().add(a);
         }
         c.close();
         return authen.getAuthenList();
     }
 
-    public List<String> getLocations(SQLiteDatabase db, List<String> defaultLocations){
+    public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(defaultLocations,"work","car","train");
+        Collections.addAll(locations,"", "work", "car", "train");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
-        Cursor c = db.rawQuery(getLocations,null);
-        if(c.moveToFirst()){
-            while(c.moveToNext()){
-                locations.add(c.getString(c.getColumnIndex(LOCATION)));
+        Cursor c = db.rawQuery(getLocations, null);
+
+        while (c.moveToNext()) {
+            String loc = c.getString(c.getColumnIndex(LOCATION));
+            Log.e("location", loc);
+            if (!locations.contains(loc)) {
+                locations.add(loc);
             }
         }
         c.close();
         return locations;
     }
 
-    protected String getImageName(SQLiteDatabase db,int resourceID){
+    protected String getImageName(SQLiteDatabase db, int resourceID) {
         String name = "";
-        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID+ " = IMAGE_NAMES.IMAGE_ID;";
-        Cursor c = db.rawQuery(getImageNameQuery,null);
-        if(c.moveToFirst()){
-            name =  c.getString(c.getColumnIndex("NAME"));
+        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID + " = IMAGE_NAMES.IMAGE_ID;";
+        Cursor c = db.rawQuery(getImageNameQuery, null);
+        if (c.moveToFirst()) {
+            name = c.getString(c.getColumnIndex("NAME"));
         }
         c.close();
         return name;

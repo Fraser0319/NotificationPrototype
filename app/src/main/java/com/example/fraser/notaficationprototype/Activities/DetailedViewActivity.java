@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,10 +22,6 @@ import android.widget.Toast;
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.example.fraser.notaficationprototype.R;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +32,7 @@ public class DetailedViewActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private SQLiteOpenHelper authenticationDatabase;
     private Spinner spinner;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter arrayAdapter;
     private EditText location;
 
     @Override
@@ -57,13 +54,11 @@ public class DetailedViewActivity extends AppCompatActivity {
         loadLocationSpinner();
     }
 
-    public void loadLocationSpinner(){
+    public void loadLocationSpinner() {
         dbHelper = new DatabaseHelper(this);
-        final List<String> locations = new ArrayList<>();
-        Collections.addAll(locations,"work","car","train");
         location = (EditText) findViewById(R.id.locInput);
         spinner = (Spinner) findViewById(R.id.spinnerLocation);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dbHelper.getLocations(db,locations));
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dbHelper.getLocations(db));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -75,13 +70,38 @@ public class DetailedViewActivity extends AppCompatActivity {
             }
         });
         spinner.setAdapter(arrayAdapter);
+        String location = getLocation();
+        if(location != null){
+            spinner.setSelection(arrayAdapter.getPosition(location));
+        }else{
+            spinner.setSelection(arrayAdapter.getPosition(0));
+        }
+
     }
 
 
-    public void addLocation(String inputLocation){
+    public void addLocation(String inputLocation) {
         arrayAdapter.add(inputLocation);
-        spinner.setAdapter(arrayAdapter);
+        //spinner.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
+        spinner.setSelection(arrayAdapter.getPosition(inputLocation));
+    }
+
+    public String getLocation(){
+        Intent intent = getIntent();
+        Bundle extras = intent.getBundleExtra("bundle");
+        if(extras != null){
+            Long id = extras.getLong("id");
+            Cursor c = db.rawQuery("SELECT LOCATION FROM AUTHENTICATION WHERE _id = " +id ,null);
+            if(c.moveToFirst()){
+                String loc = c.getString(c.getColumnIndex("LOCATION"));
+                if(loc != null){
+                    Log.e("loc",loc);
+                    return loc;
+                }
+            }
+        }
+        return null;
     }
 
     public void updateFields(View v) {
@@ -93,9 +113,7 @@ public class DetailedViewActivity extends AppCompatActivity {
             Long id = extras.getLong("id");
             location = (EditText) findViewById(R.id.locInput);
             EditText comment = (EditText) findViewById(R.id.commInput);
-            if(!location.getText().equals("")){
-                addLocation(location.getText().toString());
-            }
+            addLocation(location.getText().toString());
             dbHelper.updateLocationAndComments(db, location.getText().toString(), comment.getText().toString(), id);
             Toast.makeText(getApplicationContext(), "Record Updated", Toast.LENGTH_SHORT).show();
         } else {

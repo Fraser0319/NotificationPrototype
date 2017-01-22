@@ -8,27 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <EditText
-            android:text="fraser0319@gmail.com"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
+            android:layout_centerHorizontal="true"
+            android:text="Enter email address"
+            android:paddingTop="12sp"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/inputEmailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
-            android:id="@+id/inputEmailAddress" />
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="fraser0319@gmail.com" />
 
         <Button
             android:id="@+id/sendData"
-            android:onClick="sendDataAlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/send"
             android:layout_below="@+id/inputEmailAddress"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp" />
+            android:layout_marginTop="45dp"
+            android:onClick="sendDataAlertDialog"
+            android:text="@string/send" />
 
 
     </RelativeLayout>

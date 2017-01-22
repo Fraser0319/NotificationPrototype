@@ -99,23 +99,30 @@
             android:paddingLeft="10sp"
             android:text="Location"
             android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/locInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15sp"
-            android:background="@android:color/transparent"
-            android:hint="@string/locationHint"
-            android:inputType="text"
-            android:maxLength="18"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp" />
-
-        <Spinner
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinnerLocation" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/locInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15sp"
+                android:background="@android:color/transparent"
+                android:hint="@string/locationHint"
+                android:inputType="text"
+                android:maxLength="18"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerLocation" />
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"

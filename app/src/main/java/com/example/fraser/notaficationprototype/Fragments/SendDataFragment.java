@@ -53,7 +53,7 @@ public class SendDataFragment extends Fragment {
         db.close();
     }
 
-    public void setUpDB(){
+    public void setUpDB() {
         authenticationDatabase = new DatabaseHelper(getActivity());
         db = authenticationDatabase.getReadableDatabase();
         dbHelper = new DatabaseHelper(getActivity());
@@ -69,6 +69,10 @@ public class SendDataFragment extends Fragment {
         });
     }
 
+    public boolean checkValidEmail(CharSequence emailInput) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
+    }
+
     public void sendDataAlertDialog(final View v) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -80,26 +84,29 @@ public class SendDataFragment extends Fragment {
                         EditText inputEmail = (EditText) v.findViewById(R.id.inputEmailAddress);
                         String email = inputEmail.getText().toString();
 
-                        // send data !
-                        final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-                        emailIntent.setType("plain/text");
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Collected Data From Authentication Diary");
-                        emailIntent.putExtra(Intent.EXTRA_TEXT, "This the data collected from the study in a CSV file");
+                        if (checkValidEmail(email)) {
+                            // send data !
+                            final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                            emailIntent.setType("plain/text");
+                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Collected Data From Authentication Diary");
+                            emailIntent.putExtra(Intent.EXTRA_TEXT, "This the data collected from the study in a CSV file");
 
-                        // send as email attachment
-                        ArrayList<Uri> uris = new ArrayList<Uri>();
-                        eCSV = new ExportCSV(dbHelper.getAllAuthentications(db));
-                        uris.add(Uri.fromFile(eCSV.generateCSV(getActivity())));
-                        emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-                        startActivityForResult(Intent.createChooser(emailIntent, "Sending multiple attachment"), 123);
-
+                            // send as email attachment
+                            ArrayList<Uri> uris = new ArrayList<Uri>();
+                            eCSV = new ExportCSV(dbHelper.getAllAuthentications(db));
+                            uris.add(Uri.fromFile(eCSV.generateCSV(getActivity())));
+                            emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+                            startActivityForResult(Intent.createChooser(emailIntent, "Sending multiple attachment"), 123);
+                        } else {
+                            Toast.makeText(getActivity(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton("Nope", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(),"You must accept in order to complete the study",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "You must accept in order to complete the study", Toast.LENGTH_LONG).show();
                     }
                 });
         builder.create();
