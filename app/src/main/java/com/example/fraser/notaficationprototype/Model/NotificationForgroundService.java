@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Model;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +14,9 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.example.fraser.notaficationprototype.Activities.MainActivity;
+import com.example.fraser.notaficationprototype.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

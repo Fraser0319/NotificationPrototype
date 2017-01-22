@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.fraser.notaficationprototype.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

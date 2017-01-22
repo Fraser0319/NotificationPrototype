@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Fragments;
 
 
 import android.database.Cursor;
@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
+import com.example.fraser.notaficationprototype.Adapters.ImageViewCursorAdapter;
+import com.example.fraser.notaficationprototype.R;
 
 
 /**

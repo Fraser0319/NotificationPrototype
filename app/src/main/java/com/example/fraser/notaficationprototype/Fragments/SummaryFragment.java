@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Fragments;
 
 
 import android.content.BroadcastReceiver;
@@ -17,6 +17,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.fraser.notaficationprototype.Activities.DetailedViewActivity;
+import com.example.fraser.notaficationprototype.Adapters.CustomCursorAdaptor;
+import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
+import com.example.fraser.notaficationprototype.R;
+
+import static java.security.AccessController.getContext;
 
 /**
  * A simple {@link Fragment} subclass.

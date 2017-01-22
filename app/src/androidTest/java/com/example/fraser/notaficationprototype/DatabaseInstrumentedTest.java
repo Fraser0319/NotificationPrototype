@@ -7,6 +7,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.opencsv.CSVWriter;
 
 import org.junit.After;

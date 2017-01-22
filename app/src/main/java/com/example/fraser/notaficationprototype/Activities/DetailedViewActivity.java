@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Activities;
 
 
 import android.content.Intent;
@@ -10,10 +10,20 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
+import com.example.fraser.notaficationprototype.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -24,6 +34,9 @@ public class DetailedViewActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
     private SQLiteOpenHelper authenticationDatabase;
+    private Spinner spinner;
+    private ArrayAdapter<String> arrayAdapter;
+    private EditText location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +54,34 @@ public class DetailedViewActivity extends AppCompatActivity {
                 startActivity(goBackIntnet);
             }
         });
+        loadLocationSpinner();
+    }
+
+    public void loadLocationSpinner(){
+        dbHelper = new DatabaseHelper(this);
+        final List<String> locations = new ArrayList<>();
+        Collections.addAll(locations,"work","car","train");
+        location = (EditText) findViewById(R.id.locInput);
+        spinner = (Spinner) findViewById(R.id.spinnerLocation);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dbHelper.getLocations(db,locations));
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                location.setText(parent.getItemAtPosition(pos).toString());
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner.setAdapter(arrayAdapter);
+    }
+
+
+    public void addLocation(String inputLocation){
+        arrayAdapter.add(inputLocation);
+        spinner.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
     }
 
     public void updateFields(View v) {
@@ -50,14 +91,16 @@ public class DetailedViewActivity extends AppCompatActivity {
         Bundle extras = intent.getBundleExtra("bundle");
         if (extras != null) {
             Long id = extras.getLong("id");
-            EditText location = (EditText) findViewById(R.id.locInput);
+            location = (EditText) findViewById(R.id.locInput);
             EditText comment = (EditText) findViewById(R.id.commInput);
+            if(!location.getText().equals("")){
+                addLocation(location.getText().toString());
+            }
             dbHelper.updateLocationAndComments(db, location.getText().toString(), comment.getText().toString(), id);
             Toast.makeText(getApplicationContext(), "Record Updated", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "cant get id ", Toast.LENGTH_LONG).show();
         }
-
     }
 
     public void getSelectedItemDetails() {

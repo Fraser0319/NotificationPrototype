@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,6 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.fraser.notaficationprototype.Adapters.CustomPagerAdapter;
+import com.example.fraser.notaficationprototype.Fragments.ListIconsFragment;
+import com.example.fraser.notaficationprototype.Model.NotificationForgroundService;
+import com.example.fraser.notaficationprototype.R;
+import com.example.fraser.notaficationprototype.Fragments.SendDataFragment;
+import com.example.fraser.notaficationprototype.Fragments.SummaryFragment;
 
 
 public class MainActivity extends AppCompatActivity  {

@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.fraser.notaficationprototype.R;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Fraser on 13/12/2016.
@@ -84,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
+    public static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
 
         ContentValues authenticationValues = new ContentValues();
         authenticationValues.put(DEVICE, deviceID);
@@ -102,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 
-    protected void updateLocationAndComments(SQLiteDatabase db, String loc, String comm, long id) {
+    public void updateLocationAndComments(SQLiteDatabase db, String loc, String comm, long id) {
         ContentValues values = new ContentValues();
         values.put(COMMENTS, comm);
         values.put(LOCATION, loc);
@@ -111,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_NAME, values, where, whereArgs);
     }
 
-    protected ArrayList<Authentication> getAllAuthentications(SQLiteDatabase db){
+    public ArrayList<Authentication> getAllAuthentications(SQLiteDatabase db){
         String getALlQuery = "SELECT * FROM " + TABLE_NAME + ";";
         Cursor c = db.rawQuery(getALlQuery,null);
         Authentication authen = new Authentication();
@@ -123,13 +127,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String timeStamp = c.getString(c.getColumnIndex("ADDED_ON"));
             String location = c.getString(c.getColumnIndex("LOCATION"));
             String comments = c.getString(c.getColumnIndex("COMMENTS"));
-//            String name = getImageName(db,deviceID);
-//            Log.e("deviceName",name);
             Authentication a = new Authentication(id,getImageName(db,deviceID),getImageName(db,authenticator),getImageName(db,emotion),timeStamp,location,comments);
             authen.getAuthenList().add(a);
         }
         c.close();
         return authen.getAuthenList();
+    }
+
+    public List<String> getLocations(SQLiteDatabase db, List<String> defaultLocations){
+        List<String> locations = new ArrayList<>();
+        Collections.addAll(defaultLocations,"work","car","train");
+        String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
+        Cursor c = db.rawQuery(getLocations,null);
+        if(c.moveToFirst()){
+            while(c.moveToNext()){
+                locations.add(c.getString(c.getColumnIndex(LOCATION)));
+            }
+        }
+        c.close();
+        return locations;
     }
 
     protected String getImageName(SQLiteDatabase db,int resourceID){
@@ -139,6 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             name =  c.getString(c.getColumnIndex("NAME"));
         }
+        c.close();
         return name;
     }
 }

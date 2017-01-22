@@ -1,4 +1,4 @@
-package com.example.fraser.notaficationprototype;
+package com.example.fraser.notaficationprototype.Model;
 
 import android.app.Activity;
 import android.util.Log;
