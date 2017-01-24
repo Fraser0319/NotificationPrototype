@@ -65,26 +65,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertImageNames(db, R.drawable.play, "Start Notification");
         insertImageNames(db, R.drawable.stop, "End Notification");
         insertImageNames(db, R.drawable.atm, "ATM");
-        insertImageNames(db, R.drawable.browser, "Web Browser");
-        insertImageNames(db, R.drawable.buses, "Bus");
+        insertImageNames(db, R.drawable.browser, "Browser");
         insertImageNames(db, R.drawable.suv, "Car");
         insertImageNames(db, R.drawable.contract, "Signature");
         insertImageNames(db, R.drawable.cursor, "Arrow Click");
-        insertImageNames(db, R.drawable.cycle, "Bike");
-        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint Scan");
+        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint");
         insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture");
         insertImageNames(db, R.drawable.id_card, "ID Card");
-        insertImageNames(db, R.drawable.key, "Key");
         insertImageNames(db, R.drawable.laptop, "Laptop");
         insertImageNames(db, R.drawable.locked, "Lock");
         insertImageNames(db, R.drawable.locker, "Locker");
-        insertImageNames(db, R.drawable.metro, "Train");
+        insertImageNames(db, R.drawable.door, "Door");
+        insertImageNames(db,R.drawable.tablet, "Tablet");
+        insertImageNames(db, R.drawable.metro, "Public Transport");
         insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment");
         insertImageNames(db, R.drawable.password, "Password");
         insertImageNames(db, R.drawable.point_of_service, "Chip and Pin");
         insertImageNames(db, R.drawable.smartphone, "Smartphone");
         insertImageNames(db, R.drawable.ticket, "Ticket");
-        insertImageNames(db, R.drawable.tramway, "Tram");
 
     }
 
@@ -136,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(locations,"", "work", "car", "train");
+        Collections.addAll(locations,"n/a", "Home", "Work", "Shop","Travel");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
         Cursor c = db.rawQuery(getLocations, null);
 

@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Adapters.CustomPagerAdapter;
 import com.example.fraser.notaficationprototype.Fragments.ListIconsFragment;
-import com.example.fraser.notaficationprototype.Model.NotificationForgroundService;
-import com.example.fraser.notaficationprototype.R;
 import com.example.fraser.notaficationprototype.Fragments.SendDataFragment;
 import com.example.fraser.notaficationprototype.Fragments.SummaryFragment;
+import com.example.fraser.notaficationprototype.Model.NotificationForgroundService;
+import com.example.fraser.notaficationprototype.R;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity  {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private  ImageButton startNotification;
+    private ImageButton endNotification;
     private CustomPagerAdapter pagerAdapter;
     private ViewPager mViewPager;
     private Toolbar toolbar;
@@ -47,23 +49,27 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void setUpStartEndListeners(){
-        ImageButton startNotification = (ImageButton) findViewById(R.id.start_notification);
+        startNotification = (ImageButton) findViewById(R.id.start_notification);
         startNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startNotification.setImageResource(R.drawable.play_grey);
+                endNotification.setImageResource(R.drawable.play_white);
                 Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 service.setAction("startForeground");
                 startService(service);
             }
         });
 
-        ImageButton endNotification = (ImageButton) findViewById(R.id.end_notification);
+        endNotification = (ImageButton) findViewById(R.id.end_notification);
         endNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                endNotification.setImageResource(R.drawable.play_white);
+                startNotification.setImageResource(R.drawable.stop_grey);
                 Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 stopService(intent);
-                Toast.makeText(getApplicationContext(), "service stoped", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "service stopped", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -96,13 +102,23 @@ public class MainActivity extends AppCompatActivity  {
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
 
+//        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
+//        alertBuilder.setCancelable(true);
+//        alertBuilder.setTitle("Permission necessary");
+//        alertBuilder.setMessage("External storage permission is necessary");
+//        alertBuilder.create();
+//        alertBuilder.show();
+
         if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+        }else{
+
         }
     }
 

@@ -44,6 +44,7 @@ public class SendDataFragment extends Fragment {
         View viewInflator = inflater.inflate(R.layout.fragment_send_data, container, false);
         setupSendButtonListener(viewInflator);
         setUpDB();
+        //viewCSV(viewInflator);
         return viewInflator;
     }
 
@@ -68,6 +69,21 @@ public class SendDataFragment extends Fragment {
             }
         });
     }
+
+//    public void viewCSV(View v) {
+//        Button sendButton = (Button) v.findViewById(R.id.viewCSVButton);
+//        sendButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("onClick","viewCSV");
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.actvity_main, new ViewCSVFragment());
+//                ft.addToBackStack(null);
+//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                ft.commit();
+//            }
+//        });
+//    }
 
     public boolean checkValidEmail(CharSequence emailInput) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();

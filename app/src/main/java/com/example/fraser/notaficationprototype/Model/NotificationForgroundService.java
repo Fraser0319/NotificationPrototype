@@ -103,7 +103,7 @@ public class NotificationForgroundService extends Service {
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused);
         Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.tramway, R.drawable.point_of_service, R.drawable.buses, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.cycle);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.atm, R.drawable.browser, R.drawable.locker,R.drawable.door,R.drawable.tablet);
 
         updateButton(emotionList, 0, R.id.emotionButton);
         updateButton(authenList, 0, R.id.authenticatorButton);
@@ -140,7 +140,7 @@ public class NotificationForgroundService extends Service {
 
         // build the notification
         notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.diary)
+                .setSmallIcon(R.drawable.notebook)
                 .setContent(contentView)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
@@ -175,7 +175,7 @@ public class NotificationForgroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Service Detroyed!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Service Detroyed!", Toast.LENGTH_SHORT).show();
     }
 
 
