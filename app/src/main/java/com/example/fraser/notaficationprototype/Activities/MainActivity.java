@@ -50,11 +50,14 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setUpStartEndListeners(){
         startNotification = (ImageButton) findViewById(R.id.start_notification);
+
         startNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNotification.setImageResource(R.drawable.play_grey);
-                endNotification.setImageResource(R.drawable.play_white);
+                startNotification.setEnabled(false);
+                endNotification.setEnabled(true);
+                endNotification.setAlpha((float)1);
+                startNotification.setAlpha((float)0.2);
                 Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 service.setAction("startForeground");
                 startService(service);
@@ -62,11 +65,15 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         endNotification = (ImageButton) findViewById(R.id.end_notification);
+        endNotification.setAlpha((float)0.2);
+        endNotification.setEnabled(false);
         endNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endNotification.setImageResource(R.drawable.play_white);
-                startNotification.setImageResource(R.drawable.stop_grey);
+                endNotification.setEnabled(false);
+                startNotification.setEnabled(true);
+                startNotification.setAlpha((float)1);
+                endNotification.setAlpha((float)0.2);
                 Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 stopService(intent);
                 Toast.makeText(getApplicationContext(), "service stopped", Toast.LENGTH_LONG).show();
