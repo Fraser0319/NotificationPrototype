@@ -22,7 +22,7 @@ import com.example.fraser.notaficationprototype.Model.NotificationForgroundServi
 import com.example.fraser.notaficationprototype.R;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     // Storage Permissions variables
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity  {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    private  ImageButton startNotification;
+    private ImageButton startNotification;
     private ImageButton endNotification;
     private CustomPagerAdapter pagerAdapter;
     private ViewPager mViewPager;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity  {
         setUpStartEndListeners();
     }
 
-    private void setUpStartEndListeners(){
+    private void setUpStartEndListeners() {
         startNotification = (ImageButton) findViewById(R.id.start_notification);
 
         startNotification.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 startNotification.setEnabled(false);
                 endNotification.setEnabled(true);
-                endNotification.setAlpha((float)1);
-                startNotification.setAlpha((float)0.2);
+                endNotification.setAlpha((float) 1);
+                startNotification.setAlpha((float) 0.2);
                 Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 service.setAction("startForeground");
                 startService(service);
@@ -65,15 +65,15 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         endNotification = (ImageButton) findViewById(R.id.end_notification);
-        endNotification.setAlpha((float)0.2);
+        endNotification.setAlpha((float) 0.2);
         endNotification.setEnabled(false);
         endNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 endNotification.setEnabled(false);
                 startNotification.setEnabled(true);
-                startNotification.setAlpha((float)1);
-                endNotification.setAlpha((float)0.2);
+                startNotification.setAlpha((float) 1);
+                endNotification.setAlpha((float) 0.2);
                 Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 stopService(intent);
                 Toast.makeText(getApplicationContext(), "service stopped", Toast.LENGTH_LONG).show();
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    private void setUpTabs(){
+    private void setUpTabs() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity  {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setUpPager(ViewPager viewPager){
+    private void setUpPager(ViewPager viewPager) {
         CustomPagerAdapter cpa = new CustomPagerAdapter(getSupportFragmentManager());
         cpa.addFragment(new SummaryFragment(), "Summary");
         cpa.addFragment(new SendDataFragment(), "Send Data");
@@ -124,10 +124,7 @@ public class MainActivity extends AppCompatActivity  {
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
-        }else{
-
         }
     }
-
 
 }

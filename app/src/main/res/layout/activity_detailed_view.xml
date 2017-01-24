@@ -7,7 +7,6 @@
     tools:context="com.example.fraser.notaficationprototype.Activities.DetailedViewActivity">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,12 +28,21 @@
 
         </android.support.design.widget.AppBarLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="Target:"
+            android:textSize="16sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="15sp">
+            android:paddingLeft="10sp">
 
             <TextView
                 android:id="@+id/deviceName"
@@ -51,11 +59,20 @@
                 android:paddingBottom="10sp" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="Authenticator:"
+            android:textSize="16sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10sp">
 
             <TextView
                 android:id="@+id/authenticationName"
@@ -72,11 +89,21 @@
                 android:paddingBottom="10sp" />
         </LinearLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="Emotion:"
+            android:textSize="16sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10sp">
 
             <TextView
                 android:id="@+id/emotionType"
@@ -99,6 +126,7 @@
             android:paddingLeft="10sp"
             android:text="Location"
             android:textSize="20sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,9 +145,9 @@
                 android:paddingRight="10sp" />
 
             <Spinner
+                android:id="@+id/spinnerLocation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnerLocation" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
