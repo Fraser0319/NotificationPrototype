@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private CustomPagerAdapter cpa;
+    private boolean serviceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +47,32 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         setUpTabs();
         setUpStartEndListeners();
+        getServiceState();
+    }
+
+    public boolean getServiceState(){
+        if(serviceState){
+            startNotification.setEnabled(false);
+            endNotification.setEnabled(true);
+            endNotification.setAlpha((float) 1);
+            startNotification.setAlpha((float) 0.2);
+            return true;
+        } else {
+            endNotification.setEnabled(false);
+            startNotification.setEnabled(true);
+            startNotification.setAlpha((float) 1);
+            endNotification.setAlpha((float) 0.2);
+            return false;
+        }
     }
 
     private void setUpStartEndListeners() {
         startNotification = (ImageButton) findViewById(R.id.start_notification);
-
         startNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startNotification.setEnabled(false);
-                endNotification.setEnabled(true);
-                endNotification.setAlpha((float) 1);
-                startNotification.setAlpha((float) 0.2);
+                serviceState = true;
+                getServiceState();
                 Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 service.setAction("startForeground");
                 startService(service);
@@ -70,10 +85,8 @@ public class MainActivity extends AppCompatActivity {
         endNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endNotification.setEnabled(false);
-                startNotification.setEnabled(true);
-                startNotification.setAlpha((float) 1);
-                endNotification.setAlpha((float) 0.2);
+                serviceState = false;
+                getServiceState();
                 Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 stopService(intent);
                 Toast.makeText(getApplicationContext(), "service stopped", Toast.LENGTH_LONG).show();
@@ -126,5 +139,4 @@ public class MainActivity extends AppCompatActivity {
             );
         }
     }
-
 }

@@ -23,8 +23,6 @@ import com.example.fraser.notaficationprototype.Adapters.CustomCursorAdaptor;
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.example.fraser.notaficationprototype.R;
 
-import static java.security.AccessController.getContext;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -56,7 +54,7 @@ public class SummaryFragment extends Fragment {
     public void setUpDB() {
         authenticationDatabase = new DatabaseHelper(getActivity());
         db = authenticationDatabase.getReadableDatabase();
-        String getAllAuthentications = "SELECT * FROM AUTHENTICATION";
+        String getAllAuthentications = "SELECT * FROM AUTHENTICATION ORDER BY _id DESC";
         cursor = db.rawQuery(getAllAuthentications, null);
         listAdapter = new CustomCursorAdaptor(getActivity(), cursor);
         authenList = (ListView) viewInflator.findViewById(R.id.authenList);
@@ -133,7 +131,7 @@ public class SummaryFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             SQLiteOpenHelper authenticationDatabase2 = new DatabaseHelper(context);
             SQLiteDatabase db2 = authenticationDatabase2.getReadableDatabase();
-            String getAllAuthentications = "SELECT * FROM AUTHENTICATION";
+            String getAllAuthentications = "SELECT * FROM AUTHENTICATION ORDER BY _id DESC";
             Cursor c = db2.rawQuery(getAllAuthentications, null);
             CustomCursorAdaptor listAdapter2 = new CustomCursorAdaptor(context, c);
             authenList.setAdapter(listAdapter2);
