@@ -1,6 +1,6 @@
 package com.example.fraser.notaficationprototype.Model;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,11 +23,11 @@ public class ExportCSV {
         this.authenList = authenList;
     }
 
-    public File generateCSV(Activity activity) {
+    public File generateCSV(Context context) {
         File file = null;
         try {
             file = new File("/sdcard/testCSV.csv");
-            Log.e("path", activity.getFilesDir().getPath().toString() + "/testCSV.csv");
+            Log.e("path", context.getFilesDir().getPath().toString() + "/testCSV.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(file));
             for (Authentication s : authenList) {
                 writer.writeNext(createCSVLine(s));
@@ -36,7 +36,7 @@ public class ExportCSV {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(activity, "Cannot generate CSV File", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Cannot generate CSV File", Toast.LENGTH_LONG).show();
         }
         return file;
     }

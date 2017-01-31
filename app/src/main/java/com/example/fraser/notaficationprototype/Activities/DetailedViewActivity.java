@@ -48,10 +48,16 @@ public class DetailedViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goBackIntnet = new Intent(getApplicationContext(), MainActivity.class);
+                goBackIntnet.putExtra("state",getState());
                 startActivity(goBackIntnet);
             }
         });
         loadLocationSpinner();
+    }
+
+    public boolean getState(){
+        Boolean state = getIntent().getExtras().getBoolean("serviceState");
+        return state;
     }
 
     public void loadLocationSpinner() {

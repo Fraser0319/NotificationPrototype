@@ -23,11 +23,11 @@
         </activity>
         <activity
             android:name=".Activities.DetailedViewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".Fragments.SummaryFragment$myReceiver">
             <intent-filter>
-                <action android:name="updateListView"></action>
+                <action android:name="updateListView" />
             </intent-filter>
         </receiver>
 
@@ -38,8 +38,9 @@
 
         <service
             android:name=".Model.NotificationForgroundService"
-            android:exported="false"></service>
+            android:exported="false" />
 
+        <activity android:name=".Activities.SendDataActivity"></activity>
     </application>
 
 </manifest>

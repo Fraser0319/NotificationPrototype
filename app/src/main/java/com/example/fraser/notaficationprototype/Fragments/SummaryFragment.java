@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Activities.DetailedViewActivity;
+import com.example.fraser.notaficationprototype.Activities.MainActivity;
 import com.example.fraser.notaficationprototype.Adapters.CustomCursorAdaptor;
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.example.fraser.notaficationprototype.R;
@@ -86,8 +87,12 @@ public class SummaryFragment extends Fragment {
                         bundle.putString("location", location);
                         bundle.putString("comment", comments);
 
+                        MainActivity main = (MainActivity)getActivity();
+
                         Intent detailedViewIntent = new Intent(getContext(),DetailedViewActivity.class);
                         detailedViewIntent.putExtra("bundle",bundle);
+                        detailedViewIntent.putExtra("serviceState",main.getServiceState());
+                        Log.e("stateSummary",main.getServiceState()+"");
                         startActivity(detailedViewIntent);
 //                        Fragment detailedViewFragment = new DetailedViewActivity();
 //                        detailedViewFragment.setArguments(bundle);

@@ -10,13 +10,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Adapters.CustomPagerAdapter;
 import com.example.fraser.notaficationprototype.Fragments.ListIconsFragment;
-import com.example.fraser.notaficationprototype.Fragments.SendDataFragment;
 import com.example.fraser.notaficationprototype.Fragments.SummaryFragment;
 import com.example.fraser.notaficationprototype.Model.NotificationForgroundService;
 import com.example.fraser.notaficationprototype.R;
@@ -40,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private CustomPagerAdapter cpa;
     private boolean serviceState;
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +56,38 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         setUpTabs();
         setUpStartEndListeners();
+        if (getIntent().getExtras() != null) {
+            serviceState = getIntent().getExtras().getBoolean("state");
+        }
         getServiceState();
     }
 
-    public boolean getServiceState(){
-        if(serviceState){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_items,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.sendDataMenuItem){
+            Intent sendDataIntent = new Intent(this,SendDataActivity.class);
+            sendDataIntent.putExtra("serviceState",serviceState);
+            startActivity(sendDataIntent);
+            Log.e("Menu Item Clicked", "send data clicked");
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("serviceState", serviceState);
+    }
+
+    public boolean getServiceState() {
+        if (serviceState) {
             startNotification.setEnabled(false);
             endNotification.setEnabled(true);
             endNotification.setAlpha((float) 1);
@@ -111,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpPager(ViewPager viewPager) {
         CustomPagerAdapter cpa = new CustomPagerAdapter(getSupportFragmentManager());
         cpa.addFragment(new SummaryFragment(), "Summary");
-        cpa.addFragment(new SendDataFragment(), "Send Data");
+       // cpa.addFragment(new SendDataFragment(), "Send Data");
         cpa.addFragment(new ListIconsFragment(), "Icons");
         viewPager.setAdapter(cpa);
     }
