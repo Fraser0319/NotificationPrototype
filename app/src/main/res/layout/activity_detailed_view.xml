@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/detailed_view_frag"
+    android:id="@+id/detailed_view_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.fraser.notaficationprototype.Activities.DetailedViewActivity">
@@ -24,7 +24,17 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <ImageButton
+                    android:id="@+id/editRecordBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/edit" />
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -33,9 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:alpha=".45"
             android:paddingLeft="10sp"
             android:paddingTop="10sp"
-            android:alpha=".45"
             android:text="Target:"
             android:textSize="16sp" />
 
@@ -64,9 +74,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:alpha=".45"
             android:paddingLeft="10sp"
             android:paddingTop="10sp"
-            android:alpha=".45"
             android:text="Authenticator:"
             android:textSize="16sp" />
 
@@ -96,9 +106,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:alpha=".45"
             android:paddingLeft="10sp"
             android:paddingTop="10sp"
-            android:alpha=".45"
             android:text="Emotion:"
             android:textSize="16sp" />
 
@@ -126,10 +136,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha=".45"
             android:paddingLeft="10sp"
             android:text="Location"
-            android:alpha=".45"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,7 +161,8 @@
             <Spinner
                 android:id="@+id/spinnerLocation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -159,16 +170,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha=".45"
             android:paddingLeft="10sp"
             android:text="Comments"
-            android:alpha=".45"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/commInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.87"
+            android:layout_height="30dp"
+            android:layout_weight="0.52"
             android:background="@android:color/transparent"
             android:gravity="top"
             android:hint="@string/commentHint"
@@ -177,12 +188,17 @@
             android:paddingRight="10sp"
             android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/updateButton"
-            android:layout_width="match_parent"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/updateBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
             android:onClick="updateFields"
-            android:text="Update" />
+            android:src="@drawable/update" />
+
     </LinearLayout>
 
 </FrameLayout>

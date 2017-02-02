@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(locations,"n/a", "Home", "Work", "Shop","Travel");
+        Collections.addAll(locations,"Other", "Home", "Work", "Shop","Travel");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
         Cursor c = db.rawQuery(getLocations, null);
 

@@ -1,12 +1,12 @@
 package com.example.fraser.notaficationprototype.Activities;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,16 +49,28 @@ public class DetailedViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goBackIntnet = new Intent(getApplicationContext(), MainActivity.class);
-                goBackIntnet.putExtra("state",getState());
+                goBackIntnet.putExtra("state", getState());
                 startActivity(goBackIntnet);
             }
         });
         loadLocationSpinner();
+        loadEditButton();
     }
 
-    public boolean getState(){
+    public boolean getState() {
         Boolean state = getIntent().getExtras().getBoolean("serviceState");
         return state;
+    }
+
+    public void loadEditButton() {
+        ImageButton editButton = (ImageButton) findViewById(R.id.editRecordBtn);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editAuthenIntent = new Intent(getApplicationContext(),EditAuthenticationActivity.class);
+                startActivity(editAuthenIntent);
+            }
+        });
     }
 
     public void loadLocationSpinner() {
@@ -77,9 +90,9 @@ public class DetailedViewActivity extends AppCompatActivity {
         });
         spinner.setAdapter(arrayAdapter);
         String location = getLocation();
-        if(location != null){
+        if (location != null) {
             spinner.setSelection(arrayAdapter.getPosition(location));
-        }else{
+        } else {
             spinner.setSelection(arrayAdapter.getPosition(0));
         }
 
@@ -93,16 +106,16 @@ public class DetailedViewActivity extends AppCompatActivity {
         spinner.setSelection(arrayAdapter.getPosition(inputLocation));
     }
 
-    public String getLocation(){
+    public String getLocation() {
         Intent intent = getIntent();
         Bundle extras = intent.getBundleExtra("bundle");
-        if(extras != null){
+        if (extras != null) {
             Long id = extras.getLong("id");
-            Cursor c = db.rawQuery("SELECT LOCATION FROM AUTHENTICATION WHERE _id = " +id ,null);
-            if(c.moveToFirst()){
+            Cursor c = db.rawQuery("SELECT LOCATION FROM AUTHENTICATION WHERE _id = " + id, null);
+            if (c.moveToFirst()) {
                 String loc = c.getString(c.getColumnIndex("LOCATION"));
-                if(loc != null){
-                    Log.e("loc",loc);
+                if (loc != null) {
+                    Log.e("loc", loc);
                     return loc;
                 }
             }

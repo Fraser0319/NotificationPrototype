@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -70,21 +69,21 @@ public class SendDataActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
     }
 
-    public void setUpWebView() {
-        webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new MyBrowser());
-        String url = "http://54.229.99.58:3000";
-        //String url = "http://google.com";
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        webView.loadUrl(url);
-    }
-
-    public void updateWeb(View v){
-        webView.reload();
-    }
+//    public void setUpWebView() {
+//        webView = (WebView) findViewById(R.id.webView);
+//        webView.setWebViewClient(new MyBrowser());
+//        String url = "http://54.229.99.58:3000";
+//        //String url = "http://google.com";
+//        webView.getSettings().setLoadsImagesAutomatically(true);
+//        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+//        webView.loadUrl(url);
+//    }
+//
+//    public void updateWeb(View v){
+//        webView.reload();
+//    }
 
     public void setupSendButtonListeners() {
         FloatingActionButton sendButton = (FloatingActionButton) findViewById(R.id.sendDataBtn);
@@ -100,7 +99,7 @@ public class SendDataActivity extends AppCompatActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpWebView();
+//                setUpWebView();
                 Log.e("click on doc","here");
             }
         });
@@ -164,12 +163,12 @@ public class SendDataActivity extends AppCompatActivity {
         builder.create();
         builder.show();
     }
-
-    private class MyBrowser extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-    }
+//
+//    private class MyBrowser extends WebViewClient {
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            view.loadUrl(url);
+//            return true;
+//        }
+//    }
 }

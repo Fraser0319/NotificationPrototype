@@ -41,7 +41,8 @@
             android:name=".Model.NotificationForgroundService"
             android:exported="false" />
 
-        <activity android:name=".Activities.SendDataActivity"></activity>
+        <activity android:name=".Activities.SendDataActivity" />
+        <activity android:name=".Activities.EditAuthenticationActivity"></activity>
     </application>
 
 </manifest>
