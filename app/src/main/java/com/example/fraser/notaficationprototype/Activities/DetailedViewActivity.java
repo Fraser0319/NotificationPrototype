@@ -68,9 +68,29 @@ public class DetailedViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent editAuthenIntent = new Intent(getApplicationContext(),EditAuthenticationActivity.class);
+                editAuthenIntent.putExtra("bundle", sendBundle());
                 startActivity(editAuthenIntent);
             }
         });
+    }
+
+    public Bundle sendBundle(){
+        Intent intent = getIntent();
+        Bundle extras = intent.getBundleExtra("bundle");
+        Bundle newBundle = new Bundle();
+        if(extras != null){
+            Long id = extras.getLong("id");
+            int device = extras.getInt("device");
+            int authen = extras.getInt("auhen");
+            int emotion = extras.getInt("emotion");
+
+            newBundle.putLong("id", id);
+            newBundle.putInt("device", device);
+            newBundle.putInt("auhen", authen);
+            newBundle.putInt("emotion", emotion);
+        }
+
+        return newBundle;
     }
 
     public void loadLocationSpinner() {

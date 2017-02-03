@@ -2,15 +2,18 @@ package com.example.fraser.notaficationprototype.Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.fraser.notaficationprototype.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +27,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listTitle;
     private Map<String, List<String>> listDetail;
+    private List<RadioButton> radioButtons = new ArrayList<>();
 
-    public CustomExpandableListAdapter(Context context, List<String> listTitle,Map<String, List<String>> listDetail){
+    int counter = 0;
+
+    public CustomExpandableListAdapter(Context context, List<String> listTitle, Map<String, List<String>> listDetail) {
         this.context = context;
         this.listTitle = listTitle;
         this.listDetail = listDetail;
@@ -42,15 +48,19 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String expandedListText = (String) getChild(listPosition,expandedListPosition);
-        if(convertView == null){
+        final String expandedListText = (String) getChild(listPosition, expandedListPosition);
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_list_item,null);
+            convertView = inflater.inflate(R.layout.expandable_list_item, null);
         }
-        RadioButton item = (RadioButton) convertView.findViewById(R.id.itemID);
-        item.setText(expandedListText);
+        RadioGroup radioGroup = (RadioGroup) convertView.findViewById(R.id.radioGroup);
+        Log.e("length", listDetail.get(listTitle.get(listPosition)).size() + "");
+
+        TextView textView = (TextView) convertView.findViewById(R.id.texView);
+        textView.setText(expandedListText);
+
         return convertView;
     }
 

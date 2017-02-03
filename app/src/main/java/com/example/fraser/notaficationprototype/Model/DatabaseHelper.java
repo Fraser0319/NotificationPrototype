@@ -152,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return locations;
     }
 
-    protected String getImageName(SQLiteDatabase db, int resourceID) {
+    public String getImageName(SQLiteDatabase db, int resourceID) {
         String name = "";
         String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID + " = IMAGE_NAMES.IMAGE_ID;";
         Cursor c = db.rawQuery(getImageNameQuery, null);
@@ -163,20 +163,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return name;
     }
 
+        public int getImageResourceID(SQLiteDatabase db, String name) {
+        int imageID = 0;
+        String getImageNameQuery = "SELECT DISTINCT IMAGE_ID FROM IMAGE_NAMES WHERE NAME = ?";
+        Cursor c = db.rawQuery(getImageNameQuery, new String[]{name});
+        if (c.moveToFirst()) {
+            imageID = c.getInt(c.getColumnIndex("IMAGE_ID"));
+        }
+        c.close();
+        return imageID;
+    }
+
+    public void alterAuthentication(SQLiteDatabase db,String columnName, int imageID, Long _id){
+        ContentValues values = new ContentValues();
+        values.put(columnName, imageID);
+        String where = "_id=?";
+        String[] whereArgs = new String[]{String.valueOf(_id)};
+        db.update(TABLE_NAME, values, where, whereArgs);
+    }
+
     public Map<String, List<String>> getExpandableListData(SQLiteDatabase db) {
 
         Map<String, List<String>> expandableListDataMap = new HashMap<>();
-
-        expandableListDataMap.put("Target",getIconsFromCategory(db,"Target"));
-        expandableListDataMap.put("Authenticator",getIconsFromCategory(db,"Authenticator"));
-        expandableListDataMap.put("Emotion",getIconsFromCategory(db,"Emotion"));
+        expandableListDataMap.put("Target", getIconsFromCategory(db, "Target"));
+        expandableListDataMap.put("Authenticator", getIconsFromCategory(db, "Authenticator"));
+        expandableListDataMap.put("Emotion", getIconsFromCategory(db, "Emotion"));
         return expandableListDataMap;
     }
 
     protected List<String> getIconsFromCategory(SQLiteDatabase db, String category) {
         List<String> data = new ArrayList<>();
         String query = "SELECT DISTINCT NAME FROM IMAGE_NAMES WHERE CATEGORY = ?";
-        Cursor c = db.rawQuery(query,new String[] {category});
+        Cursor c = db.rawQuery(query, new String[]{category});
         while (c.moveToNext()) {
             data.add(c.getString(c.getColumnIndex("NAME")));
         }
