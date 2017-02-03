@@ -11,7 +11,9 @@ import com.example.fraser.notaficationprototype.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Fraser on 13/12/2016.
@@ -58,35 +60,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "IMAGE_ID INTEGER," +
-                "NAME TEXT);");
-        insertImageNames(db, R.drawable.happy, "Happy");
-        insertImageNames(db, R.drawable.sad, "Sad");
-        insertImageNames(db, R.drawable.confused, "Confused");
-        insertImageNames(db, R.drawable.play, "Start Notification");
-        insertImageNames(db, R.drawable.stop, "End Notification");
-        insertImageNames(db, R.drawable.atm, "ATM");
-        insertImageNames(db, R.drawable.browser, "Browser");
-        insertImageNames(db, R.drawable.suv, "Car");
-        insertImageNames(db, R.drawable.contract, "Signature");
-        insertImageNames(db, R.drawable.cursor, "Arrow Click");
-        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint");
-        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture");
-        insertImageNames(db, R.drawable.id_card, "ID Card");
-        insertImageNames(db, R.drawable.laptop, "Laptop");
-        insertImageNames(db, R.drawable.locked, "Lock");
-        insertImageNames(db, R.drawable.locker, "Locker");
-        insertImageNames(db, R.drawable.door, "Door");
-        insertImageNames(db,R.drawable.tablet, "Tablet");
-        insertImageNames(db, R.drawable.metro, "Public Transport");
-        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment");
-        insertImageNames(db, R.drawable.password, "Password");
-        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin");
-        insertImageNames(db, R.drawable.smartphone, "Smartphone");
-        insertImageNames(db, R.drawable.ticket, "Ticket");
-
+                "NAME TEXT," +
+                "CATEGORY TEXT);");
+        insertImageNames(db, R.drawable.happy, "Happy", "Emotion");
+        insertImageNames(db, R.drawable.sad, "Sad", "Emotion");
+        insertImageNames(db, R.drawable.confused, "Confused", "Emotion");
+        insertImageNames(db, R.drawable.play, "Start Notification", "Button");
+        insertImageNames(db, R.drawable.stop, "End Notification", "Button");
+        insertImageNames(db, R.drawable.atm, "ATM", "Target");
+        insertImageNames(db, R.drawable.browser, "Browser", "Target");
+        insertImageNames(db, R.drawable.suv, "Car", "Target");
+        insertImageNames(db, R.drawable.contract, "Signature", "Authenticator");
+        insertImageNames(db, R.drawable.cursor, "Arrow Click", "Authenticator");
+        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint", "Authenticator");
+        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator");
+        insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator");
+        insertImageNames(db, R.drawable.laptop, "Laptop", "Target");
+        insertImageNames(db, R.drawable.locked, "Lock", "Target");
+        insertImageNames(db, R.drawable.locker, "Locker", "Target");
+        insertImageNames(db, R.drawable.door, "Door", "Target");
+        insertImageNames(db, R.drawable.tablet, "Tablet", "Target");
+        insertImageNames(db, R.drawable.metro, "Public Transport", "Target");
+        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment", "Authenticator");
+        insertImageNames(db, R.drawable.password, "Password", "Authenticator");
+        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator");
+        insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target");
+        insertImageNames(db, R.drawable.ticket, "Ticket", "Target");
     }
 
-    public static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
+    protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {
 
         ContentValues authenticationValues = new ContentValues();
         authenticationValues.put(DEVICE, deviceID);
@@ -97,10 +99,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, authenticationValues);
     }
 
-    private void insertImageNames(SQLiteDatabase db, int imageId, String name) {
+    private void insertImageNames(SQLiteDatabase db, int imageId, String name, String category) {
         ContentValues imageValues = new ContentValues();
         imageValues.put("IMAGE_ID", imageId);
         imageValues.put("NAME", name);
+        imageValues.put("CATEGORY", category);
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 
@@ -134,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(locations,"Other", "Home", "Work", "Shop","Travel");
+        Collections.addAll(locations, "Other", "Home", "Work", "Shop", "Travel");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
         Cursor c = db.rawQuery(getLocations, null);
 
@@ -158,5 +161,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return name;
+    }
+
+    public Map<String, List<String>> getExpandableListData(SQLiteDatabase db) {
+
+        Map<String, List<String>> expandableListDataMap = new HashMap<>();
+
+        expandableListDataMap.put("Target",getIconsFromCategory(db,"Target"));
+        expandableListDataMap.put("Authenticator",getIconsFromCategory(db,"Authenticator"));
+        expandableListDataMap.put("Emotion",getIconsFromCategory(db,"Emotion"));
+        return expandableListDataMap;
+    }
+
+    protected List<String> getIconsFromCategory(SQLiteDatabase db, String category) {
+        List<String> data = new ArrayList<>();
+        String query = "SELECT DISTINCT NAME FROM IMAGE_NAMES WHERE CATEGORY = ?";
+        Cursor c = db.rawQuery(query,new String[] {category});
+        while (c.moveToNext()) {
+            data.add(c.getString(c.getColumnIndex("NAME")));
+        }
+        c.close();
+        return data;
     }
 }

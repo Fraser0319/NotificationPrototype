@@ -8,17 +8,18 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
-import com.opencsv.CSVWriter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -33,6 +34,7 @@ public class DatabaseInstrumentedTest {
     private DatabaseHelper mHelper;
     private SQLiteDatabase mWritableDatabase;
     private ContentValues authenticationValues;
+    private ContentValues imageValues;
 
     @Before
     public void setUp() throws Exception {
@@ -44,6 +46,7 @@ public class DatabaseInstrumentedTest {
         authenticationValues.put(mHelper.EMOTION, R.drawable.confused);
         authenticationValues.put(mHelper.COMMENTS, "took ages");
         authenticationValues.put(mHelper.LOCATION, "Home");
+
         Long insert_1 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
         Log.i("insert_1", insert_1 + "");
         assertTrue(insert_1 != -1);
@@ -161,33 +164,54 @@ public class DatabaseInstrumentedTest {
         cursor.close();
     }
 
+//    @Test
+//    public void exportDBToCSV() {
+//
+//        try {
+//            File file = new File("/sdcard/dbCSV.csv");
+//            file.createNewFile();
+//            CSVWriter writer = new CSVWriter(new FileWriter(file));
+//            String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
+//            Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+//            assertNotNull(cursor);
+//            cursor.moveToFirst();
+//
+//            String device = String.valueOf(cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID")));
+//            String authenticator = String.valueOf(cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID")));
+//            String emotion = String.valueOf(cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID")));
+//            String timeStsmp = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
+//            String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
+//            String comments = cursor.getString(cursor.getColumnIndex("COMMENTS"));
+//
+//            String[] entries = {device, authenticator, emotion, timeStsmp, location, comments};
+//
+//            writer.writeNext(cursor.getColumnNames());
+//            writer.writeNext(entries);
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
     @Test
-    public void exportDBToCSV() {
+    public void testGettingExpandableListData() {
+        Map<String, List<String>> expandableListDataMap = new HashMap<>();
+        String getAllTargets = "SELECT DISTINCT NAME FROM IMAGE_NAMES WHERE CATEGORY = 'Target'";
+        Cursor c = mWritableDatabase.rawQuery(getAllTargets, null);
+        List<String> data = new ArrayList<>();
 
-        try {
-            File file = new File("/sdcard/dbCSV.csv");
-            file.createNewFile();
-            CSVWriter writer = new CSVWriter(new FileWriter(file));
-            String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
-            Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
-            assertNotNull(cursor);
-            cursor.moveToFirst();
-
-            String device = String.valueOf(cursor.getInt(cursor .getColumnIndex("DEVICE_RESOURCE_ID")));
-            String authenticator = String.valueOf(cursor .getInt(cursor .getColumnIndex("AUTHENTICATOR_RESOURCE_ID")));
-            String emotion = String.valueOf(cursor .getInt(cursor .getColumnIndex("EMOTION_RESOURCE_ID")));
-            String timeStsmp = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
-            String location = cursor .getString(cursor .getColumnIndex("LOCATION"));
-            String comments = cursor .getString(cursor .getColumnIndex("COMMENTS"));
-
-            String[] entries = {device,authenticator,emotion,timeStsmp,location,comments};
-
-            writer.writeNext(cursor.getColumnNames());
-            writer.writeNext(entries);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        assertNotNull(c);
+        while (c.moveToNext()) {
+            data.add(c.getString(c.getColumnIndex("NAME")));
         }
+        c.close();
+        assertEquals(data.size(),11);
+        expandableListDataMap.put("Target", data);
+        //Log.i("mapData",expandableListDataMap.get("Target").get(0));
+        assertEquals(expandableListDataMap.get("Target").get(0),("ATM"));
+        assertEquals(expandableListDataMap.get("Target").get(3),("Laptop"));
+
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.fraser.notaficationprototype.Activities;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,25 +11,37 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Adapters.CustomExpandableListAdapter;
-import com.example.fraser.notaficationprototype.Model.listDump;
+import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.example.fraser.notaficationprototype.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+/**
+ * expandable list code and listeners based on
+ * based on http://www.journaldev.com/9942/android-expandablelistview-example-tutorial
+ */
 
 public class EditAuthenticationActivity extends AppCompatActivity {
 
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
-    EditAuthenticationActivity editAuthenticationActivity = this;
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter expandableListAdapter;
+    private List<String> expandableListTitle;
+    private Map<String, List<String>> expandableListDetail;
+    private EditAuthenticationActivity editAuthenticationActivity = this;
+    private SQLiteDatabase db;
+    private DatabaseHelper dbHelper;
+    private SQLiteOpenHelper authenticationDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_authentication);
+
+        authenticationDatabase = new DatabaseHelper(this);
+        db = authenticationDatabase.getWritableDatabase();
+        dbHelper = new DatabaseHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
         setSupportActionBar(toolbar);
@@ -40,7 +54,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
             }
         });
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        expandableListDetail = listDump.getData();
+        expandableListDetail = dbHelper.getExpandableListData(db);
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
@@ -81,5 +95,11 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }
