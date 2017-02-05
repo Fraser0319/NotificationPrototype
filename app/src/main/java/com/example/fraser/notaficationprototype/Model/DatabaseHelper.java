@@ -86,6 +86,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator");
         insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target");
         insertImageNames(db, R.drawable.ticket, "Ticket", "Target");
+        insertImageNames(db, R.drawable.question_mark, "Other", "Other");
+    }
+
+    public Long getMaxID(SQLiteDatabase db){
+        String getMaxID = "SELECT MAX(_id) FROM AUTHENTICATION";
+        Cursor c = db.rawQuery(getMaxID,null);
+        Long id = null;
+        if(c.moveToFirst()){
+            id = c.getLong(0);
+        }
+        c.close();
+        return id;
     }
 
     protected static void insertAuthentication(SQLiteDatabase db, int deviceID, int authenID, int emotionID, String comments, String location) {

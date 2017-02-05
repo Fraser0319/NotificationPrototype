@@ -116,6 +116,8 @@ public class SummaryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e("onResumeCalled", "here");
+        //setUpDB();
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override

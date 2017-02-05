@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.example.fraser.notaficationprototype.Activities.EditAuthenticationActivity;
 import com.example.fraser.notaficationprototype.Activities.MainActivity;
 import com.example.fraser.notaficationprototype.R;
 
@@ -89,21 +91,41 @@ public class NotificationForgroundService extends Service {
     }
 
     public void sendIntent() {
+        dbHelper = new DatabaseHelper(this);
+        String devName = dbHelper.getImageName(db,getCurrentButton(devList, deviceCounter));
+        String authenName =  dbHelper.getImageName(db,getCurrentButton(authenList, authenCounter));
+        String emoName =  dbHelper.getImageName(db,getCurrentButton(emotionList, emotionCounter));
 
         dbHelper.insertAuthentication(db, getCurrentButton(devList, deviceCounter), getCurrentButton(authenList, authenCounter), getCurrentButton(emotionList, emotionCounter), null, null);
-        Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
-        this.sendBroadcast(intent);
+
         Intent sendIntent = new Intent("updateList");
         sendIntent.setAction("updateListView");
         sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.sendBroadcast(sendIntent);
+
+        if(devName.equals("Other") || authenName.equals("Other") || emoName.equals("Other")){
+            Intent openEditActivity = new Intent(this, EditAuthenticationActivity.class);
+            Long id = dbHelper.getMaxID(db);
+            Bundle bundle = new Bundle();
+            openEditActivity.putExtra("bundle",bundle);
+            bundle.putLong("id",id);
+            bundle.putInt("device", getCurrentButton(devList, deviceCounter));
+            bundle.putInt("auhen", getCurrentButton(authenList, authenCounter));
+            bundle.putInt("emotion",  getCurrentButton(emotionList, emotionCounter));
+            openEditActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(openEditActivity);
+        }
+
+        Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
+        this.sendBroadcast(intent);
+
         Toast.makeText(this, "Authentication Added !!", Toast.LENGTH_LONG).show();
     }
 
     public void setupButtons() {
-        Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused);
-        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.atm, R.drawable.browser, R.drawable.locker,R.drawable.door,R.drawable.tablet);
+        Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused,R.drawable.question_mark);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket,R.drawable.question_mark);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.atm, R.drawable.browser, R.drawable.locker,R.drawable.door,R.drawable.tablet,R.drawable.question_mark);
 
         updateButton(emotionList, 0, R.id.emotionButton);
         updateButton(authenList, 0, R.id.authenticatorButton);

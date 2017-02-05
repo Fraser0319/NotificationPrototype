@@ -3,6 +3,7 @@ package com.example.fraser.notaficationprototype.Activities;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private CustomPagerAdapter cpa;
-    private boolean serviceState;
+    private static boolean serviceState;
 
 
     @Override
@@ -64,16 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_items,menu);
+        getMenuInflater().inflate(R.menu.menu_items, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.sendDataMenuItem){
-            Intent sendDataIntent = new Intent(this,SendDataActivity.class);
-            sendDataIntent.putExtra("serviceState",serviceState);
+        if (id == R.id.sendDataMenuItem) {
+            Intent sendDataIntent = new Intent(this, SendDataActivity.class);
+            sendDataIntent.putExtra("serviceState", serviceState);
             startActivity(sendDataIntent);
             Log.e("Menu Item Clicked", "send data clicked");
         }
@@ -87,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean getServiceState() {
-        if (serviceState) {
+        SharedPreferences sharedPrefs = getSharedPreferences("com.example.fraser.notaficationprototype.Activities", MODE_PRIVATE);
+        Log.e("service_state", serviceState + "");
+        if (sharedPrefs.getBoolean("service_status", serviceState)) {
             startNotification.setEnabled(false);
             endNotification.setEnabled(true);
             endNotification.setAlpha((float) 1);
@@ -108,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 serviceState = true;
+                SharedPreferences.Editor editor = getSharedPreferences("com.example.fraser.notaficationprototype.Activities", MODE_PRIVATE).edit();
+                editor.putBoolean("service_status", serviceState);
+                editor.commit();
+
                 getServiceState();
                 Intent service = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 service.setAction("startForeground");
@@ -116,12 +123,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         endNotification = (ImageButton) findViewById(R.id.end_notification);
-        endNotification.setAlpha((float) 0.2);
-        endNotification.setEnabled(false);
         endNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 serviceState = false;
+                SharedPreferences.Editor editor = getSharedPreferences("com.example.fraser.notaficationprototype.Activities", MODE_PRIVATE).edit();
+                editor.putBoolean("service_status", serviceState);
+                editor.commit();
+
                 getServiceState();
                 Intent intent = new Intent(getApplicationContext(), NotificationForgroundService.class);
                 stopService(intent);
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpPager(ViewPager viewPager) {
         CustomPagerAdapter cpa = new CustomPagerAdapter(getSupportFragmentManager());
         cpa.addFragment(new SummaryFragment(), "Summary");
-       // cpa.addFragment(new SendDataFragment(), "Send Data");
+        // cpa.addFragment(new SendDataFragment(), "Send Data");
         cpa.addFragment(new ListIconsFragment(), "Icons");
         viewPager.setAdapter(cpa);
     }
