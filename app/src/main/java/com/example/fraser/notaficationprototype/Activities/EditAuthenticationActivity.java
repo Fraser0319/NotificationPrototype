@@ -56,6 +56,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editAuthenticationActivity.onBackPressed();
+
             }
         });
 

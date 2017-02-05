@@ -35,11 +35,13 @@ public class DetailedViewActivity extends AppCompatActivity {
     private Spinner spinner;
     private ArrayAdapter arrayAdapter;
     private EditText location;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detailed_view);
         super.onCreate(savedInstanceState);
+        dbHelper = new DatabaseHelper(this);
         getSelectedItemDetails();
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +74,39 @@ public class DetailedViewActivity extends AppCompatActivity {
                 startActivity(editAuthenIntent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("onReumeCalled","here");
+
+        String getUpdatedRecord = "SELECT * FROM AUTHENTICATION WHERE _id = " + id;
+        Cursor cursor = db.rawQuery(getUpdatedRecord, null);
+
+        if(cursor.moveToFirst()){
+            int target = cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID"));
+            int authen = cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
+            int emo = cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID"));
+
+            ImageView deviceImage = (ImageView) findViewById(R.id.deviceDetailedImage);
+            ImageView authenImage = (ImageView) findViewById(R.id.authDetailedImage);
+            ImageView emoImage = (ImageView) findViewById(R.id.emotionDetailedImage);
+
+            deviceImage.setImageResource(target);
+            authenImage.setImageResource(authen);
+            emoImage.setImageResource(emo);
+
+            TextView deviceName = (TextView) findViewById(R.id.deviceName);
+            TextView authenName = (TextView) findViewById(R.id.authenticationName);
+            TextView emotionName = (TextView) findViewById(R.id.emotionType);
+
+            deviceName.setText(dbHelper.getImageName(db,target));
+            authenName.setText(dbHelper.getImageName(db,authen));
+            emotionName.setText(dbHelper.getImageName(db,emo));
+
+        }
+
     }
 
     public Bundle sendBundle(){
@@ -130,7 +165,7 @@ public class DetailedViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getBundleExtra("bundle");
         if (extras != null) {
-            Long id = extras.getLong("id");
+            id = extras.getLong("id");
             Cursor c = db.rawQuery("SELECT LOCATION FROM AUTHENTICATION WHERE _id = " + id, null);
             if (c.moveToFirst()) {
                 String loc = c.getString(c.getColumnIndex("LOCATION"));
