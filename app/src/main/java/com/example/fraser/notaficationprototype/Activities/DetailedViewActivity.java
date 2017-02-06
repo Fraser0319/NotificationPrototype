@@ -35,7 +35,7 @@ public class DetailedViewActivity extends AppCompatActivity {
     private Spinner spinner;
     private ArrayAdapter arrayAdapter;
     private EditText location;
-    private Long id;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class DetailedViewActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent editAuthenIntent = new Intent(getApplicationContext(),EditAuthenticationActivity.class);
+                Intent editAuthenIntent = new Intent(getApplicationContext(), EditAuthenticationActivity.class);
                 editAuthenIntent.putExtra("bundle", sendBundle());
                 startActivity(editAuthenIntent);
             }
@@ -79,15 +79,16 @@ public class DetailedViewActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("onReumeCalled","here");
+        Log.e("onReumeCalled", "here");
 
         String getUpdatedRecord = "SELECT * FROM AUTHENTICATION WHERE _id = " + id;
         Cursor cursor = db.rawQuery(getUpdatedRecord, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             int target = cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID"));
             int authen = cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
             int emo = cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID"));
+
 
             ImageView deviceImage = (ImageView) findViewById(R.id.deviceDetailedImage);
             ImageView authenImage = (ImageView) findViewById(R.id.authDetailedImage);
@@ -101,20 +102,32 @@ public class DetailedViewActivity extends AppCompatActivity {
             TextView authenName = (TextView) findViewById(R.id.authenticationName);
             TextView emotionName = (TextView) findViewById(R.id.emotionType);
 
-            deviceName.setText(dbHelper.getImageName(db,target));
-            authenName.setText(dbHelper.getImageName(db,authen));
-            emotionName.setText(dbHelper.getImageName(db,emo));
+            if (target == R.drawable.question_mark) {
+                deviceName.setText(dbHelper.getOtherNameFromID(db, "Target", id));
+            } else {
+                deviceName.setText(dbHelper.getImageName(db, target));
+            }
 
+            if (authen == R.drawable.question_mark) {
+                authenName.setText(dbHelper.getOtherNameFromID(db, "Authen", id));
+            } else {
+                authenName.setText(dbHelper.getImageName(db, authen));
+            }
+
+            if (emo == R.drawable.question_mark) {
+                emotionName.setText(dbHelper.getOtherNameFromID(db, "Emotion", id));
+            } else {
+                emotionName.setText(dbHelper.getImageName(db, emo));
+            }
         }
-
     }
 
-    public Bundle sendBundle(){
+    public Bundle sendBundle() {
         Intent intent = getIntent();
         Bundle extras = intent.getBundleExtra("bundle");
         Bundle newBundle = new Bundle();
-        if(extras != null){
-            Long id = extras.getLong("id");
+        if (extras != null) {
+            long id = extras.getLong("id");
             int device = extras.getInt("device");
             int authen = extras.getInt("auhen");
             int emotion = extras.getInt("emotion");

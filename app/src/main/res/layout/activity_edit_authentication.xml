@@ -53,6 +53,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
 
+            <EditText
+                android:id="@+id/addOtherTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -74,6 +80,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
 
+            <EditText
+                android:id="@+id/addOtherAuthen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +104,14 @@
                 android:id="@+id/emotionSelectedItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="visible"/>
+
+            <EditText
+                android:id="@+id/addOtherEmo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

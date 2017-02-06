@@ -61,39 +61,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "IMAGE_ID INTEGER," +
                 "NAME TEXT," +
-                "CATEGORY TEXT);");
-        insertImageNames(db, R.drawable.happy, "Happy", "Emotion");
-        insertImageNames(db, R.drawable.sad, "Sad", "Emotion");
-        insertImageNames(db, R.drawable.confused, "Confused", "Emotion");
-        insertImageNames(db, R.drawable.play, "Start Notification", "Button");
-        insertImageNames(db, R.drawable.stop, "End Notification", "Button");
-        insertImageNames(db, R.drawable.atm, "ATM", "Target");
-        insertImageNames(db, R.drawable.browser, "Browser", "Target");
-        insertImageNames(db, R.drawable.suv, "Car", "Target");
-        insertImageNames(db, R.drawable.contract, "Signature", "Authenticator");
-        insertImageNames(db, R.drawable.cursor, "Arrow Click", "Authenticator");
-        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint", "Authenticator");
-        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator");
-        insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator");
-        insertImageNames(db, R.drawable.laptop, "Laptop", "Target");
-        insertImageNames(db, R.drawable.locked, "Lock", "Target");
-        insertImageNames(db, R.drawable.locker, "Locker", "Target");
-        insertImageNames(db, R.drawable.door, "Door", "Target");
-        insertImageNames(db, R.drawable.tablet, "Tablet", "Target");
-        insertImageNames(db, R.drawable.metro, "Public Transport", "Target");
-        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment", "Authenticator");
-        insertImageNames(db, R.drawable.password, "Password", "Authenticator");
-        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator");
-        insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target");
-        insertImageNames(db, R.drawable.ticket, "Ticket", "Target");
-        insertImageNames(db, R.drawable.question_mark, "Other", "Other");
+                "CATEGORY TEXT," +
+                "AUTHEN_ID INTEGER);");
+        insertImageNames(db, R.drawable.happy, "Happy", "Emotion", null);
+        insertImageNames(db, R.drawable.sad, "Sad", "Emotion", null);
+        insertImageNames(db, R.drawable.confused, "Confused", "Emotion", null);
+        insertImageNames(db, R.drawable.play, "Start Notification", "Button", null);
+        insertImageNames(db, R.drawable.stop, "End Notification", "Button", null);
+        insertImageNames(db, R.drawable.atm, "ATM", "Target", null);
+        insertImageNames(db, R.drawable.browser, "Browser", "Target", null);
+        insertImageNames(db, R.drawable.suv, "Car", "Target", null);
+        insertImageNames(db, R.drawable.contract, "Signature", "Authenticator", null);
+        insertImageNames(db, R.drawable.cursor, "Arrow Click", "Authenticator", null);
+        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint", "Authenticator", null);
+        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator", null);
+        insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator", null);
+        insertImageNames(db, R.drawable.laptop, "Laptop", "Target", null);
+        insertImageNames(db, R.drawable.locked, "Lock", "Target", null);
+        insertImageNames(db, R.drawable.locker, "Locker", "Target", null);
+        insertImageNames(db, R.drawable.door, "Door", "Target", null);
+        insertImageNames(db, R.drawable.tablet, "Tablet", "Target", null);
+        insertImageNames(db, R.drawable.metro, "Public Transport", "Target", null);
+        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment", "Authenticator", null);
+        insertImageNames(db, R.drawable.password, "Password", "Authenticator", null);
+        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator", null);
+        insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target", null);
+        insertImageNames(db, R.drawable.ticket, "Ticket", "Target", null);
+        insertImageNames(db, R.drawable.question_mark, "Other", "Other", null);
     }
 
-    public Long getMaxID(SQLiteDatabase db){
+    public long getMaxID(SQLiteDatabase db) {
         String getMaxID = "SELECT MAX(_id) FROM AUTHENTICATION";
-        Cursor c = db.rawQuery(getMaxID,null);
+        Cursor c = db.rawQuery(getMaxID, null);
         Long id = null;
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             id = c.getLong(0);
         }
         c.close();
@@ -111,11 +112,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, authenticationValues);
     }
 
-    private void insertImageNames(SQLiteDatabase db, int imageId, String name, String category) {
+    public void insertImageNames(SQLiteDatabase db, int imageId, String name, String category, Long authenID) {
         ContentValues imageValues = new ContentValues();
         imageValues.put("IMAGE_ID", imageId);
         imageValues.put("NAME", name);
         imageValues.put("CATEGORY", category);
+        imageValues.put("AUTHEN_ID", authenID);
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 
@@ -133,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(getALlQuery, null);
         Authentication authen = new Authentication();
         while (c.moveToNext()) {
-            Long id = c.getLong(c.getColumnIndex("_id"));
+            long id = c.getLong(c.getColumnIndex("_id"));
             int deviceID = c.getInt(c.getColumnIndex("DEVICE_RESOURCE_ID"));
             int authenticator = c.getInt(c.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
             int emotion = c.getInt(c.getColumnIndex("EMOTION_RESOURCE_ID"));
@@ -175,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return name;
     }
 
-        public int getImageResourceID(SQLiteDatabase db, String name) {
+    public int getImageResourceID(SQLiteDatabase db, String name) {
         int imageID = 0;
         String getImageNameQuery = "SELECT DISTINCT IMAGE_ID FROM IMAGE_NAMES WHERE NAME = ?";
         Cursor c = db.rawQuery(getImageNameQuery, new String[]{name});
@@ -186,7 +188,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return imageID;
     }
 
-    public void alterAuthentication(SQLiteDatabase db,String columnName, int imageID, Long _id){
+    public void alterAuthentication(SQLiteDatabase db, String columnName, int imageID, long _id) {
         ContentValues values = new ContentValues();
         values.put(columnName, imageID);
         String where = "_id=?";
@@ -212,5 +214,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return data;
+    }
+
+    public String getOtherNameFromID(SQLiteDatabase db, String category, long authenID){
+
+        String name = "";
+        Log.e("category", category);
+        Log.e("authenID",authenID+"");
+        String getName = "SELECT NAME FROM IMAGE_NAMES WHERE AUTHEN_ID = " + authenID + " AND "+
+                "CATEGORY = ? ";
+        Cursor c = db.rawQuery(getName,new String[]{category});
+        if(c.moveToLast()){
+            name = c.getString(c.getColumnIndex("NAME"));
+            Log.e("name",name);
+        }
+        c.close();
+        return name;
     }
 }

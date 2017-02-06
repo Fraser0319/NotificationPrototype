@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -37,7 +39,10 @@ public class EditAuthenticationActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
     private SQLiteOpenHelper authenticationDatabase;
-    private Long id;
+    private long id;
+    private EditText tarEdit;
+    private EditText authenEdit;
+    private EditText emoEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +64,9 @@ public class EditAuthenticationActivity extends AppCompatActivity {
 
             }
         });
-
-        setCurrentSelectedItems();
         updateRecord();
+        setCurrentSelectedItems();
+
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = dbHelper.getExpandableListData(db);
@@ -105,6 +110,8 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                             ImageView targetImageView = (ImageView) findViewById(R.id.targetIconView);
                             targetImageView.setImageResource(c.getInt(c.getColumnIndex("IMAGE_ID")));
                             TextView targetTextView = (TextView) findViewById(R.id.targetItemSelection);
+                            tarEdit.setVisibility(View.GONE);
+                            targetTextView.setVisibility(View.VISIBLE);
                             targetTextView.setText(expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition));
                             break;
 
@@ -112,6 +119,8 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                             ImageView authenImageView = (ImageView) findViewById(R.id.authenIconView);
                             authenImageView.setImageResource(c.getInt(c.getColumnIndex("IMAGE_ID")));
                             TextView authenTextView = (TextView) findViewById(R.id.authenSelectedItem);
+                            authenEdit.setVisibility(View.GONE);
+                            authenTextView.setVisibility(View.VISIBLE);
                             authenTextView.setText(expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition));
                             break;
 
@@ -119,6 +128,8 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                             ImageView emotionImageView = (ImageView) findViewById(R.id.emotionIconView);
                             emotionImageView.setImageResource(c.getInt(c.getColumnIndex("IMAGE_ID")));
                             TextView emotionTextView = (TextView) findViewById(R.id.emotionSelectedItem);
+                            emoEdit.setVisibility(View.GONE);
+                            emotionTextView.setVisibility(View.VISIBLE);
                             emotionTextView.setText(expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition));
                             break;
                     }
@@ -138,9 +149,32 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                 TextView autheTextView = (TextView) findViewById(R.id.authenSelectedItem);
                 TextView emotionTextView = (TextView) findViewById(R.id.emotionSelectedItem);
 
-                dbHelper.alterAuthentication(db, dbHelper.DEVICE, dbHelper.getImageResourceID(db, targetTextView.getText().toString()), id);
-                dbHelper.alterAuthentication(db, dbHelper.AUTHEN, dbHelper.getImageResourceID(db, autheTextView.getText().toString()), id);
-                dbHelper.alterAuthentication(db, dbHelper.EMOTION, dbHelper.getImageResourceID(db, emotionTextView.getText().toString()), id);
+                int tarImage = dbHelper.getImageResourceID(db, targetTextView.getText().toString());
+                int authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
+                int emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
+                Log.e("emoImageID",emoImage+"");
+
+                if (tarImage == 0) {
+                    dbHelper.alterAuthentication(db, dbHelper.DEVICE, R.drawable.question_mark, id);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target", id);
+                } else {
+                    dbHelper.alterAuthentication(db, dbHelper.DEVICE, tarImage, id);
+                }
+
+                if (authenImage == 0) {
+                    dbHelper.alterAuthentication(db, dbHelper.AUTHEN, R.drawable.question_mark, id);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authen", id);
+                } else {
+                    dbHelper.alterAuthentication(db, dbHelper.AUTHEN, authenImage, id);
+                }
+
+                if (emoImage == 0) {
+                    Log.e("emoImageOnClick","here");
+                    dbHelper.alterAuthentication(db, dbHelper.EMOTION, R.drawable.question_mark, id);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion", id);
+                } else {
+                    dbHelper.alterAuthentication(db, dbHelper.EMOTION, emoImage, id);
+                }
             }
         });
     }
@@ -168,10 +202,53 @@ public class EditAuthenticationActivity extends AppCompatActivity {
             TextView authenText = (TextView) findViewById(R.id.authenSelectedItem);
             TextView emoText = (TextView) findViewById(R.id.emotionSelectedItem);
 
-            devText.setText(dbHelper.getImageName(db, dev));
-            authenText.setText(dbHelper.getImageName(db, authen));
-            emoText.setText(dbHelper.getImageName(db, emo));
+            String devName = dbHelper.getImageName(db, dev);
+            String authenName = dbHelper.getImageName(db, authen);
+            String emoName = dbHelper.getImageName(db, emo);
 
+            checkForOtherOption(devName, authenName, emoName);
+
+            if (dev == R.drawable.question_mark) {
+                tarEdit.setText(dbHelper.getOtherNameFromID(db, "Target", id));
+            } else {
+                devText.setText(devName);
+            }
+
+            if (authen == R.drawable.question_mark) {
+                authenEdit.setText(dbHelper.getOtherNameFromID(db, "Authen", id));
+            } else {
+                authenText.setText(authenName);
+            }
+
+            if (emo == R.drawable.question_mark) {
+                emoEdit.setText(dbHelper.getOtherNameFromID(db, "Emotion", id));
+            } else {
+                emoText.setText(emoName);
+            }
+        }
+    }
+
+    public void checkForOtherOption(String dev, String authen, String emo) {
+
+        tarEdit = (EditText) findViewById(R.id.addOtherTarget);
+        authenEdit = (EditText) findViewById(R.id.addOtherAuthen);
+        emoEdit = (EditText) findViewById(R.id.addOtherEmo);
+
+        if (dev.equals("Other")) {
+            TextView devText = (TextView) findViewById(R.id.targetItemSelection);
+            devText.setVisibility(View.GONE);
+            tarEdit.setVisibility(View.VISIBLE);
+
+        }
+        if (authen.equals("Other")) {
+            TextView authenText = (TextView) findViewById(R.id.authenSelectedItem);
+            authenText.setVisibility(View.GONE);
+            authenEdit.setVisibility(View.VISIBLE);
+        }
+        if (emo.equals("Other")) {
+            TextView emoText = (TextView) findViewById(R.id.emotionSelectedItem);
+            emoText.setVisibility(View.GONE);
+            emoEdit.setVisibility(View.VISIBLE);
         }
     }
 
