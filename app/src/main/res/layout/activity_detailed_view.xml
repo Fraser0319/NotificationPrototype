@@ -55,19 +55,21 @@
             android:orientation="horizontal"
             android:paddingLeft="10sp">
 
+            <ImageView
+                android:id="@+id/deviceDetailedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp" />
+
             <TextView
                 android:id="@+id/deviceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:textSize="30sp" />
 
-            <ImageView
-                android:id="@+id/deviceDetailedImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10sp" />
+
         </LinearLayout>
 
         <TextView
@@ -86,19 +88,21 @@
             android:orientation="horizontal"
             android:paddingLeft="10sp">
 
+            <ImageView
+                android:id="@+id/authDetailedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp" />
+
             <TextView
                 android:id="@+id/authenticationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:textSize="30sp" />
 
-            <ImageView
-                android:id="@+id/authDetailedImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10sp" />
+
         </LinearLayout>
 
 
@@ -118,19 +122,20 @@
             android:orientation="horizontal"
             android:paddingLeft="10sp">
 
+            <ImageView
+                android:id="@+id/emotionDetailedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"/>
+
             <TextView
                 android:id="@+id/emotionType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:textSize="30sp" />
 
-            <ImageView
-                android:id="@+id/emotionDetailedImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10sp" />
         </LinearLayout>
 
         <TextView

@@ -15,6 +15,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Adapters.CustomExpandableListAdapter;
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
@@ -152,20 +153,30 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                 int tarImage = dbHelper.getImageResourceID(db, targetTextView.getText().toString());
                 int authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
                 int emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
-                Log.e("emoImageID",emoImage+"");
+                //Log.e("emoImageID",emoImage+"");
+
+
 
                 if (tarImage == 0) {
                     dbHelper.alterAuthentication(db, dbHelper.DEVICE, R.drawable.question_mark, id);
                     dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target", id);
                 } else {
                     dbHelper.alterAuthentication(db, dbHelper.DEVICE, tarImage, id);
+
+                    if(tarImage == R.drawable.question_mark) {
+                        dbHelper.updateImageNames(db,targetTextView.getText().toString(),"Target",id);
+                    }
                 }
 
                 if (authenImage == 0) {
                     dbHelper.alterAuthentication(db, dbHelper.AUTHEN, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authen", id);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authenticator", id);
                 } else {
                     dbHelper.alterAuthentication(db, dbHelper.AUTHEN, authenImage, id);
+
+                    if(authenImage == R.drawable.question_mark) {
+                        dbHelper.updateImageNames(db, autheTextView.getText().toString(), "Authenticator", id);
+                    }
                 }
 
                 if (emoImage == 0) {
@@ -174,7 +185,16 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                     dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion", id);
                 } else {
                     dbHelper.alterAuthentication(db, dbHelper.EMOTION, emoImage, id);
+
+                    Log.e("emoImage",emoImage+"");
+
+                    if(emoImage == R.drawable.question_mark) {
+                        Log.e("emoImage",emoImage+"");
+                        dbHelper.updateImageNames(db, emotionTextView.getText().toString(), "Emotion", id);
+                    }
                 }
+
+                Toast.makeText(getApplicationContext(),"Record Updated",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -208,14 +228,19 @@ public class EditAuthenticationActivity extends AppCompatActivity {
 
             checkForOtherOption(devName, authenName, emoName);
 
-            if (dev == R.drawable.question_mark) {
+
+
+            Log.e("devName",devName);
+
+
+            if (dev == R.drawable.question_mark ) {
                 tarEdit.setText(dbHelper.getOtherNameFromID(db, "Target", id));
             } else {
                 devText.setText(devName);
             }
 
             if (authen == R.drawable.question_mark) {
-                authenEdit.setText(dbHelper.getOtherNameFromID(db, "Authen", id));
+                authenEdit.setText(dbHelper.getOtherNameFromID(db, "Authenticator", id));
             } else {
                 authenText.setText(authenName);
             }

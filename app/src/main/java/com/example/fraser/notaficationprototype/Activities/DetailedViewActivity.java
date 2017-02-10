@@ -109,7 +109,7 @@ public class DetailedViewActivity extends AppCompatActivity {
             }
 
             if (authen == R.drawable.question_mark) {
-                authenName.setText(dbHelper.getOtherNameFromID(db, "Authen", id));
+                authenName.setText(dbHelper.getOtherNameFromID(db, "Authenticator", id));
             } else {
                 authenName.setText(dbHelper.getImageName(db, authen));
             }

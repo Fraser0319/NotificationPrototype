@@ -157,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while (c.moveToNext()) {
             String loc = c.getString(c.getColumnIndex(LOCATION));
-            Log.e("location", loc);
+            //Log.e("location", loc);
             if (!locations.contains(loc)) {
                 locations.add(loc);
             }
@@ -168,10 +168,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String getImageName(SQLiteDatabase db, int resourceID) {
         String name = "";
-        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID + " = IMAGE_NAMES.IMAGE_ID;";
+//        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID + " = IMAGE_NAMES.IMAGE_ID;";
+        String getImageNameQuery = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + resourceID;
         Cursor c = db.rawQuery(getImageNameQuery, null);
+        //while (c.moveToNext()) {
         if (c.moveToFirst()) {
             name = c.getString(c.getColumnIndex("NAME"));
+            Log.e("getImageName: ", name);
         }
         c.close();
         return name;
@@ -199,9 +202,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Map<String, List<String>> getExpandableListData(SQLiteDatabase db) {
 
         Map<String, List<String>> expandableListDataMap = new HashMap<>();
+        expandableListDataMap.put("Emotion", getIconsFromCategory(db, "Emotion"));
         expandableListDataMap.put("Target", getIconsFromCategory(db, "Target"));
         expandableListDataMap.put("Authenticator", getIconsFromCategory(db, "Authenticator"));
-        expandableListDataMap.put("Emotion", getIconsFromCategory(db, "Emotion"));
+
         return expandableListDataMap;
     }
 
@@ -216,19 +220,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public String getOtherNameFromID(SQLiteDatabase db, String category, long authenID){
+    public String getOtherNameFromID(SQLiteDatabase db, String category, long authenID) {
 
         String name = "";
-        Log.e("category", category);
-        Log.e("authenID",authenID+"");
-        String getName = "SELECT NAME FROM IMAGE_NAMES WHERE AUTHEN_ID = " + authenID + " AND "+
+        String getName = "SELECT DISTINCT NAME FROM IMAGE_NAMES WHERE AUTHEN_ID = " + authenID + " AND " +
                 "CATEGORY = ? ";
-        Cursor c = db.rawQuery(getName,new String[]{category});
-        if(c.moveToLast()){
+        Cursor c = db.rawQuery(getName, new String[]{category});
+        if (c.moveToLast()) {
             name = c.getString(c.getColumnIndex("NAME"));
-            Log.e("name",name);
+            Log.e("getOtherNameFromID: ", name);
         }
         c.close();
         return name;
+    }
+
+    public void updateImageNames(SQLiteDatabase db, String name, String category, long authenID) {
+
+        ContentValues values = new ContentValues();
+        values.put("NAME", name);
+        values.put("CATEGORY", category);
+        String where = "AUTHEN_ID=?";
+        String[] whereArgs = new String[]{String.valueOf(authenID)};
+        db.update("IMAGE_NAMES", values, where, whereArgs);
+
     }
 }
