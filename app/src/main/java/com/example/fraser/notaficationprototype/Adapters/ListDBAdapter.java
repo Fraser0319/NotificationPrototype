@@ -28,20 +28,20 @@ public class ListDBAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        TextView imageID = (TextView) view.findViewById(R.id.imageID);
+        //TextView imageID = (TextView) view.findViewById(R.id.imageID);
         TextView imageName = (TextView) view.findViewById(R.id.imageName);
         TextView cat = (TextView) view.findViewById(R.id.imageCategory);
         TextView authenID = (TextView) view.findViewById(R.id.imageAuthenID);
         TextView _idTex = (TextView) view.findViewById(R.id.imageTableID);
 
         long _id = cursor.getLong(cursor.getColumnIndex("_id"));
-        int icon = cursor.getInt(cursor.getColumnIndex("IMAGE_ID"));
+        //int icon = cursor.getInt(cursor.getColumnIndex("IMAGE_ID"));
         String name = cursor.getString(cursor.getColumnIndex("NAME"));
         String category = cursor.getString(cursor.getColumnIndex("CATEGORY"));
         int authenIDtex = cursor.getInt(cursor.getColumnIndex("AUTHEN_ID"));
 
 
-        imageID.setText("Image_ID: "+icon+"");
+        //imageID.setText("Image_ID: "+icon+"");
         imageName.setText("Name: "+name);
         cat.setText("CATEGORY: "+category);
         authenID.setText("AUTHEN_ID: "+authenIDtex+"");
