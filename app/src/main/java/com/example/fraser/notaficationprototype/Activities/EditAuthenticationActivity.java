@@ -75,28 +75,6 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
 
-
-//        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//
-//            @Override
-//            public void onGroupExpand(int groupPosition) {
-//                Toast.makeText(getApplicationContext(),
-//                        expandableListTitle.get(groupPosition) + " List Expanded.",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-//
-//            @Override
-//            public void onGroupCollapse(int groupPosition) {
-//                Toast.makeText(getApplicationContext(),
-//                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-//                        Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -163,7 +141,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
 
                 if (tarImage == 0) {
                     dbHelper.alterAuthentication(db, dbHelper.DEVICE, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target", 0);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target");
                     dbHelper.insertOtherEntry(db, tarEdit.getText().toString(), "Target", id);
                     Log.e("insertCalled", "");
                 } else {
@@ -175,14 +153,12 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                             dbHelper.insertOtherEntry(db, targetTextView.getText().toString(), "Target", id);
                             Log.e("tarTextView: ", targetTextView.getText().toString());
                         }
-
-
                     }
                 }
 
                 if (authenImage == 0) {
                     dbHelper.alterAuthentication(db, dbHelper.AUTHEN, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authenticator", 0);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authenticator");
                     dbHelper.insertOtherEntry(db, authenEdit.getText().toString(), "Authenticator", id);
                 } else {
                     dbHelper.alterAuthentication(db, dbHelper.AUTHEN, authenImage, id);
@@ -199,7 +175,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                 if (emoImage == 0) {
                     Log.e("emoImageOnClick", "here");
                     dbHelper.alterAuthentication(db, dbHelper.EMOTION, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion", 0);
+                    dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion");
                     dbHelper.insertOtherEntry(db, emoEdit.getText().toString(), "Emotion", id);
                 } else {
                     dbHelper.alterAuthentication(db, dbHelper.EMOTION, emoImage, id);
@@ -249,9 +225,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
 
             checkForOtherOption(devName, authenName, emoName);
 
-
             Log.e("devName", devName);
-
 
             if (dev == R.drawable.question_mark) {
                 String name = dbHelper.getOtherNameFromID(db, "Target", id);

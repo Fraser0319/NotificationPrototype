@@ -50,7 +50,7 @@ public class ListIconsFragment extends Fragment {
     public void setUpDB(View view) {
         imageDb = new DatabaseHelper(getActivity());
         db = imageDb.getReadableDatabase();
-        String getIcons = "SELECT * FROM IMAGE_NAMES WHERE AUTHEN_ID = 0";
+        String getIcons = "SELECT * FROM IMAGE_NAMES";
         cursor = db.rawQuery(getIcons, null);
         imageListAdapter = new ImageViewCursorAdapter(getActivity(),cursor);
         imageList = (ListView) view.findViewById(R.id.iconListView);

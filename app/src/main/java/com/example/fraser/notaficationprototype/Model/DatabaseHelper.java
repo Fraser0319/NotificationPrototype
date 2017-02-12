@@ -61,33 +61,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS IMAGE_NAMES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "IMAGE_ID INTEGER," +
                 "NAME TEXT," +
-                "CATEGORY TEXT," +
-                "AUTHEN_ID INTEGER);");
-        insertImageNames(db, R.drawable.happy, "Happy", "Emotion", 0);
-        insertImageNames(db, R.drawable.sad, "Sad", "Emotion", 0);
-        insertImageNames(db, R.drawable.confused, "Confused", "Emotion", 0);
-        insertImageNames(db, R.drawable.play, "Start Notification", "Button", 0);
-        insertImageNames(db, R.drawable.stop, "End Notification", "Button", 0);
-        insertImageNames(db, R.drawable.atm, "ATM", "Target", 0);
-        insertImageNames(db, R.drawable.browser, "Browser", "Target", 0);
-        insertImageNames(db, R.drawable.suv, "Car", "Target", 0);
-        insertImageNames(db, R.drawable.contract, "Signature", "Authenticator", 0);
-        insertImageNames(db, R.drawable.cursor, "Arrow Click", "Authenticator", 0);
-        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint", "Authenticator", 0);
-        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator", 0);
-        insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator", 0);
-        insertImageNames(db, R.drawable.laptop, "Laptop", "Target", 0);
-        insertImageNames(db, R.drawable.locked, "Lock", "Target", 0);
-        insertImageNames(db, R.drawable.locker, "Locker", "Target", 0);
-        insertImageNames(db, R.drawable.door, "Door", "Target", 0);
-        insertImageNames(db, R.drawable.tablet, "Tablet", "Target", 0);
-        insertImageNames(db, R.drawable.metro, "Public Transport", "Target", 0);
-        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment", "Authenticator", 0);
-        insertImageNames(db, R.drawable.password, "Password", "Authenticator", 0);
-        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator", 0);
-        insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target", 0);
-        insertImageNames(db, R.drawable.ticket, "Ticket", "Target", 0);
-        insertImageNames(db, R.drawable.question_mark, "Other", "Other", 0);
+                "CATEGORY TEXT);");
+        insertImageNames(db, R.drawable.happy, "Happy", "Emotion");
+        insertImageNames(db, R.drawable.sad, "Sad", "Emotion");
+        insertImageNames(db, R.drawable.confused, "Confused", "Emotion");
+        insertImageNames(db, R.drawable.play, "Start Notification", "Button");
+        insertImageNames(db, R.drawable.stop, "End Notification", "Button");
+        insertImageNames(db, R.drawable.atm, "ATM", "Target");
+        insertImageNames(db, R.drawable.browser, "Browser", "Target");
+        insertImageNames(db, R.drawable.suv, "Car", "Target");
+        insertImageNames(db, R.drawable.contract, "Signature", "Authenticator");
+        insertImageNames(db, R.drawable.cursor, "Arrow Click", "Authenticator");
+        insertImageNames(db, R.drawable.fingerprintscan, "Fingerprint", "Authenticator");
+        insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator");
+        insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator");
+        insertImageNames(db, R.drawable.laptop, "Laptop", "Target");
+        insertImageNames(db, R.drawable.locked, "Lock", "Target");
+        insertImageNames(db, R.drawable.locker, "Locker", "Target");
+        insertImageNames(db, R.drawable.door, "Door", "Target");
+        insertImageNames(db, R.drawable.tablet, "Tablet", "Target");
+        insertImageNames(db, R.drawable.metro, "Public Transport", "Target");
+        insertImageNames(db, R.drawable.mobile_phone, "Mobile Payment", "Authenticator");
+        insertImageNames(db, R.drawable.password, "Password", "Authenticator");
+        insertImageNames(db, R.drawable.point_of_service, "Chip and Pin", "Authenticator");
+        insertImageNames(db, R.drawable.smartphone, "Smartphone", "Target");
+        insertImageNames(db, R.drawable.ticket, "Ticket", "Target");
+        insertImageNames(db, R.drawable.question_mark, "Other", "Other");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS CUSTOM_ENTRIES ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "NAME TEXT," +
@@ -127,12 +126,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        // db.insert("CUSTOM_ENTRIES", null, imageValues);
     }
 
-    public void insertImageNames(SQLiteDatabase db, int imageId, String name, String category, long authenID) {
+    public void insertImageNames(SQLiteDatabase db, int imageId, String name, String category) {
         ContentValues imageValues = new ContentValues();
         imageValues.put("IMAGE_ID", imageId);
         imageValues.put("NAME", name);
         imageValues.put("CATEGORY", category);
-        imageValues.put("AUTHEN_ID", authenID);
         db.insert("IMAGE_NAMES", null, imageValues);
     }
 

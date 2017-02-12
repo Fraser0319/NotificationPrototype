@@ -100,25 +100,23 @@ public class SendDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                setUpWebView();
+                openCSVFile();
                 Log.e("click on doc","here");
             }
         });
     }
 
-//    public void viewCSV(View v) {
-//        Button sendButton = (Button) v.findViewById(R.id.viewCSVButton);
-//        sendButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e("onClick","viewCSV");
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.replace(R.id.actvity_main, new ViewCSVFragment());
-//                ft.addToBackStack(null);
-//                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                ft.commit();
-//            }
-//        });
-//    }
+    public void openCSVFile() {
+
+        Intent viewCSVIntent = new Intent();
+        viewCSVIntent.setAction(Intent.ACTION_VIEW);
+//        viewCSVIntent.setType("text/csv");
+//        ArrayList<Uri> uris = new ArrayList<Uri>();
+        eCSV = new ExportCSV(dbHelper.getAllAuthentications(db));
+        viewCSVIntent.setDataAndType(Uri.fromFile(eCSV.generateCSV(getApplicationContext())),"text/csv");
+//        viewCSVIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        startActivityForResult(Intent.createChooser(viewCSVIntent, "Choose application to open file"), 1234);
+    }
 
     public boolean checkValidEmail(CharSequence emailInput) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
@@ -127,7 +125,7 @@ public class SendDataActivity extends AppCompatActivity {
     public void sendDataAlertDialog() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you agree to send your recored data ?")
+        builder.setMessage("Do you agree to send your recorded data ?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -154,7 +152,7 @@ public class SendDataActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getApplicationContext(), "You must accept in order to complete the study", Toast.LENGTH_LONG).show();
