@@ -110,11 +110,8 @@ public class SendDataActivity extends AppCompatActivity {
 
         Intent viewCSVIntent = new Intent();
         viewCSVIntent.setAction(Intent.ACTION_VIEW);
-//        viewCSVIntent.setType("text/csv");
-//        ArrayList<Uri> uris = new ArrayList<Uri>();
         eCSV = new ExportCSV(dbHelper.getAllAuthentications(db));
         viewCSVIntent.setDataAndType(Uri.fromFile(eCSV.generateCSV(getApplicationContext())),"text/csv");
-//        viewCSVIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
         startActivityForResult(Intent.createChooser(viewCSVIntent, "Choose application to open file"), 1234);
     }
 
@@ -133,11 +130,15 @@ public class SendDataActivity extends AppCompatActivity {
                         EditText inputEmail = (EditText) findViewById(R.id.inputEmailAddress);
                         String email = inputEmail.getText().toString();
 
+                        EditText inputCC = (EditText) findViewById(R.id.inputCCEmailAddress);
+                        String ccEmail = inputCC.getText().toString();
+
                         if (checkValidEmail(email)) {
                             // send data !
                             final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
                             emailIntent.setType("plain/text");
                             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                            emailIntent.putExtra(Intent.EXTRA_CC, new String[]{ccEmail});
                             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Collected Data From Authentication Diary");
                             emailIntent.putExtra(Intent.EXTRA_TEXT, "This the data collected from the study in a CSV file");
 
