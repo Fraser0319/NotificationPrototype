@@ -42,7 +42,9 @@
             android:exported="false" />
 
         <activity android:name=".Activities.SendDataActivity" />
-        <activity android:name=".Activities.EditAuthenticationActivity"></activity>
+        <activity
+            android:name=".Activities.EditAuthenticationActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

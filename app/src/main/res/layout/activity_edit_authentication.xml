@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@android:color/darker_gray"
-            android:dividerHeight="0.5dp"
+            android:dividerHeight="0.7dp"
             android:indicatorRight="?android:attr/expandableListPreferredItemIndicatorRight" />
 
         <LinearLayout

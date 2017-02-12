@@ -37,14 +37,41 @@ public class CustomCursorAdaptor extends CursorAdapter {
         ImageView deviceImage = (ImageView) view.findViewById(R.id.deviceImage);
         ImageView authenticationImage = (ImageView) view.findViewById(R.id.authenticationImage);
         ImageView emotionImage = (ImageView) view.findViewById(R.id.emotionImage);
+        ImageView commentImage = (ImageView) view.findViewById(R.id.commentImage);
+        ImageView locationImage = (ImageView) view.findViewById(R.id.locationImage);
 
         int device = cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID"));
         int authentication = cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
         int emotion = cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID"));
+        String comment = cursor.getString(cursor.getColumnIndex("COMMENTS"));
+        String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
+
+        if (comment != null) {
+            if (!comment.isEmpty()) {
+                commentImage.setImageResource(R.drawable.chat);
+            } else {
+                commentImage.setImageResource(R.drawable.chat_empty);
+            }
+        } else {
+            commentImage.setImageResource(R.drawable.chat_empty);
+        }
+
+        if (location != null) {
+            if (!location.isEmpty()) {
+                locationImage.setImageResource(R.drawable.location);
+            } else {
+                locationImage.setImageResource(R.drawable.location_empty);
+            }
+        }else {
+            locationImage.setImageResource(R.drawable.location_empty);
+        }
+
+
 
         deviceImage.setImageResource(device);
         authenticationImage.setImageResource(authentication);
         emotionImage.setImageResource(emotion);
+
 
 //        TextView dbID = (TextView) view.findViewById(R.id.dbID);
 //        String id = cursor.getString(cursor.getColumnIndex("_id"));

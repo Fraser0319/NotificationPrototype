@@ -67,6 +67,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertImageNames(db, R.drawable.confused, "Confused", "Emotion");
         insertImageNames(db, R.drawable.play, "Start Notification", "Button");
         insertImageNames(db, R.drawable.stop, "End Notification", "Button");
+        insertImageNames(db, R.drawable.chat, "Comment Present", "Icon");
+        insertImageNames(db, R.drawable.chat_empty, "Comment Not Present", "Icon");
+        insertImageNames(db, R.drawable.location, "Location Present", "Icon");
+        insertImageNames(db, R.drawable.location_empty, "Location Not Present", "Icon");
         insertImageNames(db, R.drawable.atm, "ATM", "Target");
         insertImageNames(db, R.drawable.browser, "Browser", "Target");
         insertImageNames(db, R.drawable.suv, "Car", "Target");
@@ -92,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "NAME TEXT," +
                 "CATEGORY TEXT," +
                 "AUTHEN_ID INTEGER);");
-
     }
 
     public long getMaxID(SQLiteDatabase db) {
@@ -164,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(locations, "Other", "Home", "Work", "Shop", "Travel");
+        Collections.addAll(locations, "","Other", "Home", "Work", "Shop", "Travel");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
         Cursor c = db.rawQuery(getLocations, null);
 
