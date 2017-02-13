@@ -29,6 +29,8 @@ public class ExportCSV {
             file = new File("/sdcard/testCSV.csv");
             Log.e("path", context.getFilesDir().getPath().toString() + "/testCSV.csv");
             CSVWriter writer = new CSVWriter(new FileWriter(file));
+            String [] header = new String[]{"_id","Target","Authenticator","Emotion","Timestamp","Location","Comments"};
+            writer.writeNext(header);
             for (Authentication s : authenList) {
                 writer.writeNext(createCSVLine(s));
             }

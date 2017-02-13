@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.fraser.notaficationprototype.Adapters.CustomPagerAdapter;
-import com.example.fraser.notaficationprototype.Fragments.ListDBFragment;
 import com.example.fraser.notaficationprototype.Fragments.ListIconsFragment;
 import com.example.fraser.notaficationprototype.Fragments.SummaryFragment;
 import com.example.fraser.notaficationprototype.Model.NotificationForgroundService;
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpPager(ViewPager viewPager) {
         CustomPagerAdapter cpa = new CustomPagerAdapter(getSupportFragmentManager());
         cpa.addFragment(new SummaryFragment(), "Summary");
-        cpa.addFragment(new ListDBFragment(), "ImageDB");
+        //cpa.addFragment(new ListDBFragment(), "ImageDB");
         cpa.addFragment(new ListIconsFragment(), "Icons");
         viewPager.setAdapter(cpa);
     }

@@ -129,8 +129,8 @@ public class NotificationForgroundService extends Service {
 
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused, R.drawable.question_mark);
-        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.locked, R.drawable.ticket, R.drawable.question_mark);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.ticket, R.drawable.question_mark);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.locked, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
 
         updateButton(emotionList, 0, R.id.emotionButton);
         updateButton(authenList, 0, R.id.authenticatorButton);

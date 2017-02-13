@@ -80,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertImageNames(db, R.drawable.hand_gesture, "Hand Gesture", "Authenticator");
         insertImageNames(db, R.drawable.id_card, "ID Card", "Authenticator");
         insertImageNames(db, R.drawable.laptop, "Laptop", "Target");
+        insertImageNames(db, R.drawable.key, "Key", "Authenticator");
         insertImageNames(db, R.drawable.locked, "Lock", "Target");
         insertImageNames(db, R.drawable.locker, "Locker", "Target");
         insertImageNames(db, R.drawable.door, "Door", "Target");
@@ -158,7 +159,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String timeStamp = c.getString(c.getColumnIndex("ADDED_ON"));
             String location = c.getString(c.getColumnIndex("LOCATION"));
             String comments = c.getString(c.getColumnIndex("COMMENTS"));
-            Authentication a = new Authentication(id, getImageName(db, deviceID), getImageName(db, authenticator), getImageName(db, emotion), timeStamp, location, comments);
+
+            String deviceName = getImageName(db, deviceID);
+            String authenName = getImageName(db, authenticator);
+            String emoName = getImageName(db, emotion);
+
+            if (deviceName.equals("Other")) {
+                deviceName = getOtherNameFromID(db, "Target", id);
+            }
+
+            if (authenName.equals("Other")) {
+                authenName = getOtherNameFromID(db, "Authenticator", id);
+            }
+
+            if (emoName.equals("Other")) {
+                emoName = getOtherNameFromID(db, "Emotion", id);
+            }
+
+            Authentication a = new Authentication(id, deviceName, authenName, emoName, timeStamp, location, comments);
             authen.getAuthenList().add(a);
         }
         c.close();
@@ -184,10 +202,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String getImageName(SQLiteDatabase db, int resourceID) {
         String name = "";
-//        String getImageNameQuery = "SELECT DISTINCT NAME FROM IMAGE_NAMES INNER JOIN AUTHENTICATION ON " + resourceID + " = IMAGE_NAMES.IMAGE_ID;";
         String getImageNameQuery = "SELECT NAME FROM IMAGE_NAMES WHERE IMAGE_ID = " + resourceID;
         Cursor c = db.rawQuery(getImageNameQuery, null);
-        //while (c.moveToNext()) {
         if (c.moveToFirst()) {
             name = c.getString(c.getColumnIndex("NAME"));
             Log.e("getImageName: ", name);
