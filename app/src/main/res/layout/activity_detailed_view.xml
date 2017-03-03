@@ -69,7 +69,6 @@
                 android:layout_marginLeft="20dp"
                 android:textSize="30sp" />
 
-
         </LinearLayout>
 
         <TextView
@@ -101,7 +100,6 @@
                 android:layout_marginBottom="10sp"
                 android:layout_marginLeft="20dp"
                 android:textSize="30sp" />
-
 
         </LinearLayout>
 
@@ -156,7 +154,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15sp"
-                android:background="@android:color/transparent"
                 android:hint="@string/locationHint"
                 android:inputType="text"
                 android:maxLength="18"
@@ -185,7 +182,6 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="0.52"
-            android:background="@android:color/transparent"
             android:gravity="top"
             android:hint="@string/commentHint"
             android:inputType="textMultiLine"
