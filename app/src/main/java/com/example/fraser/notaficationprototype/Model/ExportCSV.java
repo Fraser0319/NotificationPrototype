@@ -1,6 +1,7 @@
 package com.example.fraser.notaficationprototype.Model;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,8 +27,12 @@ public class ExportCSV {
     public File generateCSV(Context context) {
         File file = null;
         try {
-            file = new File("/sdcard/testCSV.csv");
-            Log.e("path", context.getFilesDir().getPath().toString() + "/testCSV.csv");
+            file = new File(Environment.getExternalStorageDirectory().getPath()+"/AuthenticationDiary/Notification/notificationPrototypeData.csv");
+            File fileDir = new File(Environment.getExternalStorageDirectory().getPath()+"/AuthenticationDiary/Notification");
+            if(!fileDir.exists()){
+                fileDir.mkdirs();
+                Log.e("fileExists","False");
+            }
             CSVWriter writer = new CSVWriter(new FileWriter(file));
             String [] header = new String[]{"_id","Target","Authenticator","Emotion","Timestamp","Location","Comments"};
             writer.writeNext(header);

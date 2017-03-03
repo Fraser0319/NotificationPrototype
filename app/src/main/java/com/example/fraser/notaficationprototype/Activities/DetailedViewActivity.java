@@ -36,6 +36,9 @@ public class DetailedViewActivity extends AppCompatActivity {
     private ArrayAdapter arrayAdapter;
     private EditText location;
     private long id;
+    private int target;
+    private int authen;
+    private int emo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +88,9 @@ public class DetailedViewActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(getUpdatedRecord, null);
 
         if (cursor.moveToFirst()) {
-            int target = cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID"));
-            int authen = cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
-            int emo = cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID"));
+            target = cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID"));
+            authen = cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID"));
+            emo = cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID"));
 
 
             ImageView deviceImage = (ImageView) findViewById(R.id.deviceDetailedImage);
@@ -123,20 +126,12 @@ public class DetailedViewActivity extends AppCompatActivity {
     }
 
     public Bundle sendBundle() {
-        Intent intent = getIntent();
-        Bundle extras = intent.getBundleExtra("bundle");
         Bundle newBundle = new Bundle();
-        if (extras != null) {
-            long id = extras.getLong("id");
-            int device = extras.getInt("device");
-            int authen = extras.getInt("auhen");
-            int emotion = extras.getInt("emotion");
 
-            newBundle.putLong("id", id);
-            newBundle.putInt("device", device);
-            newBundle.putInt("auhen", authen);
-            newBundle.putInt("emotion", emotion);
-        }
+        newBundle.putLong("id", id);
+        newBundle.putInt("target", target);
+        newBundle.putInt("authen", authen);
+        newBundle.putInt("emotion", emo);
 
         return newBundle;
     }
@@ -169,7 +164,6 @@ public class DetailedViewActivity extends AppCompatActivity {
 
     public void addLocation(String inputLocation) {
         arrayAdapter.add(inputLocation);
-        //spinner.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
         spinner.setSelection(arrayAdapter.getPosition(inputLocation));
     }
@@ -214,8 +208,8 @@ public class DetailedViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getBundleExtra("bundle");
         if (extras != null) {
-            int device = extras.getInt("device");
-            int authen = extras.getInt("auhen");
+            int device = extras.getInt("target");
+            int authen = extras.getInt("authen");
             int emotion = extras.getInt("emotion");
             String loc = extras.getString("location");
             String comms = extras.getString("comment");

@@ -82,7 +82,7 @@ public class SummaryFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putLong("id", id);
                         bundle.putInt("device", device);
-                        bundle.putInt("auhen", authenticator);
+                        bundle.putInt("authen", authenticator);
                         bundle.putInt("emotion", emotion);
                         bundle.putString("location", location);
                         bundle.putString("comment", comments);

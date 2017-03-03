@@ -66,8 +66,6 @@ public class CustomCursorAdaptor extends CursorAdapter {
             locationImage.setImageResource(R.drawable.location_empty);
         }
 
-
-
         deviceImage.setImageResource(device);
         authenticationImage.setImageResource(authentication);
         emotionImage.setImageResource(emotion);

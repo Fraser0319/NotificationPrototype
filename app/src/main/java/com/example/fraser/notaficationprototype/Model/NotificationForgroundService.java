@@ -23,7 +23,6 @@ import com.example.fraser.notaficationprototype.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.example.fraser.notaficationprototype.R.drawable.cursor;
 
 /**
  * Created by Fraser on 30/12/2016.
@@ -114,8 +113,8 @@ public class NotificationForgroundService extends Service {
             Bundle bundle = new Bundle();
             openEditActivity.putExtra("bundle", bundle);
             bundle.putLong("id", id);
-            bundle.putInt("device", getCurrentButton(devList, deviceCounter));
-            bundle.putInt("auhen", getCurrentButton(authenList, authenCounter));
+            bundle.putInt("target", getCurrentButton(devList, deviceCounter));
+            bundle.putInt("authen", getCurrentButton(authenList, authenCounter));
             bundle.putInt("emotion", getCurrentButton(emotionList, emotionCounter));
             openEditActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(openEditActivity);
@@ -124,13 +123,13 @@ public class NotificationForgroundService extends Service {
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
         this.sendBroadcast(intent);
 
-        Toast.makeText(this, "Authentication Added !!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Authentication Added !", Toast.LENGTH_LONG).show();
     }
 
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused, R.drawable.question_mark);
-        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, cursor, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract, R.drawable.ticket, R.drawable.question_mark);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.locked, R.drawable.atm, R.drawable.browser, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, R.drawable.mouse_click, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract,R.drawable.dial,R.drawable.blank_card, R.drawable.ticket,R.drawable.two_step_32x32, R.drawable.question_mark);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro,R.drawable.cycle, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.locked, R.drawable.atm, R.drawable.domain_registration, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
 
         updateButton(emotionList, 0, R.id.emotionButton);
         updateButton(authenList, 0, R.id.authenticatorButton);

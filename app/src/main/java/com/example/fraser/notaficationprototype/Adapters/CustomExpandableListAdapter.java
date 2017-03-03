@@ -53,8 +53,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         RadioGroup radioGroup = (RadioGroup) convertView.findViewById(R.id.radioGroup);
         //Log.e("length", listDetail.get(listTitle.get(listPosition)).size() + "");
 
-        TextView textView = (TextView) convertView.findViewById(R.id.texView);
-        textView.setText(expandedListText);
+        TextView listItemTextView = (TextView) convertView.findViewById(R.id.listItem);
+        listItemTextView.setText(expandedListText);
 
         return convertView;
     }
