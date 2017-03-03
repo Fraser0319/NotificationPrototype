@@ -36,6 +36,7 @@ public class SendDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_data);
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
+        toolbar.setTitle("Send Data");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

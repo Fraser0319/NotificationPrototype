@@ -24,7 +24,6 @@ import com.example.fraser.notaficationprototype.R;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * expandable list code and listeners based on
@@ -56,6 +55,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
+        toolbar.setTitle("Edit Authentication");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

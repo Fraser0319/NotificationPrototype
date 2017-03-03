@@ -47,6 +47,7 @@ public class DetailedViewActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         getSelectedItemDetails();
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
+        toolbar.setTitle("Detailed View");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

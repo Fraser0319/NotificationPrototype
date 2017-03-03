@@ -58,7 +58,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:inputType="textEmailAddress"
-                android:text="fraser0319@gmail.com" />
+                android:text="fraser.beaton.2014@uni.strath.ac.uk" />
 
             <EditText
                 android:id="@+id/inputCCEmailAddress"
