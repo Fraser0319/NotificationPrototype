@@ -22,6 +22,7 @@ import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
 import com.example.fraser.notaficationprototype.R;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
-    private Map<String, List<String>> expandableListDetail;
+    private LinkedHashMap<String, List<String>> expandableListDetail;
     private EditAuthenticationActivity editAuthenticationActivity = this;
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
