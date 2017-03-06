@@ -47,6 +47,12 @@ public class EditAuthenticationActivity extends AppCompatActivity {
     private EditText tarEdit;
     private EditText authenEdit;
     private EditText emoEdit;
+    private int tarImage;
+    private int authenImage;
+    private int emoImage;
+    private TextView targetTextView;
+    private TextView autheTextView;
+    private TextView emotionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         authenticationDatabase = new DatabaseHelper(this);
         db = authenticationDatabase.getWritableDatabase();
         dbHelper = new DatabaseHelper(this);
+        //initTextAndImageFields();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detailedViewToolbar);
         toolbar.setTitle("Edit Authentication");
@@ -65,16 +72,16 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editAuthenticationActivity.onBackPressed();
-                Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backIntent);
-
+                //editAuthenticationActivity.onBackPressed();
+                initTextAndImageFields();
+                if(checkForBlankEntry(emoImage,authenImage,tarImage)){
+                    Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(backIntent);
+                }
             }
         });
         updateRecord();
         setCurrentSelectedItems();
-
-
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = dbHelper.getExpandableListData(db);
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
@@ -127,9 +134,31 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         });
     }
 
+
+    public void initTextAndImageFields(){
+
+        targetTextView = (TextView) findViewById(R.id.targetItemSelection);
+        autheTextView = (TextView) findViewById(R.id.authenSelectedItem);
+        emotionTextView = (TextView) findViewById(R.id.emotionSelectedItem);
+
+        tarImage = dbHelper.getImageResourceID(db, targetTextView.getText().toString());
+        authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
+        emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
+    }
+
+    public boolean checkForBlankEntry(int emoImage, int authenImage, int tarImage) {
+
+        if (emoEdit.getText().toString().isEmpty() && emoImage == 0 || authenEdit.getText().toString().isEmpty() && authenImage == 0 ||
+                tarEdit.getText().toString().isEmpty() && tarImage == 0) {
+            Toast.makeText(this, "Please enter a value for 'other' entry", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.
                 INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
@@ -141,74 +170,85 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         updateRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView targetTextView = (TextView) findViewById(R.id.targetItemSelection);
-                TextView autheTextView = (TextView) findViewById(R.id.authenSelectedItem);
-                TextView emotionTextView = (TextView) findViewById(R.id.emotionSelectedItem);
 
-                int tarImage = dbHelper.getImageResourceID(db, targetTextView.getText().toString());
-                int authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
-                int emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
+
+                targetTextView = (TextView) findViewById(R.id.targetItemSelection);
+                autheTextView = (TextView) findViewById(R.id.authenSelectedItem);
+                emotionTextView = (TextView) findViewById(R.id.emotionSelectedItem);
+
+                tarImage = dbHelper.getImageResourceID(db, targetTextView.getText().toString());
+                authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
+                emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
+
+
                 //Log.e("emoImageID",emoImage+"");
-
 
                 //  when you edit and there is an exsisting field from an 'other' it will load in as
                 //  an edit text field and when you update it will see it as an edit text field and think
                 //  its a new entry so this is why it causes the duplicates, so i need to make it so
                 //  it loads in as a textView field.
+//                Log.e("emoText", emoEdit.getText().toString());
+//                Log.e("emoImageB",emoImage+"");
+//                Log.e("authText", authenEdit.getText().toString());
+//                Log.e("authImageB",authenImage+"");
+//                Log.e("tarText", tarEdit.getText().toString());
+//                Log.e("tarImageB",tarImage+"");
 
-                if (tarImage == 0) {
-                    dbHelper.alterAuthentication(db, dbHelper.DEVICE, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target");
-                    dbHelper.insertOtherEntry(db, tarEdit.getText().toString(), "Target", id);
-                    Log.e("insertCalled", "");
-                } else {
-                    dbHelper.alterAuthentication(db, dbHelper.DEVICE, tarImage, id);
+                if (checkForBlankEntry(emoImage, authenImage, tarImage)) {
+                    if (tarImage == 0) {
+                        dbHelper.alterAuthentication(db, dbHelper.DEVICE, R.drawable.question_mark, id);
+                        dbHelper.insertImageNames(db, R.drawable.question_mark, tarEdit.getText().toString(), "Target");
+                        dbHelper.insertOtherEntry(db, tarEdit.getText().toString(), "Target", id);
+                        Log.e("insertCalled", "");
+                    } else {
+                        dbHelper.alterAuthentication(db, dbHelper.DEVICE, tarImage, id);
 
-                    if (tarImage == R.drawable.question_mark) {
-                        int value = dbHelper.updateImageNames(db, targetTextView.getText().toString(), "Target", id);
-                        if (value == 0) {
-                            dbHelper.insertOtherEntry(db, targetTextView.getText().toString(), "Target", id);
-                            Log.e("tarTextView: ", targetTextView.getText().toString());
+                        if (tarImage == R.drawable.question_mark) {
+                            int value = dbHelper.updateImageNames(db, targetTextView.getText().toString(), "Target", id);
+                            if (value == 0) {
+                                dbHelper.insertOtherEntry(db, targetTextView.getText().toString(), "Target", id);
+                                Log.e("tarTextView: ", targetTextView.getText().toString());
+                            }
                         }
                     }
-                }
 
-                if (authenImage == 0) {
-                    dbHelper.alterAuthentication(db, dbHelper.AUTHEN, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authenticator");
-                    dbHelper.insertOtherEntry(db, authenEdit.getText().toString(), "Authenticator", id);
-                } else {
-                    dbHelper.alterAuthentication(db, dbHelper.AUTHEN, authenImage, id);
+                    if (authenImage == 0) {
+                        dbHelper.alterAuthentication(db, dbHelper.AUTHEN, R.drawable.question_mark, id);
+                        dbHelper.insertImageNames(db, R.drawable.question_mark, authenEdit.getText().toString(), "Authenticator");
+                        dbHelper.insertOtherEntry(db, authenEdit.getText().toString(), "Authenticator", id);
+                    } else {
+                        dbHelper.alterAuthentication(db, dbHelper.AUTHEN, authenImage, id);
 
-                    if (authenImage == R.drawable.question_mark) {
-                        int value = dbHelper.updateImageNames(db, autheTextView.getText().toString(), "Authenticator", id);
-                        if (value == 0) {
-                            dbHelper.insertOtherEntry(db, autheTextView.getText().toString(), "Authenticator", id);
-                            Log.e("tarTextView: ", autheTextView.getText().toString());
+                        if (authenImage == R.drawable.question_mark) {
+                            int value = dbHelper.updateImageNames(db, autheTextView.getText().toString(), "Authenticator", id);
+                            if (value == 0) {
+                                dbHelper.insertOtherEntry(db, autheTextView.getText().toString(), "Authenticator", id);
+                                Log.e("tarTextView: ", autheTextView.getText().toString());
+                            }
                         }
                     }
-                }
 
-                if (emoImage == 0) {
-                    Log.e("emoImageOnClick", "here");
-                    dbHelper.alterAuthentication(db, dbHelper.EMOTION, R.drawable.question_mark, id);
-                    dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion");
-                    dbHelper.insertOtherEntry(db, emoEdit.getText().toString(), "Emotion", id);
-                } else {
-                    dbHelper.alterAuthentication(db, dbHelper.EMOTION, emoImage, id);
+                    if (emoImage == 0) {
+                        Log.e("emoImageOnClick", "here");
+                        dbHelper.alterAuthentication(db, dbHelper.EMOTION, R.drawable.question_mark, id);
+                        dbHelper.insertImageNames(db, R.drawable.question_mark, emoEdit.getText().toString(), "Emotion");
+                        dbHelper.insertOtherEntry(db, emoEdit.getText().toString(), "Emotion", id);
+                    } else {
+                        dbHelper.alterAuthentication(db, dbHelper.EMOTION, emoImage, id);
 
-                    Log.e("emoImage", emoImage + "");
-
-                    if (emoImage == R.drawable.question_mark) {
                         Log.e("emoImage", emoImage + "");
-                        int value = dbHelper.updateImageNames(db, emotionTextView.getText().toString(), "Emotion", id);
-                        if (value == 0) {
-                            dbHelper.insertOtherEntry(db, emotionTextView.getText().toString(), "Emotion", id);
-                            Log.e("tarTextView: ", emotionTextView.getText().toString());
+
+                        if (emoImage == R.drawable.question_mark) {
+                            Log.e("emoImage", emoImage + "");
+                            int value = dbHelper.updateImageNames(db, emotionTextView.getText().toString(), "Emotion", id);
+                            if (value == 0) {
+                                dbHelper.insertOtherEntry(db, emotionTextView.getText().toString(), "Emotion", id);
+                                Log.e("tarTextView: ", emotionTextView.getText().toString());
+                            }
                         }
                     }
+                    Toast.makeText(getApplicationContext(), "Record Updated", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getApplicationContext(), "Record Updated", Toast.LENGTH_SHORT).show();
             }
         });
     }

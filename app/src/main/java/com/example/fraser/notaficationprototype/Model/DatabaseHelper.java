@@ -11,10 +11,8 @@ import com.example.fraser.notaficationprototype.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Fraser on 13/12/2016.
@@ -206,14 +204,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<String> getLocations(SQLiteDatabase db) {
         List<String> locations = new ArrayList<>();
-        Collections.addAll(locations, "", "Other", "Home", "Work", "Shop", "Travel");
+        Collections.addAll(locations, "Select Location", "Other", "Home", "Work", "Shop", "Travel");
         String getLocations = "SELECT DISTINCT LOCATION FROM AUTHENTICATION WHERE LOCATION NOT NULL";
         Cursor c = db.rawQuery(getLocations, null);
 
         while (c.moveToNext()) {
             String loc = c.getString(c.getColumnIndex(LOCATION));
             //Log.e("location", loc);
-            if (!locations.contains(loc)) {
+            if (!locations.contains(loc) && !loc.equals("")) {
                 locations.add(loc);
             }
         }

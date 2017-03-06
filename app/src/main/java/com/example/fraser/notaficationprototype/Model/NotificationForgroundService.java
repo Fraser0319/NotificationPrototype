@@ -123,7 +123,7 @@ public class NotificationForgroundService extends Service {
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS); // close notification drawer after added
         this.sendBroadcast(intent);
 
-        Toast.makeText(this, "Authentication Added !", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Authentication Added !", Toast.LENGTH_SHORT).show();
     }
 
     public void setupButtons() {

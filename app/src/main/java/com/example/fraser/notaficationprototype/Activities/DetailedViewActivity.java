@@ -156,7 +156,11 @@ public class DetailedViewActivity extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                location.setText(parent.getItemAtPosition(pos).toString());
+                if(parent.getItemAtPosition(pos).toString().equals("Select Location")){
+                    location.setText("");
+                } else {
+                    location.setText(parent.getItemAtPosition(pos).toString());
+                }
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -206,7 +210,9 @@ public class DetailedViewActivity extends AppCompatActivity {
             Long id = extras.getLong("id");
             location = (EditText) findViewById(R.id.locInput);
             EditText comment = (EditText) findViewById(R.id.commInput);
-            addLocation(location.getText().toString());
+            if(!location.getText().toString().equals("")){
+                addLocation(location.getText().toString());
+            }
             dbHelper.updateLocationAndComments(db, location.getText().toString(), comment.getText().toString(), id);
             Toast.makeText(getApplicationContext(), "Record Updated", Toast.LENGTH_SHORT).show();
         } else {
