@@ -59,6 +59,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:inputType="text"
                 android:visibility="invisible" />
 
         </LinearLayout>
@@ -88,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="20"
                 android:maxLines="1"
+                android:inputType="text"
                 android:visibility="invisible" />
 
         </LinearLayout>
@@ -117,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="20"
                 android:maxLines="1"
+                android:inputType="text"
                 android:visibility="invisible" />
 
         </LinearLayout>
