@@ -128,8 +128,8 @@ public class NotificationForgroundService extends Service {
 
     public void setupButtons() {
         Collections.addAll(emotionList, R.drawable.happy, R.drawable.sad, R.drawable.confused, R.drawable.question_mark);
-        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, R.drawable.mouse_click, R.drawable.hand_gesture, R.drawable.id_card, R.drawable.key, R.drawable.contract,R.drawable.dial,R.drawable.blank_card, R.drawable.ticket,R.drawable.two_step_32x32, R.drawable.question_mark);
-        Collections.addAll(devList, R.drawable.suv, R.drawable.metro,R.drawable.cycle, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.point_of_service,R.drawable.locked, R.drawable.atm, R.drawable.domain_registration, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
+        Collections.addAll(authenList, R.drawable.password, R.drawable.fingerprintscan, R.drawable.mouse_click, R.drawable.hand_gesture, R.drawable.id_card,R.drawable.point_of_service, R.drawable.key, R.drawable.contract,R.drawable.dial,R.drawable.blank_card, R.drawable.ticket,R.drawable.two_step_32x32, R.drawable.question_mark);
+        Collections.addAll(devList, R.drawable.suv, R.drawable.metro,R.drawable.cycle, R.drawable.smartphone, R.drawable.mobile_phone, R.drawable.laptop, R.drawable.locked, R.drawable.atm, R.drawable.domain_registration, R.drawable.locker, R.drawable.door, R.drawable.tablet, R.drawable.question_mark);
 
         updateButton(emotionList, 0, R.id.emotionButton);
         updateButton(authenList, 0, R.id.authenticatorButton);

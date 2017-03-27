@@ -43,6 +43,7 @@ public class DetailedViewActivity extends AppCompatActivity {
     private int authen;
     private int emo;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detailed_view);
@@ -71,6 +72,11 @@ public class DetailedViewActivity extends AppCompatActivity {
         return state;
     }
 
+    /**
+     * applies a click listener to the button that, moves to edit authentication
+     * takes a bundle, of the listed autthentications into the edit authentication activity also
+     */
+
     public void loadEditButton() {
         ImageButton editButton = (ImageButton) findViewById(R.id.editRecordBtn);
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +89,14 @@ public class DetailedViewActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * this event adds functionalty for removing the focus of the keyboard by tapping anywhere on
+     * the screen
+     *
+     * @param event
+     * @return
+     */
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.
@@ -90,6 +104,12 @@ public class DetailedViewActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
     }
+
+    /**
+     * when onResume is called on the lifecylde, this will display any changes made in the edit
+     * authentication activity where it will set the icons , location and comments based on
+     * the authentication id.
+     */
 
     @Override
     protected void onResume() {
@@ -137,6 +157,12 @@ public class DetailedViewActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *  crates a bundle object  of the authentication id, and the image id's for the target,
+     *  authenticator and emotion icon.
+     * @return newBundle
+     */
+
     public Bundle sendBundle() {
         Bundle newBundle = new Bundle();
 
@@ -148,6 +174,10 @@ public class DetailedViewActivity extends AppCompatActivity {
         return newBundle;
     }
 
+    /**
+     * this meathod will load all the deafult locations and custom locations added, into a spinner widget
+     * by the use of an array adapter
+     */
     public void loadLocationSpinner() {
         dbHelper = new DatabaseHelper(this);
         location = (EditText) findViewById(R.id.locInput);
@@ -178,11 +208,20 @@ public class DetailedViewActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * adds a new location to available for reselction
+     * @param inputLocation
+     */
     public void addLocation(String inputLocation) {
         arrayAdapter.add(inputLocation);
         arrayAdapter.notifyDataSetChanged();
         spinner.setSelection(arrayAdapter.getPosition(inputLocation));
     }
+
+    /**
+     * retrives the location based on authentication id.
+     * @return
+     */
 
     public String getLocation() {
         Intent intent = getIntent();
@@ -200,6 +239,12 @@ public class DetailedViewActivity extends AppCompatActivity {
         }
         return null;
     }
+
+    /**
+     * When the update button is clicked any location or comment deatils entered, will be retrved
+     * from the widgets and will be set to that authentication id in the database.
+     * @param v
+     */
 
     public void updateFields(View v) {
 
@@ -219,6 +264,13 @@ public class DetailedViewActivity extends AppCompatActivity {
             Toast.makeText(this, "cant get id ", Toast.LENGTH_LONG).show();
         }
     }
+
+    /**
+     *
+     * This method retirves sets the icon images, and gets the names of each icon by consulting the
+     * image names table, where these are retrived by looking up the image id.
+     *
+     */
 
     public void getSelectedItemDetails() {
         authenticationDatabase = new DatabaseHelper(this);

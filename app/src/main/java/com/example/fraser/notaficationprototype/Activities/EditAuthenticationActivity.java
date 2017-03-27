@@ -164,13 +164,13 @@ public class EditAuthenticationActivity extends AppCompatActivity {
         return true;
     }
 
+
     public void updateRecord() {
 
         FloatingActionButton updateRecordBtn = (FloatingActionButton) findViewById(R.id.updateEditBtn);
         updateRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 targetTextView = (TextView) findViewById(R.id.targetItemSelection);
                 autheTextView = (TextView) findViewById(R.id.authenSelectedItem);
@@ -180,19 +180,10 @@ public class EditAuthenticationActivity extends AppCompatActivity {
                 authenImage = dbHelper.getImageResourceID(db, autheTextView.getText().toString());
                 emoImage = dbHelper.getImageResourceID(db, emotionTextView.getText().toString());
 
-
-                //Log.e("emoImageID",emoImage+"");
-
                 //  when you edit and there is an exsisting field from an 'other' it will load in as
                 //  an edit text field and when you update it will see it as an edit text field and think
                 //  its a new entry so this is why it causes the duplicates, so i need to make it so
                 //  it loads in as a textView field.
-//                Log.e("emoText", emoEdit.getText().toString());
-//                Log.e("emoImageB",emoImage+"");
-//                Log.e("authText", authenEdit.getText().toString());
-//                Log.e("authImageB",authenImage+"");
-//                Log.e("tarText", tarEdit.getText().toString());
-//                Log.e("tarImageB",tarImage+"");
 
                 if (checkForBlankEntry(emoImage, authenImage, tarImage)) {
                     if (tarImage == 0) {

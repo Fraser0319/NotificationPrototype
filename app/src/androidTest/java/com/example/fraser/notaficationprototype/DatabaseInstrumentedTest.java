@@ -8,12 +8,16 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.example.fraser.notaficationprototype.Model.DatabaseHelper;
+import com.opencsv.CSVWriter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,9 +54,6 @@ public class DatabaseInstrumentedTest {
         Long insert_1 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
         Log.i("insert_1", insert_1 + "");
         assertTrue(insert_1 != -1);
-//        Long insert_2 = mWritableDatabase.insert(mHelper.TABLE_NAME, null, authenticationValues);
-//        assertTrue(insert_2 != -1);
-//        Log.i("insert_2",insert_2+"");
     }
 
     @After
@@ -115,11 +116,11 @@ public class DatabaseInstrumentedTest {
     @Test
     public void testGetAuthenticationsWithComments() {
 
-        String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME + " WHERE " + mHelper.COMMENTS + " IS NOT NULL";
+        String getAllRows = "SELECT * FROM AUTHENTICATION WHERE COMMENTS IS NOT NULL";
         Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
         assertNotNull(cursor);
         cursor.moveToFirst();
-        String comment = cursor.getString(4);
+        String comment = cursor.getString(cursor.getColumnIndex("COMMENTS"));
         assertNotNull(comment);
         Log.i("Comment", comment);
         assertNotNull(comment);
@@ -164,34 +165,34 @@ public class DatabaseInstrumentedTest {
         cursor.close();
     }
 
-//    @Test
-//    public void exportDBToCSV() {
-//
-//        try {
-//            File file = new File("/sdcard/dbCSV.csv");
-//            file.createNewFile();
-//            CSVWriter writer = new CSVWriter(new FileWriter(file));
-//            String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
-//            Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
-//            assertNotNull(cursor);
-//            cursor.moveToFirst();
-//
-//            String device = String.valueOf(cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID")));
-//            String authenticator = String.valueOf(cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID")));
-//            String emotion = String.valueOf(cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID")));
-//            String timeStsmp = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
-//            String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
-//            String comments = cursor.getString(cursor.getColumnIndex("COMMENTS"));
-//
-//            String[] entries = {device, authenticator, emotion, timeStsmp, location, comments};
-//
-//            writer.writeNext(cursor.getColumnNames());
-//            writer.writeNext(entries);
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    public void exportDBToCSV() {
+
+        try {
+            File file = new File("/sdcard/dbCSV.csv");
+            file.createNewFile();
+            CSVWriter writer = new CSVWriter(new FileWriter(file));
+            String getAllRows = "SELECT * FROM " + mHelper.TABLE_NAME;
+            Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+            assertNotNull(cursor);
+            cursor.moveToFirst();
+
+            String device = String.valueOf(cursor.getInt(cursor.getColumnIndex("DEVICE_RESOURCE_ID")));
+            String authenticator = String.valueOf(cursor.getInt(cursor.getColumnIndex("AUTHENTICATOR_RESOURCE_ID")));
+            String emotion = String.valueOf(cursor.getInt(cursor.getColumnIndex("EMOTION_RESOURCE_ID")));
+            String timeStsmp = cursor.getString(cursor.getColumnIndex("ADDED_ON"));
+            String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
+            String comments = cursor.getString(cursor.getColumnIndex("COMMENTS"));
+
+            String[] entries = {device, authenticator, emotion, timeStsmp, location, comments};
+
+            writer.writeNext(cursor.getColumnNames());
+            writer.writeNext(entries);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Test
@@ -210,30 +211,30 @@ public class DatabaseInstrumentedTest {
         expandableListDataMap.put("Target", data);
         //Log.i("mapData",expandableListDataMap.get("Target").get(0));
         assertEquals(expandableListDataMap.get("Target").get(0),("ATM"));
-        assertEquals(expandableListDataMap.get("Target").get(3),("Laptop"));
+        assertEquals(expandableListDataMap.get("Target").get(3),("Smartphone"));
 
     }
 
 
-    // as the _id is auto incrementing the id continues on for each test so i got what the next id would be
-    // and commented out all other tests so i could test the query
-    // it will be commenet out for now but it works.
-//    @Test
-//    public void testUpdateComment(){
-//        // update the comment field
-//        String updateComment = "UPDATE " + mHelper.TABLE_NAME + " SET " + mHelper.COMMENTS + " = 'YAY IT CHANCGED !!!' WHERE _id = 153";
-//        mWritableDatabase.execSQL(updateComment);
-//
-//        // show its been updated
-//        String getAllRows = "SELECT "+ mHelper.COMMENTS + " FROM " + mHelper.TABLE_NAME +  " WHERE _id = 153";
-//        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
-//        assertNotNull(cursor);
-//        cursor.moveToFirst();
-//        String comment = cursor.getString(0);
-//        Log.i("commentTag",comment);
-//        assertEquals("YAY IT CHANCGED !!!",comment);
-//        cursor.close();
-//    }
+//     as the _id is auto incrementing the id continues on for each test so i got what the next id would be
+//     and commented out all other tests so i could test the query
+//     it will be commenet out for now but it works.
+    @Test
+    public void testUpdateComment(){
+        // update the comment field
+        String updateComment = "UPDATE " + mHelper.TABLE_NAME + " SET " + mHelper.COMMENTS + " = 'IT CHANCGED !!!' WHERE _id = 153";
+        mWritableDatabase.execSQL(updateComment);
+
+        // show its been updated
+        String getAllRows = "SELECT "+ mHelper.COMMENTS + " FROM " + mHelper.TABLE_NAME +  " WHERE _id = 153";
+        Cursor cursor = mWritableDatabase.rawQuery(getAllRows, null);
+        assertNotNull(cursor);
+        cursor.moveToFirst();
+        String comment = cursor.getString(0);
+        Log.i("commentTag",comment);
+        assertEquals("IT CHANCGED !!!",comment);
+        cursor.close();
+    }
 
 
 }
